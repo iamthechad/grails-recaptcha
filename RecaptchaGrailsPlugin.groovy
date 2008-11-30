@@ -1,6 +1,6 @@
 
 class RecaptchaGrailsPlugin {
-    def version = 0.2
+    def version = 0.3
     def author = "Chad Johnston"
     def authorEmail = "cjohnston@megatome.com"
     def title = "This plugin adds ReCaptcha support to Grails."
