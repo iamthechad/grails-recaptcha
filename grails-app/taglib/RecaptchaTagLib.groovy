@@ -9,7 +9,7 @@ class RecaptchaTagLib {
 	 * grails-app/conf/RecaptchaConfig.groovy
 	 */
 	def ifEnabled = { attrs, body ->
-		if (recaptchaService.getRecaptchaConfig()?.recaptcha.enabled) {
+		if (recaptchaService.getRecaptchaConfig()?.recaptcha?.enabled) {
 			out << body()
 		}
 	}
@@ -35,4 +35,15 @@ class RecaptchaTagLib {
 		}
 		out << recaptchaService.createCaptcha(session, props)
 	}
+
+    /**
+     * Evaluates the content of the tag if ReCaptcha validation failed. This will allow
+     * developers to display errors for ReCaptcha themes that do not display error messages
+     * by default, like the 'clean' theme.
+     */
+    def ifFailed = { attrs, body ->
+        if (recaptchaService.validationFailed(session)) {
+            out << body()
+        }
+    }
 }
