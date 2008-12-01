@@ -9,7 +9,7 @@ class RecaptchaTagLib {
 	 * grails-app/conf/RecaptchaConfig.groovy
 	 */
 	def ifEnabled = { attrs, body ->
-		if (recaptchaService.getRecaptchaConfig()?.recaptcha?.enabled) {
+		if (recaptchaService.isEnabled()) {
 			out << body()
 		}
 	}

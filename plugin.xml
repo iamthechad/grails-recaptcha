@@ -1,4 +1,4 @@
-<plugin name='recaptcha' version='0.3'>
+<plugin name='recaptcha' version='0.3.1'>
   <author>Chad Johnston</author>
   <authorEmail>cjohnston@megatome.com</authorEmail>
   <title>This plugin adds ReCaptcha support to Grails.</title>
@@ -7,7 +7,6 @@
     </description>
   <documentation>http://grails.codehaus.org/ReCaptcha+Plugin</documentation>
   <resources>
-    <resource>UrlMappings</resource>
     <resource>RecaptchaService</resource>
     <resource>RecaptchaTagLib</resource>
   </resources>
