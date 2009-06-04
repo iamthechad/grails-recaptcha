@@ -1,13 +1,17 @@
-<plugin name='recaptcha' version='0.3.1'>
+<plugin name='recaptcha' version='0.3.2'>
   <author>Chad Johnston</author>
   <authorEmail>cjohnston@megatome.com</authorEmail>
   <title>This plugin adds ReCaptcha support to Grails.</title>
   <description>    ReCaptcha is a CAPTCHA implementation that has a goal of better digitizing books by having users identify words that traditional OCR systems have missed.
     This plugin uses the ReCaptcha Java library available from http://code.google.com/p/recaptcha/.
+
+    Licensed under the Apache License, Version 2.0
+    You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
     </description>
   <documentation>http://grails.codehaus.org/ReCaptcha+Plugin</documentation>
   <resources>
-    <resource>RecaptchaService</resource>
-    <resource>RecaptchaTagLib</resource>
+    <resource>UrlMappings</resource>
+    <resource>com.megatome.grails.RecaptchaService</resource>
+    <resource>com.megatome.grails.RecaptchaTagLib</resource>
   </resources>
 </plugin>

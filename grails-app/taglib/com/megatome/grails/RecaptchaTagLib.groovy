@@ -1,3 +1,6 @@
+package com.megatome.grails
+
+import com.megatome.grails.RecaptchaService
 
 class RecaptchaTagLib {
 	static namespace = "recaptcha"
