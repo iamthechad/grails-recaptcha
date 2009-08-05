@@ -1,6 +1,6 @@
 
 class RecaptchaGrailsPlugin {
-    def version = "0.4"
+    def version = "0.4.5"
     def grailsVersion = "1.1 > *"
     def author = "Chad Johnston"
     def authorEmail = "cjohnston@megatome.com"
@@ -12,7 +12,7 @@ This plugin uses the ReCaptcha Java library available from http://code.google.co
 Licensed under the Apache License, Version 2.0
 You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
 
-NOTE: Versions 0.4 of this plugin are for Grails 1.1 and later. If you are using Grails 1.0.x, please use the latest 0.3.x version of this plugin.
+NOTE: Versions 0.4.x of this plugin are for Grails 1.1 and later. If you are using Grails 1.0.x, please use the latest 0.3.x version of this plugin.
 '''
     def documentation = "http://grails.codehaus.org/ReCaptcha+Plugin"
 }
