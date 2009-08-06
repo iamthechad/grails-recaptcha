@@ -27,6 +27,12 @@ public class Post {
   String getText(){
     def thisUrl = new URL(url)
     connection = thisUrl.openConnection()
+    if (connection.metaClass.respondsTo(connection, "setReadTimeout", int)) {
+      connection.readTimeout = 10000
+    }
+    if (connection.metaClass.respondsTo(connection, "setConnectTimeout", int)) {
+      connection.connectTimeout = 10000
+    }
     connection.setRequestMethod("POST")
     connection.doOutput = true
     Writer writer = new OutputStreamWriter(connection.outputStream)
