@@ -32,6 +32,16 @@ class RecaptchaTagLib {
 			out << body()
 		}
 	}
+
+    /**
+	 * Evaluates the content of the tag if ReCaptcha support is disabled. This value is set in
+	 * grails-app/conf/RecaptchaConfig.groovy
+	 */
+	def ifDisabled = { attrs, body ->
+		if (!recaptchaService.isEnabled()) {
+			out << body()
+		}
+	}
 	
 	/**
 	 * Create and display a ReCaptcha instance. Supports the following attributes:
