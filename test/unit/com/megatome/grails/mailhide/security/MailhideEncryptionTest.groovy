@@ -4,6 +4,7 @@ import com.megatome.grails.mailhide.util.StringUtils
 import org.codehaus.groovy.grails.plugins.codecs.HexCodec
 
 class MailhideEncryptionTest extends GroovyTestCase {
+  // Test data as supplied by Mailhide web site
   static final String PRIVATE_KEY = "deadbeefdeadbeefdeadbeefdeadbeef"
 
   static final String emailAddress1 = "x@example.com"

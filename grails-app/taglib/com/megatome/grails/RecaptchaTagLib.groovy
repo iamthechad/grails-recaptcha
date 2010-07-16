@@ -1,7 +1,5 @@
 package com.megatome.grails
 
-import com.megatome.grails.RecaptchaService
-
 /**
  * Copyright 2009 Megatome Technologies
  *
@@ -74,5 +72,16 @@ class RecaptchaTagLib {
         if (recaptchaService.validationFailed(session)) {
             out << body()
         }
+    }
+
+    def mailhide = { attrs, body ->
+        if (!attrs.emailAddress) {
+          throw new IllegalArgumentException("Email address must be specified in mailhide tag")
+        }
+
+        def url = recaptchaService.createMailhideURL(attrs.remove['emailAddress'])
+        def popupCmd = "onclick=\"window.open('${url}', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;\""
+        def link = "<a href=\"${url}\" ${popupCmd} title=\"Reveal this e-mail address\">${body()}</a>"
+        out << link
     }
 }
