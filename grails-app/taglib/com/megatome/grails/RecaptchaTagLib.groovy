@@ -1,7 +1,7 @@
 package com.megatome.grails
 
 /**
- * Copyright 2009 Megatome Technologies
+ * Copyright 2010 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,6 +75,12 @@ class RecaptchaTagLib {
         }
     }
 
+
+
+
+    /**
+     * Creates a link that conforms to the recommended Mailhide usage. The created link will pop up a new window.
+     */
     def mailhide = { attrs, body ->
         if (!attrs.emailAddress) {
           throw new IllegalArgumentException("Email address must be specified in mailhide tag")
@@ -86,6 +92,12 @@ class RecaptchaTagLib {
         out << link
     }
 
+
+    /**
+     * Creates a raw Mailhide URL in case the default behavior is not desired. The created URL will be placed into the
+     * variable named by the "var" attribute. If this attribute is left out, the URL will be placed into a variable
+     * named "mailhideURL". 
+     */
     def mailhideURL = {attrs, body ->
         if (!attrs.emailAddress) {
           throw new IllegalArgumentException("Email address must be specified in mailhideURL tag")

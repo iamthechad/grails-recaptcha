@@ -5,13 +5,29 @@ import grails.util.GrailsUtil
 import com.megatome.grails.mailhide.security.MailhideEncryption
 import com.megatome.grails.mailhide.util.StringUtils
 
+/**
+ * Copyright 2010 Megatome Technologies
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 class MailhideService {
     boolean transactional = false
 	private def mailhideConfig = null
     private def cachedEmail = [:]
 
     /**
-	 * Gets the ReCaptcha config as defined in grails-app/conf/RecaptchaConfig.grovy
+	 * Gets the Mailhide config as defined in grails-app/conf/RecaptchaConfig.grovy
 	 */
 	private def getMailhideConfig() {
 		if(this.mailhideConfig==null){
@@ -34,6 +50,12 @@ class MailhideService {
 		return this.mailhideConfig
 	}
 
+
+   /**
+    * Create a Mailhide URL from the specified email address. 
+    * @param emailAddress
+    * @return
+    */
     def createMailhideURL(emailAddress) {
         def config = getMailhideConfig()
         def paddedEmail = StringUtils.padString(emailAddress)
