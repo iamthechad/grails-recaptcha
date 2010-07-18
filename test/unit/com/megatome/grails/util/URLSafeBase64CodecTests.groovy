@@ -2,7 +2,7 @@ package com.megatome.grails.util
 
 import org.codehaus.groovy.grails.plugins.codecs.Base64Codec
 
-class URLSafeBase64CodecTest extends GroovyTestCase {
+class URLSafeBase64CodecTests extends GroovyTestCase {
   static final byte[] input1 = [0Xc0, 0X11, 0Xbb, 0X9c, 0Xe8, 0X27, 0Xb4, 0Xaa, 0X96, 0X78, 0X3a, 0X45, 0Xf6, 0Xe7, 0X15, 0X35]
   static final byte[] input2 = [0Xc2, 0X15, 0X88, 0Xaa, 0X4d, 0X2b, 0Xe2, 0Xea, 0Xd9, 0Xfb, 0X74, 0Xbb, 0Xcb, 0Xbb, 0X92, 0X71,
           0Xe0, 0Xbd, 0Xfc, 0X40, 0X9d, 0Xde, 0X1a, 0X40, 0X1b, 0X2e, 0Xf5, 0X13, 0X6a, 0X34, 0X1e, 0X92]

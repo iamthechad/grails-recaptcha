@@ -5,12 +5,12 @@ import javax.crypto.spec.SecretKeySpec
 import javax.crypto.spec.IvParameterSpec
 
 class MailhideEncryption {
-  static def encrypt(def string, def key) {
+  static def encrypt(def string, String key) {
     Cipher cipher = setupCipher(Cipher.ENCRYPT_MODE, key)
     cipher.doFinal(string.getBytes())
   }
 
-  private static setupCipher(mode, key) {
+  private static setupCipher(mode, String key) {
         def cipher = Cipher.getInstance("AES/CBC/NoPadding")
 
         def keyBytes = key.decodeHex()

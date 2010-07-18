@@ -19,6 +19,7 @@ package com.megatome.grails
 class RecaptchaTagLib {
 	static namespace = "recaptcha"
 	RecaptchaService recaptchaService
+    MailhideService mailhideService
 	private def attrNames = ["theme", "lang", "tabindex", "custom_theme_widget"]
 	
 	/**
@@ -79,9 +80,19 @@ class RecaptchaTagLib {
           throw new IllegalArgumentException("Email address must be specified in mailhide tag")
         }
 
-        def url = recaptchaService.createMailhideURL(attrs.remove['emailAddress'])
+        def url = mailhideService.createMailhideURL(attrs.emailAddress)
         def popupCmd = "onclick=\"window.open('${url}', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;\""
         def link = "<a href=\"${url}\" ${popupCmd} title=\"Reveal this e-mail address\">${body()}</a>"
         out << link
+    }
+
+    def mailhideURL = {attrs, body ->
+        if (!attrs.emailAddress) {
+          throw new IllegalArgumentException("Email address must be specified in mailhideURL tag")
+        }
+
+        def url = mailhideService.createMailhideURL(attrs.emailAddress)
+        def var = attrs.var ? attrs.var : "mailhideURL"
+		out << body((var):url)
     }
 }

@@ -4,7 +4,7 @@ import com.megatome.grails.recaptcha.net.Post
 import groovy.mock.interceptor.MockFor
 import com.megatome.grails.recaptcha.net.QueryString
 
-public class ReCaptchaTest extends GroovyTestCase {
+public class ReCaptchaTests extends GroovyTestCase {
   private ReCaptcha r;
 
   protected void setUp() throws Exception {

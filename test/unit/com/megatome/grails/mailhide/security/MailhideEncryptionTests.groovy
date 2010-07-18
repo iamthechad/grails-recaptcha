@@ -2,8 +2,9 @@ package com.megatome.grails.mailhide.security
 
 import com.megatome.grails.mailhide.util.StringUtils
 import org.codehaus.groovy.grails.plugins.codecs.HexCodec
+import grails.test.GrailsUnitTestCase
 
-class MailhideEncryptionTest extends GroovyTestCase {
+class MailhideEncryptionTests extends GrailsUnitTestCase {
   // Test data as supplied by Mailhide web site
   static final String PRIVATE_KEY = "deadbeefdeadbeefdeadbeefdeadbeef"
 

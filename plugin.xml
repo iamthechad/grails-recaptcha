@@ -12,8 +12,10 @@ NOTE: Versions 0.4.x and 0.5.x of this plugin are for Grails 1.1 and later. If y
 </description>
   <documentation>http://grails.codehaus.org/ReCaptcha+Plugin</documentation>
   <resources>
+    <resource>com.megatome.grails.MailhideService</resource>
     <resource>com.megatome.grails.RecaptchaService</resource>
     <resource>com.megatome.grails.RecaptchaTagLib</resource>
+    <resource>com.megatome.grails.util.URLSafeBase64Codec</resource>
   </resources>
   <dependencies />
 </plugin>

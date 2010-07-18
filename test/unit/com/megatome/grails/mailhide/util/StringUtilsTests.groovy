@@ -1,6 +1,6 @@
 package com.megatome.grails.mailhide.util
 
-class StringUtilsTest extends GroovyTestCase {
+class StringUtilsTests extends GroovyTestCase {
   void testPadString() {
     def testStr = ["x@example.com", "johndoe@example.com"]
     testStr.each { nextStr ->

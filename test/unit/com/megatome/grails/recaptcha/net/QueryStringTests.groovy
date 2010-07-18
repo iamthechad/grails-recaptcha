@@ -1,6 +1,6 @@
 package com.megatome.grails.recaptcha.net
 
-public class QueryStringTest extends GroovyTestCase {
+public class QueryStringTests extends GroovyTestCase {
 
   public void testCreate() {
     def qs = new QueryString()
