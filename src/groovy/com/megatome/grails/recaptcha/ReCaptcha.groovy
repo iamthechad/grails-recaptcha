@@ -24,9 +24,9 @@ import com.megatome.grails.recaptcha.net.QueryString
  */
 
 public class ReCaptcha {
-  public static final String HTTP_SERVER = "http://api.recaptcha.net"
-  public static final String HTTPS_SERVER = "https://api-secure.recaptcha.net"
-  public static final String VERIFY_URL = "http://api-verify.recaptcha.net/verify"
+  public static final String HTTP_SERVER = "http://www.google.com/recaptcha/api"
+  public static final String HTTPS_SERVER = "https://www.google.com/recaptcha/api"
+  public static final String VERIFY_URL = "http://www.google.com/recaptcha/api/verify"
 
   String publicKey
   String privateKey
