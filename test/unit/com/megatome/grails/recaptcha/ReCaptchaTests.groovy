@@ -1,5 +1,6 @@
 package com.megatome.grails.recaptcha
 
+import org.codehaus.groovy.grails.plugins.codecs.HTMLCodec
 import com.megatome.grails.recaptcha.net.Post
 import groovy.mock.interceptor.MockFor
 import com.megatome.grails.recaptcha.net.QueryString
@@ -21,10 +22,17 @@ import com.megatome.grails.recaptcha.net.QueryString
  */
 
 public class ReCaptchaTests extends GroovyTestCase {
+
+  private static final def HL = "&hl="
+  private static final def HL_ENC = "&amp;hl="
+  private static final def LANG = "lang:"
+
   private ReCaptcha r;
 
   protected void setUp() throws Exception {
     r = new ReCaptcha(privateKey: "testing", publicKey: "testing", includeNoScript: false, useSecureAPI: true)
+	final codec = new HTMLCodec()
+	String.metaClass."encodeAsHTML" = { -> codec.encode(delegate) }
   }
 
   public void testCreateCaptchaHtml() {
@@ -35,17 +43,50 @@ public class ReCaptchaTests extends GroovyTestCase {
 
     assertTrue r.createRecaptchaHtml(null, null).contains("<noscript>")
 
-
-    assertTrue r.createRecaptchaHtml("The Error", null).contains("&error=The+Error")
+    def html = r.createRecaptchaHtml(null, null)
+    // no language specification
+    assertFalse html.contains(HL_ENC)
+    assertFalse html.contains(HL) // make sure that & are correctly encoded
+	assertFalse html.contains(LANG)
+	
+    html = r.createRecaptchaHtml("The Error", null)
+    assertTrue html.contains("&amp;error=The+Error")
+    assertFalse html.contains("&error=The+Error") // make sure that & are correctly encoded
+	assertFalse html.contains(LANG)
+	
+    html = r.createRecaptchaHtml(null, [lang:'de'])
+	// useLangInUrl is by default false so no language specification in url
+    assertFalse html.contains(HL_ENC)
+    assertFalse html.contains(HL) // make sure that & are correctly encoded
+    assertTrue html.contains("${LANG}'de'")
 
     def options = new Properties()
     options.setProperty("theme", "mytheme")
     options.setProperty("tabindex", "1")
-    def html = r.createRecaptchaHtml("The Error", options)
+    html = r.createRecaptchaHtml("The Error", options)
     assertTrue html.contains("theme:'mytheme'")
     assertTrue html.contains("tabindex:'1'")
     assertTrue html.contains(",")
 
+  }
+  
+  public void testCreateCaptchaHtmlWithLang() {
+    r.useLangInUrl = true
+    def html = r.createRecaptchaHtml(null, null)
+    assertFalse html.contains(HL_ENC)
+    assertFalse html.contains(HL) // make sure that & are correctly encoded
+    assertFalse html.contains(LANG)
+    html = r.createRecaptchaHtml(null, [:])
+    assertFalse html.contains(HL_ENC)
+    assertFalse html.contains(HL) // make sure that & are correctly encoded
+    assertFalse html.contains(LANG)
+    html = r.createRecaptchaHtml(null, [lang:null])
+    assertFalse html.contains(HL_ENC)
+    assertFalse html.contains(HL) // make sure that & are correctly encoded
+    html = r.createRecaptchaHtml(null, [lang:'de'])
+    assertTrue html.contains("${HL_ENC}de")
+    assertFalse html.contains("${HL}de") // make sure that & are correctly encoded
+    assertTrue html.contains("${LANG}'de'")
   }
 
   public void testCheckAnswer() {
