@@ -32,6 +32,8 @@ public class ReCaptcha {
   String privateKey
   Boolean includeNoScript = false
   Boolean useSecureAPI
+  // lang in RecaptchaOptions seems to be ignored by ReCaptcha. The workaround is to add hl parameter to urls.
+  Boolean useLangInUrl = false
 
   /**
    * Creates HTML output with embedded recaptcha. The string response should be output on a HTML page (eg. inside a JSP).
@@ -44,6 +46,9 @@ public class ReCaptcha {
   public String createRecaptchaHtml(String errorMessage, Map options) {
     def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
     def qs = new QueryString([k:publicKey, error:errorMessage])
+	if(useLangInUrl && options) {
+		qs.add('hl', options.lang)
+	}
 
     def message = new StringBuffer()
     if (options) {
@@ -52,11 +57,11 @@ public class ReCaptcha {
       "};\r\n</script>\r\n"
     }
 
-    message << "<script type=\"text/javascript\" src=\"$recaptchaServer/challenge?${qs.toString()}\"></script>\r\n"
+    message << "<script type=\"text/javascript\" src=\"$recaptchaServer/challenge?${qs.toString().encodeAsHTML()}\"></script>\r\n"
 
     if (includeNoScript) {
       message << """<noscript>
-      <iframe src=\"$recaptchaServer/noscript?${qs.toString()}\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br>
+      <iframe src=\"$recaptchaServer/noscript?${qs.toString().encodeAsHTML()}\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br>
       <textarea name=\"recaptcha_challenge_field\" rows=\"3\" cols=\"40\"></textarea>
       <input type=\"hidden\" name=\"recaptcha_response_field\" value=\"manual_challenge\">
       </noscript>"""

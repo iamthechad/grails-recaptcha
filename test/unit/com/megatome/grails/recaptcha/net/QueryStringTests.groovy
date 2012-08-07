@@ -41,6 +41,8 @@ public class QueryStringTests extends GroovyTestCase {
     qs.add("param1","value")
     qs.add("param2",null)
     assertEquals "param1=value", qs.toString()
+	qs = new QueryString([param1:'value', param2:null])
+    assertEquals "param1=value", qs.toString()
   }
 
   public void testMultipleParametersWithEmpty() {

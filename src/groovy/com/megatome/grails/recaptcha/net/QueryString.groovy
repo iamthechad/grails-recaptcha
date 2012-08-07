@@ -23,7 +23,10 @@ public class QueryString {
 //this constructor allows you to pass in a Map
   QueryString(Map params) {
     if (params) {
-      this.params.putAll(params)
+		params.each {
+			// add is called to handle value == null 
+			add it.key, it.value
+		}
     }
   }
 //this method allows you to add name/value pairs
