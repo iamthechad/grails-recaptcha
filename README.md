@@ -90,7 +90,7 @@ If you are using a theme that does not supply error messages, your code might lo
         <recaptcha:ifFailed>CAPTCHA Failed</recaptcha:ifFailed>
     </recaptcha:ifEnabled>
 
-### Custiming the Language
+### Customizing the Language
 
 If you want to change the language your captcha uses, there are two routes you can follow.
 

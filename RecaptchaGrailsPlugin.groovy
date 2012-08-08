@@ -14,5 +14,5 @@ You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2
 
 Versions 0.5 and below of this plugin may not work as desired. ReCaptcha has changed the URL used for secure connections, and these older versions will likely stop functioning at some point in the near future.
 '''
-    def documentation = "http://grails.codehaus.org/ReCaptcha+Plugin"
+    def documentation = "http://iamthechad.github.com/grails-recaptcha/"
 }
