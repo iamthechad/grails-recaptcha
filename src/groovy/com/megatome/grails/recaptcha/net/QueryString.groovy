@@ -1,7 +1,7 @@
 package com.megatome.grails.recaptcha.net
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,25 +19,25 @@ package com.megatome.grails.recaptcha.net
  */
 
 public class QueryString {
-  Map params = [:]
+    Map params = [:]
 //this constructor allows you to pass in a Map
-  QueryString(Map params) {
-    if (params) {
-      this.params.putAll(params)
+    QueryString(Map params) {
+        if (params) {
+            this.params.putAll(params)
+        }
     }
-  }
 //this method allows you to add name/value pairs
-  void add(String name, Object value) {
-    if (value) {
-      params.put(name, value)
+    void add(String name, Object value) {
+        if (value) {
+            params.put(name, value)
+        }
     }
-  }
 //this method returns a well-formed QueryString
-  String toString() {
-    def list = []
-    params.each {name, value ->
-      list << "$name=" + URLEncoder.encode(value.toString())
+    String toString() {
+        def list = []
+        params.each {name, value ->
+            list << "$name=" + URLEncoder.encode(value.toString())
+        }
+        return list.join("&")
     }
-    return list.join("&")
-  }
 }

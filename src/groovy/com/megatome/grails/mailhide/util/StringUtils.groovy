@@ -1,7 +1,7 @@
 package com.megatome.grails.mailhide.util
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,18 +17,18 @@ package com.megatome.grails.mailhide.util
  */
 
 class StringUtils {
-  public static final int DEFAULT_BLOCK_SIZE = 16
+    public static final int DEFAULT_BLOCK_SIZE = 16
 
-  static def padString(def str) {
-    padString (str, DEFAULT_BLOCK_SIZE)
-  }
-
-  static def padString(def str, def blockSize) {
-    def numpad = blockSize - (str.size() % blockSize)
-    def padded = str
-    (1..numpad).each {
-      padded += (numpad as char)
+    static def padString(def str) {
+        padString(str, DEFAULT_BLOCK_SIZE)
     }
-    padded
-  }
+
+    static def padString(def str, def blockSize) {
+        def numpad = blockSize - (str.size() % blockSize)
+        def padded = str
+        (1..numpad).each {
+            padded += (numpad as char)
+        }
+        padded
+    }
 }

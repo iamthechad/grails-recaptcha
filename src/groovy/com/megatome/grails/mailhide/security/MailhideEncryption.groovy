@@ -5,7 +5,7 @@ import javax.crypto.spec.SecretKeySpec
 import javax.crypto.spec.IvParameterSpec
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,12 @@ import javax.crypto.spec.IvParameterSpec
  */
 
 class MailhideEncryption {
-  static def encrypt(def string, String key) {
-    Cipher cipher = setupCipher(Cipher.ENCRYPT_MODE, key)
-    cipher.doFinal(string.getBytes())
-  }
+    static def encrypt(def string, String key) {
+        Cipher cipher = setupCipher(Cipher.ENCRYPT_MODE, key)
+        cipher.doFinal(string.getBytes())
+    }
 
-  private static setupCipher(mode, String key) {
+    private static setupCipher(mode, String key) {
         def cipher = Cipher.getInstance("AES/CBC/NoPadding")
 
         def keyBytes = key.decodeHex()

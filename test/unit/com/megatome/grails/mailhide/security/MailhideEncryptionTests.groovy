@@ -5,7 +5,7 @@ import org.codehaus.groovy.grails.plugins.codecs.HexCodec
 import grails.test.GrailsUnitTestCase
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

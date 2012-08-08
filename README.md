@@ -58,7 +58,7 @@ The plugin includes four ReCaptcha tags:  `<recaptcha:ifEnabled>`, `<recaptcha:i
 
 * The `<recaptcha:ifEnabled>` tag is a simple utility tag that will render the contents of the tag if the captcha is enabled in  `RecaptchaConfig.groovy`.
 * The `<recaptcha:ifDisabled>` tag is a simple utility tag that will render the contents of the tag if the captcha is disabled in  `RecaptchaConfig.groovy`.
-* The `<recaptcha:recaptcha>` tag is responsible for generating the correct HTML output to display the captcha. It supports four attributes: "theme", "lang", "tabindex", and "custom\_theme\_widget". These attributes map directly to the values that can be set according to the ReCaptcha API. See the [ReCaptcha Client Guide](http://code.google.com/apis/recaptcha/intro.html) for more details.
+* The `<recaptcha:recaptcha>` tag is responsible for generating the correct HTML output to display the captcha. It supports four attributes: "theme", "lang", "tabindex", and "custom\_theme\_widget". These attributes map directly to the values that can be set according to the ReCaptcha API. See the [ReCaptcha Client Guide](https://developers.google.com/recaptcha/intro) for more details.
 * The `<recaptcha:ifFailed>` tag will render its contents if the previous validation failed. Some ReCaptcha themes, like "clean", do not display error messages and require the developer to show an error message. Use this tag if you're using one of these themes.
 
 ## Verify the Captcha
@@ -89,6 +89,16 @@ If you are using a theme that does not supply error messages, your code might lo
         <recaptcha:recaptcha theme="clean"/>
         <recaptcha:ifFailed>CAPTCHA Failed</recaptcha:ifFailed>
     </recaptcha:ifEnabled>
+
+### Custiming the Language
+
+If you want to change the language your captcha uses, there are two routes you can follow.
+
+* Set `lang = "someLang"` in the `<recaptcha/>` tag. This has the drawback of only showing the desired language if the user has their browser set to display that language.
+* Set `forceLanguageInURL = true` in `ReCaptchaConfig.groovy`. This will add another parameter to the generated URL, forcing the captcha to be shown in the desired language.
+
+See [this discussion](http://code.google.com/p/recaptcha/issues/detail?id=133) for more information about changing the language.
+See [ReCaptcha Customization Guide](https://developers.google.com/recaptcha/docs/customization) for available languages.
 
 ### Verify User Input
 
@@ -234,6 +244,7 @@ will create:
 
 ### CHANGELOG
 
+* 0.5.3 Add the ability to force a different language to be displayed.
 * 0.5.1 & 0.5.2 Update to use the new ReCaptcha URLs.
 * 0.5.0 Add Mailhide support. Add support for specifying configuration options elsewhere than `RecaptchaConfig.groovy` via the `grails.config.locations` method.
 * 0.4.5 Add code to perform the ReCaptcha functionality - removed recaptcha4j library. Don't add captcha instance to session to avoid serialization issues. Hopefully make it easier to test against.

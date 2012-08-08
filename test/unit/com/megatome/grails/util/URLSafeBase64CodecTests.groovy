@@ -3,7 +3,7 @@ package com.megatome.grails.util
 import org.codehaus.groovy.grails.plugins.codecs.Base64Codec
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

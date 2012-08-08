@@ -1,7 +1,7 @@
 package com.megatome.grails
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,52 +17,52 @@ package com.megatome.grails
  */
 
 class RecaptchaTagLib {
-	static namespace = "recaptcha"
-	RecaptchaService recaptchaService
+    static namespace = "recaptcha"
+    RecaptchaService recaptchaService
     MailhideService mailhideService
-	private def attrNames = ["theme", "lang", "tabindex", "custom_theme_widget"]
-	
-	/**
-	 * Evaluates the content of the tag if ReCaptcha support is enabled. This value is set in 
-	 * grails-app/conf/RecaptchaConfig.groovy
-	 */
-	def ifEnabled = { attrs, body ->
-		if (recaptchaService.isEnabled()) {
-			out << body()
-		}
-	}
+    private def attrNames = ["theme", "lang", "tabindex", "custom_theme_widget"]
 
     /**
-	 * Evaluates the content of the tag if ReCaptcha support is disabled. This value is set in
-	 * grails-app/conf/RecaptchaConfig.groovy
-	 */
-	def ifDisabled = { attrs, body ->
-		if (!recaptchaService.isEnabled()) {
-			out << body()
-		}
-	}
-	
-	/**
-	 * Create and display a ReCaptcha instance. Supports the following attributes:
-	 * <ul>
-	 * <li>theme - Can be one of 'red','white','blackglass','clean','custom'</li>
-	 * <li>lang  - Can be one of 'en','nl','fr','de','pt','ru','es','tr'</li>
-	 * <li>tabindex - Sets a tabindex for the ReCaptcha box</li>
-	 * <li>custom_theme_widget - Used when specifying a custom theme.</li>
-	 * </ul>
-	 * 
-	 * This tag can also be used in support of a custom theme. For more information about
-	 * custom themes, see: http://recaptcha.net/apidocs/captcha/client.html
-	 */
-	def recaptcha = { attrs ->
-		def props = new Properties()
-		attrNames.each {
-			if (attrs[it]) {
-				props.setProperty(it, attrs[it])
-			}
-		}
-		out << recaptchaService.createCaptcha(session, props)
-	}
+     * Evaluates the content of the tag if ReCaptcha support is enabled. This value is set in
+     * grails-app/conf/RecaptchaConfig.groovy
+     */
+    def ifEnabled = { attrs, body ->
+        if (recaptchaService.isEnabled()) {
+            out << body()
+        }
+    }
+
+    /**
+     * Evaluates the content of the tag if ReCaptcha support is disabled. This value is set in
+     * grails-app/conf/RecaptchaConfig.groovy
+     */
+    def ifDisabled = { attrs, body ->
+        if (!recaptchaService.isEnabled()) {
+            out << body()
+        }
+    }
+
+    /**
+     * Create and display a ReCaptcha instance. Supports the following attributes:
+     * <ul>
+     * <li>theme - Can be one of 'red','white','blackglass','clean','custom'</li>
+     * <li>lang  - Can be one of 'en','nl','fr','de','pt','ru','es','tr'</li>
+     * <li>tabindex - Sets a tabindex for the ReCaptcha box</li>
+     * <li>custom_theme_widget - Used when specifying a custom theme.</li>
+     * </ul>
+     *
+     * This tag can also be used in support of a custom theme. For more information about
+     * custom themes, see: http://recaptcha.net/apidocs/captcha/client.html
+     */
+    def recaptcha = { attrs ->
+        def props = new Properties()
+        attrNames.each {
+            if (attrs[it]) {
+                props.setProperty(it, attrs[it])
+            }
+        }
+        out << recaptchaService.createCaptcha(session, props)
+    }
 
     /**
      * Evaluates the content of the tag if ReCaptcha validation failed. This will allow
@@ -75,15 +75,12 @@ class RecaptchaTagLib {
         }
     }
 
-
-
-
     /**
      * Creates a link that conforms to the recommended Mailhide usage. The created link will pop up a new window.
      */
     def mailhide = { attrs, body ->
         if (!attrs.emailAddress) {
-          throw new IllegalArgumentException("Email address must be specified in mailhide tag")
+            throw new IllegalArgumentException("Email address must be specified in mailhide tag")
         }
 
         def url = mailhideService.createMailhideURL(attrs.emailAddress)
@@ -92,7 +89,6 @@ class RecaptchaTagLib {
         out << link
     }
 
-
     /**
      * Creates a raw Mailhide URL in case the default behavior is not desired. The created URL will be placed into the
      * variable named by the "var" attribute. If this attribute is left out, the URL will be placed into a variable
@@ -100,11 +96,11 @@ class RecaptchaTagLib {
      */
     def mailhideURL = {attrs, body ->
         if (!attrs.emailAddress) {
-          throw new IllegalArgumentException("Email address must be specified in mailhideURL tag")
+            throw new IllegalArgumentException("Email address must be specified in mailhideURL tag")
         }
 
         def url = mailhideService.createMailhideURL(attrs.emailAddress)
         def var = attrs.var ? attrs.var : "mailhideURL"
-		out << body((var):url)
+        out << body((var): url)
     }
 }

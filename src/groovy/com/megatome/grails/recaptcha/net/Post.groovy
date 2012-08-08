@@ -1,7 +1,7 @@
 package com.megatome.grails.recaptcha.net
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,33 +19,33 @@ package com.megatome.grails.recaptcha.net
  */
 
 public class Post {
-  String url
-  QueryString queryString = new QueryString()
-  URLConnection connection
-  String text
+    String url
+    QueryString queryString = new QueryString()
+    URLConnection connection
+    String text
 
-  String getText(){
-    def thisUrl = new URL(url)
-    connection = thisUrl.openConnection()
-    if (connection.metaClass.respondsTo(connection, "setReadTimeout", int)) {
-      connection.readTimeout = 10000
+    String getText() {
+        def thisUrl = new URL(url)
+        connection = thisUrl.openConnection()
+        if (connection.metaClass.respondsTo(connection, "setReadTimeout", int)) {
+            connection.readTimeout = 10000
+        }
+        if (connection.metaClass.respondsTo(connection, "setConnectTimeout", int)) {
+            connection.connectTimeout = 10000
+        }
+        connection.setRequestMethod("POST")
+        connection.doOutput = true
+        Writer writer = new OutputStreamWriter(connection.outputStream)
+        writer.write(queryString.toString())
+        writer.flush()
+        writer.close()
+        connection.connect()
+        return connection.content.text
     }
-    if (connection.metaClass.respondsTo(connection, "setConnectTimeout", int)) {
-      connection.connectTimeout = 10000
-    }
-    connection.setRequestMethod("POST")
-    connection.doOutput = true
-    Writer writer = new OutputStreamWriter(connection.outputStream)
-    writer.write(queryString.toString())
-    writer.flush()
-    writer.close()
-    connection.connect()
-    return connection.content.text
-  }
 
-  String toString(){
-    return "POST:\n" +
-    url + "\n" +
-    queryString.toString()
-  }
+    String toString() {
+        return "POST:\n" +
+                url + "\n" +
+                queryString.toString()
+    }
 }

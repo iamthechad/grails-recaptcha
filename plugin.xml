@@ -1,4 +1,4 @@
-<plugin name='recaptcha' version='0.5.2' grailsVersion='1.1 &gt; *'>
+<plugin name='recaptcha' version='0.5.3' grailsVersion='1.1 &gt; *'>
   <author>Chad Johnston</author>
   <authorEmail>cjohnston@megatome.com</authorEmail>
   <title>This plugin adds ReCaptcha and Mailhide support to Grails.</title>
@@ -11,11 +11,21 @@ You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2
 Versions 0.5 and below of this plugin may not work as desired. ReCaptcha has changed the URL used for secure connections, and these older versions will likely stop functioning at some point in the near future.
 </description>
   <documentation>http://grails.codehaus.org/ReCaptcha+Plugin</documentation>
+  <type>RecaptchaGrailsPlugin</type>
   <resources>
     <resource>com.megatome.grails.MailhideService</resource>
     <resource>com.megatome.grails.RecaptchaService</resource>
     <resource>com.megatome.grails.RecaptchaTagLib</resource>
     <resource>com.megatome.grails.util.URLSafeBase64Codec</resource>
   </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+  </repositories>
   <dependencies />
+  <plugins />
+  <runtimePluginRequirements />
+  <behavior />
 </plugin>

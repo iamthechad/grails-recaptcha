@@ -6,7 +6,7 @@ import com.megatome.grails.mailhide.security.MailhideEncryption
 import com.megatome.grails.mailhide.util.StringUtils
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,22 +23,22 @@ import com.megatome.grails.mailhide.util.StringUtils
 
 class MailhideService {
     boolean transactional = false
-	private def mailhideConfig = null
+    private def mailhideConfig = null
     private def cachedEmail = [:]
 
     /**
-	 * Gets the Mailhide config as defined in grails-app/conf/RecaptchaConfig.grovy
-	 */
-	private def getMailhideConfig() {
-		if(this.mailhideConfig==null){
+     * Gets the Mailhide config as defined in grails-app/conf/RecaptchaConfig.grovy
+     */
+    private def getMailhideConfig() {
+        if (this.mailhideConfig == null) {
             if (ConfigurationHolder.config.mailhide) {
-              this.mailhideConfig = ConfigurationHolder.config.mailhide
+                this.mailhideConfig = ConfigurationHolder.config.mailhide
             } else {
-              ClassLoader parent = getClass().getClassLoader()
-              GroovyClassLoader loader = new GroovyClassLoader(parent)
-              def rc = loader.loadClass("RecaptchaConfig")
-              def cfg = new ConfigSlurper(GrailsUtil.environment).parse(rc)
-              this.mailhideConfig = cfg.mailhide
+                ClassLoader parent = getClass().getClassLoader()
+                GroovyClassLoader loader = new GroovyClassLoader(parent)
+                def rc = loader.loadClass("RecaptchaConfig")
+                def cfg = new ConfigSlurper(GrailsUtil.environment).parse(rc)
+                this.mailhideConfig = cfg.mailhide
             }
             if (!this.mailhideConfig.publicKey || this.mailhideConfig.publicKey.length() == 0) {
                 throw new IllegalArgumentException("Mailhide Public Key must be specified in RecaptchaConfig")
@@ -46,22 +46,21 @@ class MailhideService {
             if (!this.mailhideConfig.privateKey || this.mailhideConfig.privateKey.length() == 0) {
                 throw new IllegalArgumentException("Mailhide Private Key must be specified in RecaptchaConfig")
             }
-		}
-		return this.mailhideConfig
-	}
+        }
+        return this.mailhideConfig
+    }
 
-
-   /**
-    * Create a Mailhide URL from the specified email address. 
-    * @param emailAddress
-    * @return
-    */
+    /**
+     * Create a Mailhide URL from the specified email address.
+     * @param emailAddress
+     * @return
+     */
     def createMailhideURL(emailAddress) {
         def config = getMailhideConfig()
         def paddedEmail = StringUtils.padString(emailAddress)
         def encryptedEmail = cachedEmail[emailAddress] ?: MailhideEncryption.encrypt(paddedEmail, config.privateKey).encodeAsURLSafeBase64()
         if (!cachedEmail[emailAddress]) {
-          cachedEmail[emailAddress] = encryptedEmail
+            cachedEmail[emailAddress] = encryptedEmail
         }
         return "http://www.google.com/recaptcha/mailhide/d?k=${config.publicKey}&c=${encryptedEmail}"
     }

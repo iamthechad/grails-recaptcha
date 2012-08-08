@@ -1,7 +1,7 @@
 package com.megatome.grails.util
 
 /**
- * Copyright 2010 Megatome Technologies
+ * Copyright 2010-2012 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,15 @@ package com.megatome.grails.util
  */
 
 class URLSafeBase64Codec {
-  /**
-   * Simple encoding required by the Mailhide API to make the Base64 string URL safe 
-   */
-  static encode = { target ->
-    if (target == null) {
-      return target
-    }
+    /**
+     * Simple encoding required by the Mailhide API to make the Base64 string URL safe
+     */
+    static encode = { target ->
+        if (target == null) {
+            return target
+        }
 
-    String firstPass = target.encodeAsBase64()
-    firstPass.replaceAll("\\+", "-").replaceAll("/", "_")
-  }
+        String firstPass = target.encodeAsBase64()
+        firstPass.replaceAll("\\+", "-").replaceAll("/", "_")
+    }
 }
