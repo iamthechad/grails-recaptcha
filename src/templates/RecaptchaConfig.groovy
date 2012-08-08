@@ -5,6 +5,9 @@ recaptcha {
 
 	// Include the noscript tags in the generated captcha
 	includeNoScript = true
+
+    // Force language change. See this for more: http://code.google.com/p/recaptcha/issues/detail?id=133
+    forceLanguageInURL = false
 }
 
 mailhide {
