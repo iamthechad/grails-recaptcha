@@ -68,6 +68,29 @@ public class ReCaptcha {
         return message.toString()
     }
 
+    public String createRecaptchaAjaxHtml(String errorMessage, Map options) {
+        def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
+        def qs = new QueryString([k: publicKey, error: errorMessage])
+        if (forceLanguageInURL && options?.lang) {
+            qs.add("hl", URLEncoder.encode(options.remove("lang")))
+        }
+
+        def message = new StringBuffer()
+
+        message << "<script type=\"text/javascript\">\r\nfunction showRecaptcha(element){Recaptcha.create(\"${publicKey}\", element, {" +
+                options.collect { "$it.key:'${it.value}'" }.join(', ') + "});}\r\n</script>\r\n"
+
+        if (includeNoScript) {
+            message << """<noscript>
+      <iframe src=\"$recaptchaServer/noscript?${qs.toString()}\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br>
+      <textarea name=\"recaptcha_challenge_field\" rows=\"3\" cols=\"40\"></textarea>
+      <input type=\"hidden\" name=\"recaptcha_response_field\" value=\"manual_challenge\">
+      </noscript>"""
+        }
+
+        return message.toString()
+    }
+
     /**
      * Validates a reCaptcha challenge and response.
      *
