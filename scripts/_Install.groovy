@@ -6,9 +6,12 @@
 // use 'Ant' to access a global instance of AntBuilder
 //
 //
-Ant.copy(file:"${pluginBasedir}/src/templates/RecaptchaConfig.groovy",
-         todir:"${basedir}/grails-app/conf")
+if (!ant.available(file: "${basedir}/grails-app/conf/RecaptchaConfig.groovy")) {
 
-Ant.property(environment:"env")
-grailsHome = Ant.antProject.properties."env.GRAILS_HOME"
+    ant.copy(file:"${pluginBasedir}/src/templates/RecaptchaConfig.groovy",
+             todir:"${basedir}/grails-app/conf")
+}
+
+ant.property(environment:"env")
+grailsHome = ant.antProject.properties."env.GRAILS_HOME"
 
