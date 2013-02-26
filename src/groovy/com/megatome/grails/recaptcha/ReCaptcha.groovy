@@ -25,6 +25,7 @@ public class ReCaptcha {
     public static final String HTTP_SERVER = "http://www.google.com/recaptcha/api"
     public static final String HTTPS_SERVER = "https://www.google.com/recaptcha/api"
     public static final String VERIFY_URL = "http://www.google.com/recaptcha/api/verify"
+    public static final String AJAX_JS_URL = "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"
 
     String publicKey
     String privateKey
@@ -58,16 +59,20 @@ public class ReCaptcha {
         message << "<script type=\"text/javascript\" src=\"$recaptchaServer/challenge?${qs.toString()}\"></script>\r\n"
 
         if (includeNoScript) {
-            message << """<noscript>
-      <iframe src=\"$recaptchaServer/noscript?${qs.toString()}\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br>
-      <textarea name=\"recaptcha_challenge_field\" rows=\"3\" cols=\"40\"></textarea>
-      <input type=\"hidden\" name=\"recaptcha_response_field\" value=\"manual_challenge\">
-      </noscript>"""
+            message << buildNoScript(recaptchaServer, qs.toString())
         }
 
         return message.toString()
     }
 
+    /**
+     * Creates HTML output with embedded recaptcha AJAX. The string response should be output on a HTML page (eg. inside a JSP).
+     *
+     * @param errorMessage An errormessage to display in the captcha, null if none.
+     * @param options Options for rendering, <code>tabindex</code> and <code>theme</code> are currently supported by recaptcha. You can
+     *   put any options here though, and they will be added to the RecaptchaOptions javascript array.
+     * @return
+     */
     public String createRecaptchaAjaxHtml(String errorMessage, Map options) {
         def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
         def qs = new QueryString([k: publicKey, error: errorMessage])
@@ -77,18 +82,24 @@ public class ReCaptcha {
 
         def message = new StringBuffer()
 
+        message <<  "<script type=\"text/javascript\" src=\"${AJAX_JS_URL}\"></script>\r\n"
+
         message << "<script type=\"text/javascript\">\r\nfunction showRecaptcha(element){Recaptcha.create(\"${publicKey}\", element, {" +
                 options.collect { "$it.key:'${it.value}'" }.join(', ') + "});}\r\n</script>\r\n"
 
         if (includeNoScript) {
-            message << """<noscript>
-      <iframe src=\"$recaptchaServer/noscript?${qs.toString()}\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br>
-      <textarea name=\"recaptcha_challenge_field\" rows=\"3\" cols=\"40\"></textarea>
-      <input type=\"hidden\" name=\"recaptcha_response_field\" value=\"manual_challenge\">
-      </noscript>"""
+            message << buildNoScript(recaptchaServer, qs.toString())
         }
 
         return message.toString()
+    }
+
+    private static String buildNoScript(String server, String queryString) {
+        return """<noscript>
+      <iframe src=\"$server/noscript?$queryString\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br>
+      <textarea name=\"recaptcha_challenge_field\" rows=\"3\" cols=\"40\"></textarea>
+      <input type=\"hidden\" name=\"recaptcha_response_field\" value=\"manual_challenge\">
+      </noscript>"""
     }
 
     /**
