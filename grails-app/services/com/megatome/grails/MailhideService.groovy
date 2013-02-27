@@ -1,5 +1,6 @@
 package com.megatome.grails
 
+import grails.util.Environment
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.util.GrailsUtil
 import com.megatome.grails.mailhide.security.MailhideEncryption
@@ -23,6 +24,7 @@ import com.megatome.grails.mailhide.util.StringUtils
 
 class MailhideService {
     boolean transactional = false
+    def grailsApplication
     private def mailhideConfig = null
     private def cachedEmail = [:]
 
@@ -31,13 +33,13 @@ class MailhideService {
      */
     private def getMailhideConfig() {
         if (this.mailhideConfig == null) {
-            if (ConfigurationHolder.config.mailhide) {
-                this.mailhideConfig = ConfigurationHolder.config.mailhide
+            if (grailsApplication.config.mailhide) {
+                this.mailhideConfig = grailsApplication.config.mailhide
             } else {
                 ClassLoader parent = getClass().getClassLoader()
                 GroovyClassLoader loader = new GroovyClassLoader(parent)
                 def rc = loader.loadClass("RecaptchaConfig")
-                def cfg = new ConfigSlurper(GrailsUtil.environment).parse(rc)
+                def cfg = new ConfigSlurper(Environment.current.name).parse(rc)
                 this.mailhideConfig = cfg.mailhide
             }
             if (!this.mailhideConfig.publicKey || this.mailhideConfig.publicKey.length() == 0) {

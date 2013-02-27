@@ -1,7 +1,7 @@
 
 class RecaptchaGrailsPlugin {
-    def version = "0.5.4"
-    def grailsVersion = "1.1 > *"
+    def version = "0.6.0"
+    def grailsVersion = "2.0 > *"
     def author = "Chad Johnston"
     def authorEmail = "cjohnston@megatome.com"
     def title = "This plugin adds ReCaptcha and Mailhide support to Grails."
