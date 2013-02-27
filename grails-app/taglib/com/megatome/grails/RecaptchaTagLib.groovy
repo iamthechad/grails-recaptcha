@@ -1,7 +1,7 @@
 package com.megatome.grails
 
 /**
- * Copyright 2010-2012 Megatome Technologies
+ * Copyright 2010-2013 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +62,31 @@ class RecaptchaTagLib {
             }
         }
         out << recaptchaService.createCaptcha(session, props)
+    }
+
+    /**
+     * Create and AJAX ReCaptcha instance. The instance is not visible by default, and can be shown
+     * by calling the showRecaptcha method with the name of the div that the widget should be displayed in.
+     * Supports the following attributes:
+     * <ul>
+     * <li>theme - Can be one of 'red','white','blackglass','clean','custom'</li>
+     * <li>lang  - Can be one of 'en','nl','fr','de','pt','ru','es','tr'</li>
+     * <li>tabindex - Sets a tabindex for the ReCaptcha box</li>
+     * <li>custom_theme_widget - Used when specifying a custom theme.</li>
+     * </ul>
+     *
+     * This tag can also be used in support of a custom theme. For more information about
+     * custom themes, see: http://recaptcha.net/apidocs/captcha/client.html
+     */
+    def recaptchaAjax = { attrs ->
+        def props = new Properties()
+        attrNames.each {
+            if (attrs[it]) {
+                props.setProperty(it, attrs[it])
+            }
+        }
+
+        out << recaptchaService.createCaptchaAjax(session, props)
     }
 
     /**

@@ -62,6 +62,7 @@ The plugin includes four ReCaptcha tags:  `<recaptcha:ifEnabled>`, `<recaptcha:i
 * The `<recaptcha:ifEnabled>` tag is a simple utility tag that will render the contents of the tag if the captcha is enabled in  `RecaptchaConfig.groovy`.
 * The `<recaptcha:ifDisabled>` tag is a simple utility tag that will render the contents of the tag if the captcha is disabled in  `RecaptchaConfig.groovy`.
 * The `<recaptcha:recaptcha>` tag is responsible for generating the correct HTML output to display the captcha. It supports four attributes: "theme", "lang", "tabindex", and "custom\_theme\_widget". These attributes map directly to the values that can be set according to the ReCaptcha API. See the [ReCaptcha Client Guide](https://developers.google.com/recaptcha/intro) for more details.
+* The `<recaptcha:recaptchaAjax>` tag is responsible for creating the correct HTML output to display the captcha in an AJAX manner. The tag creates a JavaScript method called `showRecaptcha` that takes an element name as a parameter. This elemtn will contain the generated ReCaptcha widget. This tag supports the same attributes as the `<recaptcha:recaptcha>` tag.
 * The `<recaptcha:ifFailed>` tag will render its contents if the previous validation failed. Some ReCaptcha themes, like "clean", do not display error messages and require the developer to show an error message. Use this tag if you're using one of these themes.
 
 ## Verify the Captcha
@@ -92,6 +93,21 @@ If you are using a theme that does not supply error messages, your code might lo
         <recaptcha:recaptcha theme="clean"/>
         <recaptcha:ifFailed>CAPTCHA Failed</recaptcha:ifFailed>
     </recaptcha:ifEnabled>
+    
+### AJAX Tag Usage
+    <g:form action="someAction">
+      <recaptcha:ifEnabled>
+          <recaptcha:recaptchaAjax theme="blackglass"/>
+      </recaptcha:ifEnabled>
+      <g:submitButton name="show" onclick="showRecaptcha(mydiv); return false;"/>
+      <g:submitButton value="Submit" name="submit"/><br/>
+      <div id="mydiv"></div>
+      <recaptcha:ifFailed>CAPTCHA Failed</recaptcha:ifFailed>
+    </g:form>
+    
+When the `show` button is clicked, the ReCaptcha widget will be created and displayed in the `mydiv` element. **The div used to display the widget must be enclosed in the `<g:form>` or the parameters will not be captured correctly.**
+
+It is recommended to use the `<recaptcha:ifFailed>` tag in conjunction with the AJAX tag.
 
 ### Customizing the Language
 
@@ -247,6 +263,7 @@ will create:
 
 ### CHANGELOG
 
+* 0.6.0 Add the ability to display the widget using AJAX. Change plugin to require Grails 2.0 at a minimum.
 * 0.5.3 Add the ability to force a different language to be displayed.
 * 0.5.1 & 0.5.2 Update to use the new ReCaptcha URLs.
 * 0.5.0 Add Mailhide support. Add support for specifying configuration options elsewhere than `RecaptchaConfig.groovy` via the `grails.config.locations` method.
