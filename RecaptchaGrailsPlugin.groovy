@@ -5,7 +5,7 @@ class RecaptchaGrailsPlugin {
     def dependsOn = [:]
     def author = "Chad Johnston"
     def authorEmail = "cjohnston@megatome.com"
-    def title = "This plugin adds ReCaptcha and Mailhide support to Grails."
+    def title = "ReCaptcha and Mailhide support for Grails."
     def license = "APACHE"
     def issueManagement = [ system: "Github", url: "https://github.com/iamthechad/grails-recaptcha/issues" ]
     def scm = [ url: "https://github.com/iamthechad/grails-recaptcha" ]
