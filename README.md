@@ -321,6 +321,11 @@ will create:
 
 * Automate session cleanup
 
+### Thanks
+
+* The `recaptcha-quickstart` script was borrowed heavily from the [Spring Security Core plugin](http://grails.org/plugin/spring-security-core).
+
+
 # Suggestions or Comments
 
 Feel free to submit questions or comments to the Grails users mailing list.
