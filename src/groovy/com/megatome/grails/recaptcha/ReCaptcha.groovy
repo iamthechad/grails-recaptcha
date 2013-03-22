@@ -24,7 +24,7 @@ import com.megatome.grails.recaptcha.net.QueryString
 public class ReCaptcha {
     public static final String HTTP_SERVER = "http://www.google.com/recaptcha/api"
     public static final String HTTPS_SERVER = "https://www.google.com/recaptcha/api"
-    public static final String VERIFY_URL = "http://www.google.com/recaptcha/api/verify"
+    public static final String VERIFY_URL = "/verify"
     public static final String AJAX_JS = "/js/recaptcha_ajax.js"
 
     String publicKey
@@ -111,7 +111,8 @@ public class ReCaptcha {
      * @return
      */
     public Map checkAnswer(String remoteAddr, String challenge, String response) {
-        def post = new Post(url: VERIFY_URL)
+        def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
+        def post = new Post(url: recaptchaServer + VERIFY_URL)
         post.queryString.add("privatekey", privateKey)
         post.queryString.add("remoteip", remoteAddr)
         post.queryString.add("challenge", challenge)
