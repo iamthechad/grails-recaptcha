@@ -25,7 +25,7 @@ public class ReCaptcha {
     public static final String HTTP_SERVER = "http://www.google.com/recaptcha/api"
     public static final String HTTPS_SERVER = "https://www.google.com/recaptcha/api"
     public static final String VERIFY_URL = "http://www.google.com/recaptcha/api/verify"
-    public static final String AJAX_JS_URL = "http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"
+    public static final String AJAX_JS = "/js/recaptcha_ajax.js"
 
     String publicKey
     String privateKey
@@ -82,7 +82,7 @@ public class ReCaptcha {
 
         def message = new StringBuffer()
 
-        message <<  "<script type=\"text/javascript\" src=\"${AJAX_JS_URL}\"></script>\r\n"
+        message <<  "<script type=\"text/javascript\" src=\"${recaptchaServer + AJAX_JS}\"></script>\r\n"
 
         message << "<script type=\"text/javascript\">\r\nfunction showRecaptcha(element){Recaptcha.create(\"${publicKey}\", element, {" +
                 options.collect { "$it.key:'${it.value}'" }.join(', ') + "});}\r\n</script>\r\n"
