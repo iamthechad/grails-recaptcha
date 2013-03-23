@@ -9,7 +9,7 @@ Add the following to your `grails-app/conf/BuildConfig.groovy`
     …
     plugins {
         …
-        compile ':recaptcha:0.6.2'
+        compile ':recaptcha:0.6.3'
         …
     }
     
@@ -291,6 +291,7 @@ will create:
 
 ### CHANGELOG
 
+* 0.6.3 Ensure that AJAX tags properly use HTTPS when specified.
 * 0.6.2 Remove spurious `println` left over. Change install behavior to not create `RecaptchaConfig.groovy` in `_Install.groovy`. Add new script `recaptcha-quickstart` to handle creation of required configuration. 
 * 0.6.0 Add the ability to display the widget using AJAX. Change plugin to require Grails 2.0 at a minimum.
 * 0.5.3 Add the ability to force a different language to be displayed.
