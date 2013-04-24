@@ -9,7 +9,7 @@ Add the following to your `grails-app/conf/BuildConfig.groovy`
     …
     plugins {
         …
-        compile ':recaptcha:0.6.3'
+        compile ':recaptcha:0.6.4'
         …
     }
     
@@ -152,8 +152,8 @@ It is recommended to use the `<recaptcha:ifFailed>` tag in conjunction with the 
 
 If you want to change the language your captcha uses, there are two routes you can follow.
 
-* Set `lang = "someLang"` in the `<recaptcha/>` tag. This has the drawback of only showing the desired language if the user has their browser set to display that language.
-* Set `forceLanguageInURL = true` in `ReCaptchaConfig.groovy`. This will add another parameter to the generated URL, forcing the captcha to be shown in the desired language.
+* Set `lang = "someLang"` in the `<recaptcha/>` tag. This will show the desired language if the user has their browser set to display that language.
+* Set `forceLanguageInURL = true` in `ReCaptchaConfig.groovy` in addition to the above step. This will add another parameter to the generated URL, forcing the captcha to be shown in the desired language.
 
 See [this discussion](http://code.google.com/p/recaptcha/issues/detail?id=133) for more information about changing the language.
 See [ReCaptcha Customization Guide](https://developers.google.com/recaptcha/docs/customization) for available languages.
@@ -291,7 +291,8 @@ will create:
 
 ### CHANGELOG
 
-* 0.6.3 Ensure that AJAX tags properly use HTTPS when specified.
+* 0.6.4 Ensure that true/false seetings are loaded correctly from a .properties file. ([GitHub Issue #9](https://github.com/iamthechad/grails-recaptcha/issues/9))
+* 0.6.3 Ensure that AJAX tags properly use HTTPS when specified. ([GitHub Issue #7](https://github.com/iamthechad/grails-recaptcha/issues/7))
 * 0.6.2 Remove spurious `println` left over. Change install behavior to not create `RecaptchaConfig.groovy` in `_Install.groovy`. Add new script `recaptcha-quickstart` to handle creation of required configuration. 
 * 0.6.0 Add the ability to display the widget using AJAX. Change plugin to require Grails 2.0 at a minimum.
 * 0.5.3 Add the ability to force a different language to be displayed.
