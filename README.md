@@ -9,7 +9,7 @@ Add the following to your `grails-app/conf/BuildConfig.groovy`
     …
     plugins {
         …
-        compile ':recaptcha:0.6.2'
+        compile ':recaptcha:0.6.3'
         …
     }
     
@@ -248,18 +248,7 @@ The `postText` parameter represents the response from the ReCaptcha server. Here
 
 ## Edit the Configuration
 
-The plugin creates a file called `RecaptchaConfig.groovy` in `grails-app/conf` that includes the following content:
-
-	... ReCaptcha configuration...
-
-	mailhide {
-	    publicKey = ""
-	    privateKey = ""
-	} 
-
-	...ReCaptcha configuration...
-
-You must enter your public and private Mailhide keys, or errors will be thrown when trying to display a Mailhide link.
+The `recaptcha-quickstart` plugin creates basic configuration. You must enter your public and private Mailhide keys, or errors will be thrown when trying to display a Mailhide link.
 
 ## Use the Tag Library
 
@@ -302,6 +291,7 @@ will create:
 
 ### CHANGELOG
 
+* 0.6.3 Ensure that AJAX tags properly use HTTPS when specified.
 * 0.6.2 Remove spurious `println` left over. Change install behavior to not create `RecaptchaConfig.groovy` in `_Install.groovy`. Add new script `recaptcha-quickstart` to handle creation of required configuration. 
 * 0.6.0 Add the ability to display the widget using AJAX. Change plugin to require Grails 2.0 at a minimum.
 * 0.5.3 Add the ability to force a different language to be displayed.
