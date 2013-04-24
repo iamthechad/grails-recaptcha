@@ -23,8 +23,7 @@ class RecaptchaTagLib {
     private def attrNames = ["theme", "lang", "tabindex", "custom_theme_widget"]
 
     /**
-     * Evaluates the content of the tag if ReCaptcha support is enabled. This value is set in
-     * grails-app/conf/RecaptchaConfig.groovy
+     * Evaluates the content of the tag if ReCaptcha support is enabled. This value is set in config.
      */
     def ifEnabled = { attrs, body ->
         if (recaptchaService.isEnabled()) {
@@ -33,8 +32,7 @@ class RecaptchaTagLib {
     }
 
     /**
-     * Evaluates the content of the tag if ReCaptcha support is disabled. This value is set in
-     * grails-app/conf/RecaptchaConfig.groovy
+     * Evaluates the content of the tag if ReCaptcha support is disabled. This value is set in config.
      */
     def ifDisabled = { attrs, body ->
         if (!recaptchaService.isEnabled()) {

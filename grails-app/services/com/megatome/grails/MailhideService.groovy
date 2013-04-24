@@ -29,7 +29,7 @@ class MailhideService {
     private def cachedEmail = [:]
 
     /**
-     * Gets the Mailhide config as defined in grails-app/conf/RecaptchaConfig.grovy
+     * Gets the Mailhide config.
      */
     private def getMailhideConfig() {
         if (this.mailhideConfig == null) {
