@@ -9,7 +9,7 @@ Add the following to your `grails-app/conf/BuildConfig.groovy`
     …
     plugins {
         …
-        compile ':recaptcha:0.6.4'
+        compile ':recaptcha:0.6.5'
         …
     }
     
@@ -291,7 +291,8 @@ will create:
 
 ### CHANGELOG
 
-* 0.6.4 Ensure that true/false seetings are loaded correctly from a .properties file. ([GitHub Issue #9](https://github.com/iamthechad/grails-recaptcha/issues/9))
+* 0.6.5 Don't crash when boolean configuration options are missing. ([GitHub Issue #10](https://github.com/iamthechad/grails-recaptcha/issues/10)) Establish defaults for boolean options in case they go missing. ([GitHub Issue #11](https://github.com/iamthechad/grails-recaptcha/issues/11)) Don't crash when creating an AJAX captcha. ([GitHub Issue #12](https://github.com/iamthechad/grails-recaptcha/issues/12))
+* 0.6.4 Ensure that true/false settings are loaded correctly from a .properties file. ([GitHub Issue #9](https://github.com/iamthechad/grails-recaptcha/issues/9))
 * 0.6.3 Ensure that AJAX tags properly use HTTPS when specified. ([GitHub Issue #7](https://github.com/iamthechad/grails-recaptcha/issues/7))
 * 0.6.2 Remove spurious `println` left over. Change install behavior to not create `RecaptchaConfig.groovy` in `_Install.groovy`. Add new script `recaptcha-quickstart` to handle creation of required configuration. 
 * 0.6.0 Add the ability to display the widget using AJAX. Change plugin to require Grails 2.0 at a minimum.
