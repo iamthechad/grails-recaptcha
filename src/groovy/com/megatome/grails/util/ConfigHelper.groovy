@@ -20,10 +20,7 @@ package com.megatome.grails.util
 
 class ConfigHelper {
     // See http://jira.codehaus.org/browse/GRAILS-6515
-    public static booleanValue(def value, boolean defaultValue) {
-        if (!value) {
-            return defaultValue
-        }
+    public static booleanValue(def value) {
         if (value.class == java.lang.Boolean) {
             // because 'true.toBoolean() == false' !!!
             return value

@@ -57,11 +57,19 @@ class RecaptchaService {
             recap = new ReCaptcha(
                     publicKey: config.publicKey,
                     privateKey: config.privateKey,
-                    includeNoScript: ConfigHelper.booleanValue(config.includeNoScript, true),
-                    useSecureAPI: ConfigHelper.booleanValue(config.useSecureAPI, true),
-                    forceLanguageInURL: ConfigHelper.booleanValue(config.forceLanguageInURL, false))
+                    includeNoScript: safeGetConfigValue('includeNoScript', true),
+                    useSecureAPI: safeGetConfigValue('useSecureAPI', true),
+                    forceLanguageInURL: safeGetConfigValue('forceLanguageInURL', false))
         }
         recap
+    }
+
+    private boolean safeGetConfigValue(def value, def defaultValue) {
+        def config = getRecaptchaConfig()
+        if (config.containsKey(value)) {
+            return ConfigHelper.booleanValue(config[value])
+        }
+        defaultValue
     }
 
     /**
