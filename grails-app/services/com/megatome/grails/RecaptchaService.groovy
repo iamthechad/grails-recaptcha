@@ -129,7 +129,7 @@ class RecaptchaService {
      * Get a value indicating if the ReCaptcha plugin should be enabled.
      */
     def isEnabled() {
-        return ConfigHelper.booleanValue(getRecaptchaConfig().enabled, false)
+        return ConfigHelper.booleanValue(getRecaptchaConfig().enabled)
     }
 
     /**
