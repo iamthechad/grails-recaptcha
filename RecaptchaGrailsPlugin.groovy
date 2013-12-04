@@ -1,6 +1,6 @@
 
 class RecaptchaGrailsPlugin {
-    def version = "0.6.6"
+    def version = "0.6.7"
     def grailsVersion = "2.0 > *"
     def dependsOn = [:]
     def author = "Chad Johnston"

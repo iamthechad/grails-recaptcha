@@ -9,7 +9,7 @@ Add the following to your `grails-app/conf/BuildConfig.groovy`
     …
     plugins {
         …
-        compile ':recaptcha:0.6.6'
+        compile ':recaptcha:0.6.7'
         …
     }
     
@@ -291,6 +291,7 @@ will create:
 
 ### CHANGELOG
 
+* 0.6.7 Fix a stupid bug that would cause a crash when determining if it's enabled. ([GitHub Issue #14](https://github.com/iamthechad/grails-recaptcha/issues/14))
 * 0.6.6 Behave correctly when config options are "false" or missing. ([GitHub Issue #13](https://github.com/iamthechad/grails-recaptcha/issues/13))
 * 0.6.5 Don't crash when boolean configuration options are missing. ([GitHub Issue #10](https://github.com/iamthechad/grails-recaptcha/issues/10)) Establish defaults for boolean options in case they go missing. ([GitHub Issue #11](https://github.com/iamthechad/grails-recaptcha/issues/11)) Don't crash when creating an AJAX captcha. ([GitHub Issue #12](https://github.com/iamthechad/grails-recaptcha/issues/12))
 * 0.6.4 Ensure that true/false settings are loaded correctly from a .properties file. ([GitHub Issue #9](https://github.com/iamthechad/grails-recaptcha/issues/9))
