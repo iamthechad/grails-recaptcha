@@ -327,3 +327,7 @@ Feel free to submit questions or comments to the Grails users mailing list.
 [http://grails.org/Mailing+lists](http://grails.org/Mailing+lists)
 
 Alternatively you can contact me directly - cjohnston at megatome dot com
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/iamthechad/grails-recaptcha/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
