@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/iamthechad/grails-recaptcha.png?label=ready&title=Ready)](https://waffle.io/iamthechad/grails-recaptcha)
 # Introduction
 
 This plugin is designed to make using the ReCaptcha and Mailhide services within Grails easy. In order to use this plugin, you must have a ReCaptcha account, available from [http://www.google.com/recaptcha](http://www.google.com/recaptcha).
