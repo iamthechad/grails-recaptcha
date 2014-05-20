@@ -1,4 +1,4 @@
-<plugin name='recaptcha' version='0.6.7' grailsVersion='2.0 &gt; *'>
+<plugin name='recaptcha' version='0.6.8' grailsVersion='2.0 &gt; *'>
   <author>Chad Johnston</author>
   <authorEmail>cjohnston@megatome.com</authorEmail>
   <title>ReCaptcha and Mailhide support for Grails.</title>
@@ -15,12 +15,4 @@ Versions 0.5 and below of this plugin will not work. ReCaptcha has changed the U
     <resource>com.megatome.grails.RecaptchaTagLib</resource>
     <resource>com.megatome.grails.util.URLSafeBase64Codec</resource>
   </resources>
-  <repositories>
-    <repository name='grailsCentral' url='http://grails.org/plugins' />
-    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
-  </repositories>
-  <dependencies />
-  <plugins />
-  <runtimePluginRequirements />
-  <behavior />
 </plugin>
