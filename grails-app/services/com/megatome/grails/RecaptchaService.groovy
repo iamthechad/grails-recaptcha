@@ -26,6 +26,7 @@ class RecaptchaService {
     private def recaptchaConfig = null
     private def recap = null
 
+
     /**
      * Gets the ReCaptcha config.
      */
@@ -41,10 +42,10 @@ class RecaptchaService {
                 this.recaptchaConfig = cfg.recaptcha
             }
             if (!this.recaptchaConfig.publicKey || this.recaptchaConfig.publicKey.length() == 0) {
-                throw new IllegalArgumentException("Recaptcha Public Key must be specified in RecaptchaConfig")
+                throw new IllegalArgumentException("ReCaptcha Public Key must be specified in RecaptchaConfig")
             }
             if (!this.recaptchaConfig.privateKey || this.recaptchaConfig.privateKey.length() == 0) {
-                throw new IllegalArgumentException("Recaptcha Private Key must be specified in RecaptchaConfig")
+                throw new IllegalArgumentException("ReCaptcha Private Key must be specified in RecaptchaConfig")
             }
         }
         return this.recaptchaConfig
@@ -69,6 +70,7 @@ class RecaptchaService {
         if (config.containsKey(value)) {
             return ConfigHelper.booleanValue(config[value])
         }
+        log.error("Tried to access missing ReCaptcha value '" + value + "'. Using default value of '" + defaultValue + "'")
         defaultValue
     }
 
@@ -129,7 +131,7 @@ class RecaptchaService {
      * Get a value indicating if the ReCaptcha plugin should be enabled.
      */
     def isEnabled() {
-        return ConfigHelper.booleanValue(getRecaptchaConfig().enabled)
+        return safeGetConfigValue('enabled', true)
     }
 
     /**
