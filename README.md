@@ -296,6 +296,7 @@ will create:
 
 ### CHANGELOG
 
+* 0.6.8 Don't crash when the `enabled` parameter is missing. Log missing config params, but use defaults. ([GitHub Issue #18](https://github.com/iamthechad/grails-recaptcha/issues/18)) Add blurb about externalized config. ([GitHub Issue #19](https://github.com/iamthechad/grails-recaptcha/issues/19))
 * 0.6.7 Fix a stupid bug that would cause a crash when determining if it's enabled. ([GitHub Issue #14](https://github.com/iamthechad/grails-recaptcha/issues/14))
 * 0.6.6 Behave correctly when config options are "false" or missing. ([GitHub Issue #13](https://github.com/iamthechad/grails-recaptcha/issues/13))
 * 0.6.5 Don't crash when boolean configuration options are missing. ([GitHub Issue #10](https://github.com/iamthechad/grails-recaptcha/issues/10)) Establish defaults for boolean options in case they go missing. ([GitHub Issue #11](https://github.com/iamthechad/grails-recaptcha/issues/11)) Don't crash when creating an AJAX captcha. ([GitHub Issue #12](https://github.com/iamthechad/grails-recaptcha/issues/12))
