@@ -10,7 +10,7 @@ Add the following to your `grails-app/conf/BuildConfig.groovy`
     …
     plugins {
         …
-        compile ':recaptcha:0.6.8'
+        compile ':recaptcha:0.6.9'
         …
     }
     
@@ -296,6 +296,7 @@ will create:
 
 ### CHANGELOG
 
+* 0.6.9 Remove unused import for `org.codehaus.groovy.grails.commons.ConfigurationHolder` that doesn't exist in Grails 2.4 any more. ([GitHub Issue #20](https://github.com/iamthechad/grails-recaptcha/pull/20))
 * 0.6.8 Don't crash when the `enabled` parameter is missing. Log missing config params, but use defaults. ([GitHub Issue #18](https://github.com/iamthechad/grails-recaptcha/issues/18)) Add blurb about externalized config. ([GitHub Issue #19](https://github.com/iamthechad/grails-recaptcha/issues/19))
 * 0.6.7 Fix a stupid bug that would cause a crash when determining if it's enabled. ([GitHub Issue #14](https://github.com/iamthechad/grails-recaptcha/issues/14))
 * 0.6.6 Behave correctly when config options are "false" or missing. ([GitHub Issue #13](https://github.com/iamthechad/grails-recaptcha/issues/13))
