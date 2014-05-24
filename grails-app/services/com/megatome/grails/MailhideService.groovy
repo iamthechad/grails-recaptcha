@@ -1,7 +1,6 @@
 package com.megatome.grails
 
 import grails.util.Environment
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import grails.util.GrailsUtil
 import com.megatome.grails.mailhide.security.MailhideEncryption
 import com.megatome.grails.mailhide.util.StringUtils
