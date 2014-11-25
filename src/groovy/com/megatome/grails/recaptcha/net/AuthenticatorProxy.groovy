@@ -10,27 +10,28 @@ class AuthenticatorProxy {
     public AuthenticatorProxy(Map map) {
         map.each { k,v -> if (this.hasProperty(k)) { this."$k" = v} }
         if (server != null && server.length() != 0) {
-            println "Creating a proxy for ${server}:${port}"
             proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(server, port))
-        }
-        if (username != null && password != null) {
-            // Build an authenticator
-            Authenticator.setDefault(new Authenticator() {
-                @Override
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    def passwordAuth = null
-                    if (getRequestorType() == RequestorType.PROXY) {
-                        if (getRequestingHost().equalsIgnoreCase(server)) {
-                            if (port == getRequestingPort()) {
-                                println "Invoking our proxy authenticator"
-                                // Seems to be OK.
-                                passwordAuth = new PasswordAuthentication(username, password.toCharArray())
+
+            if (username != null && password != null) {
+                println "Creating an authenticator"
+                // Build an authenticator
+                Authenticator.setDefault(new Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        def passwordAuth = null
+                        if (getRequestorType() == RequestorType.PROXY) {
+                            if (getRequestingHost().equalsIgnoreCase(server)) {
+                                if (port == getRequestingPort()) {
+                                    println "Invoking our proxy authenticator"
+                                    // Seems to be OK.
+                                    passwordAuth = new PasswordAuthentication(username, password.toCharArray())
+                                }
                             }
                         }
+                        passwordAuth
                     }
-                    passwordAuth
-                }
-            })
+                })
+            }
         }
     }
 

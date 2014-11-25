@@ -56,28 +56,22 @@ class RecaptchaService {
         if (!recap) {
             // Public key, private key, include noscript
             def config = getRecaptchaConfig()
+            def proxyConfig = config.proxy
+            def proxy = new AuthenticatorProxy(
+                    server: proxyConfig.containsKey('server') ? proxyConfig.server : null,
+                    port: proxyConfig.containsKey('port') ? Integer.parseInt(proxyConfig.port) : 80,
+                    username: proxyConfig.containsKey('username') ? proxyConfig.username : null,
+                    password: proxyConfig.containsKey('password') ? proxyConfig.password : null
+            )
             recap = new ReCaptcha(
                     publicKey: config.publicKey,
                     privateKey: config.privateKey,
                     includeNoScript: safeGetConfigValue('includeNoScript', true),
                     useSecureAPI: safeGetConfigValue('useSecureAPI', true),
-                    forceLanguageInURL: safeGetConfigValue('forceLanguageInURL', false))
+                    forceLanguageInURL: safeGetConfigValue('forceLanguageInURL', false),
+                    proxy: proxy)
         }
         recap
-    }
-
-    private def getRecaptchaProxyInstance() {
-        if (!proxy) {
-            def config = getRecaptchaConfig().proxy
-            println config
-            proxy = new AuthenticatorProxy([
-                    server: config.server,
-                    port: config.containsKey('port') ? Integer.parseInt(config.port) : 80,
-                    username: config.username,
-                    password: config.password
-            ])
-        }
-        proxy
     }
 
     private boolean safeGetConfigValue(def value, def defaultValue) {
@@ -134,7 +128,7 @@ class RecaptchaService {
         if (!recap) {
             return false
         } else {
-            def response = recap.checkAnswer(getRecaptchaProxyInstance(), remoteAddress, params.recaptcha_challenge_field?.trim(), params.recaptcha_response_field?.trim())
+            def response = recap.checkAnswer(remoteAddress, params.recaptcha_challenge_field?.trim(), params.recaptcha_response_field?.trim())
             if (!response.valid) {
                 session["recaptcha_error"] = response.errorMessage
             }

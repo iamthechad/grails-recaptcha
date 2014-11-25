@@ -35,6 +35,8 @@ public class ReCaptcha {
     // Put the hl parameter into the challenge URL to force language change
     Boolean forceLanguageInURL = false
 
+    AuthenticatorProxy proxy = null
+
     /**
      * Creates HTML output with embedded recaptcha. The string response should be output on a HTML page (eg. inside a JSP).
      *
@@ -111,9 +113,9 @@ public class ReCaptcha {
      * @param response The response from the reCaptcha form, this is usually request.getParameter("recaptcha_response_field") in your code.
      * @return
      */
-    public Map checkAnswer(AuthenticatorProxy authProxy, String remoteAddr, String challenge, String response) {
+    public Map checkAnswer(String remoteAddr, String challenge, String response) {
         def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
-        def post = new Post([url: recaptchaServer + VERIFY_URL, proxy: authProxy])
+        def post = new Post(url: recaptchaServer + VERIFY_URL, proxy: proxy)
         post.queryString.add("privatekey", privateKey)
         post.queryString.add("remoteip", remoteAddr)
         post.queryString.add("challenge", challenge)
