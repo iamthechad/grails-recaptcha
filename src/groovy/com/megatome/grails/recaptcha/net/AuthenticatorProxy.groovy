@@ -1,5 +1,7 @@
 package com.megatome.grails.recaptcha.net
 
+import static java.net.Authenticator.RequestorType.PROXY
+
 class AuthenticatorProxy {
     String server = null
     int port = -1
@@ -13,16 +15,14 @@ class AuthenticatorProxy {
             proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(server, port))
 
             if (username != null && password != null) {
-                println "Creating an authenticator"
                 // Build an authenticator
                 Authenticator.setDefault(new Authenticator() {
                     @Override
                     protected PasswordAuthentication getPasswordAuthentication() {
                         def passwordAuth = null
-                        if (getRequestorType() == RequestorType.PROXY) {
+                        if (getRequestorType() == PROXY) {
                             if (getRequestingHost().equalsIgnoreCase(server)) {
                                 if (port == getRequestingPort()) {
-                                    println "Invoking our proxy authenticator"
                                     // Seems to be OK.
                                     passwordAuth = new PasswordAuthentication(username, password.toCharArray())
                                 }
