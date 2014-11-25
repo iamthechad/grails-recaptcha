@@ -1,5 +1,6 @@
 package com.megatome.grails.recaptcha
 
+import com.megatome.grails.recaptcha.net.AuthenticatorProxy
 import com.megatome.grails.recaptcha.net.Post
 import com.megatome.grails.recaptcha.net.QueryString
 
@@ -110,9 +111,9 @@ public class ReCaptcha {
      * @param response The response from the reCaptcha form, this is usually request.getParameter("recaptcha_response_field") in your code.
      * @return
      */
-    public Map checkAnswer(String remoteAddr, String challenge, String response) {
+    public Map checkAnswer(AuthenticatorProxy authProxy, String remoteAddr, String challenge, String response) {
         def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
-        def post = new Post(url: recaptchaServer + VERIFY_URL)
+        def post = new Post([url: recaptchaServer + VERIFY_URL, proxy: authProxy])
         post.queryString.add("privatekey", privateKey)
         post.queryString.add("remoteip", remoteAddr)
         post.queryString.add("challenge", challenge)
@@ -121,7 +122,7 @@ public class ReCaptcha {
         def responseMessage = post.text
 
         if (!responseMessage) {
-            return [valid: false, errorMessage: "Null read from server."]
+            return [valid: false, errorMessage: "Unable to connect to server."]
         }
 
         def a = responseMessage.split("\r?\n") as List

@@ -1,6 +1,7 @@
 package com.megatome.grails
 
 import com.megatome.grails.recaptcha.ReCaptcha
+import com.megatome.grails.recaptcha.net.AuthenticatorProxy
 import com.megatome.grails.util.ConfigHelper
 import grails.util.Environment
 
@@ -25,7 +26,7 @@ class RecaptchaService {
     def grailsApplication
     private def recaptchaConfig = null
     private def recap = null
-
+    private def proxy = null
 
     /**
      * Gets the ReCaptcha config.
@@ -63,6 +64,20 @@ class RecaptchaService {
                     forceLanguageInURL: safeGetConfigValue('forceLanguageInURL', false))
         }
         recap
+    }
+
+    private def getRecaptchaProxyInstance() {
+        if (!proxy) {
+            def config = getRecaptchaConfig().proxy
+            println config
+            proxy = new AuthenticatorProxy([
+                    server: config.server,
+                    port: config.containsKey('port') ? Integer.parseInt(config.port) : 80,
+                    username: config.username,
+                    password: config.password
+            ])
+        }
+        proxy
     }
 
     private boolean safeGetConfigValue(def value, def defaultValue) {
@@ -119,7 +134,7 @@ class RecaptchaService {
         if (!recap) {
             return false
         } else {
-            def response = recap.checkAnswer(remoteAddress, params.recaptcha_challenge_field?.trim(), params.recaptcha_response_field?.trim())
+            def response = recap.checkAnswer(getRecaptchaProxyInstance(), remoteAddress, params.recaptcha_challenge_field?.trim(), params.recaptcha_response_field?.trim())
             if (!response.valid) {
                 session["recaptcha_error"] = response.errorMessage
             }

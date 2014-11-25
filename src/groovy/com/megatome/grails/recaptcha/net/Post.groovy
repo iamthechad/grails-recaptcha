@@ -1,5 +1,7 @@
 package com.megatome.grails.recaptcha.net
 
+import org.apache.commons.logging.LogFactory
+
 /**
  * Copyright 2010-2014 Megatome Technologies
  *
@@ -19,28 +21,44 @@ package com.megatome.grails.recaptcha.net
  */
 
 public class Post {
+    private static final log = LogFactory.getLog(this)
     String url
     QueryString queryString = new QueryString()
     URLConnection connection
     String text
+    AuthenticatorProxy proxy = null
 
     String getText() {
-        def thisUrl = new URL(url)
-        connection = thisUrl.openConnection()
-        if (connection.metaClass.respondsTo(connection, "setReadTimeout", int)) {
-            connection.readTimeout = 10000
+        try {
+            def thisUrl = new URL(url)
+            connection = null
+            if (proxy.isConfigured()) {
+                connection = thisUrl.openConnection(proxy.getProxy())
+            } else {
+                connection = thisUrl.openConnection()
+            }
+            if (connection.metaClass.respondsTo(connection, "setReadTimeout", int)) {
+                connection.readTimeout = 10000
+            }
+            if (connection.metaClass.respondsTo(connection, "setConnectTimeout", int)) {
+                connection.connectTimeout = 10000
+            }
+            connection.setRequestMethod("POST")
+            connection.doOutput = true
+            Writer writer = new OutputStreamWriter(connection.outputStream)
+            writer.write(queryString.toString())
+            writer.flush()
+            writer.close()
+            connection.connect()
+            return connection.content.text
+        } catch (Exception e) {
+            def message = "Failed to connect to ${url}."
+            if (proxy.isConfigured()) {
+                message += " Attempting to use proxy ${proxy.server}:${proxy.port}"
+            }
+            log.error(message, e)
         }
-        if (connection.metaClass.respondsTo(connection, "setConnectTimeout", int)) {
-            connection.connectTimeout = 10000
-        }
-        connection.setRequestMethod("POST")
-        connection.doOutput = true
-        Writer writer = new OutputStreamWriter(connection.outputStream)
-        writer.write(queryString.toString())
-        writer.flush()
-        writer.close()
-        connection.connect()
-        return connection.content.text
+        return null
     }
 
     String toString() {
