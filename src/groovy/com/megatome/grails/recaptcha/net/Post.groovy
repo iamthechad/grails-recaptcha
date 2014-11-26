@@ -54,7 +54,10 @@ public class Post {
         } catch (Exception e) {
             def message = "Failed to connect to ${url}."
             if (proxy.isConfigured()) {
-                message += " Attempting to use proxy ${proxy.server}:${proxy.port}"
+                message += "\n\tAttempting to use proxy ${proxy.server}:${proxy.port}"
+                if (proxy.username != null) {
+                    message += "\n\tProxy username: ${proxy.username}. (Be sure that password is correct)"
+                }
             }
             log.error(message, e)
         }

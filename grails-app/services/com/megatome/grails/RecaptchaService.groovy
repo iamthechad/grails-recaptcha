@@ -61,7 +61,7 @@ class RecaptchaService {
                     server: proxyConfig.containsKey('server') ? proxyConfig.server : null,
                     port: proxyConfig.containsKey('port') ? Integer.parseInt(proxyConfig.port) : 80,
                     username: proxyConfig.containsKey('username') ? proxyConfig.username : null,
-                    password: proxyConfig.containsKey('password') ? proxyConfig.password : null
+                    password: proxyConfig.containsKey('password') ? proxyConfig.password : ""
             )
             recap = new ReCaptcha(
                     publicKey: config.publicKey,
