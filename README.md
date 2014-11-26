@@ -10,7 +10,7 @@ Add the following to your `grails-app/conf/BuildConfig.groovy`
     …
     plugins {
         …
-        compile ':recaptcha:0.6.9'
+        compile ':recaptcha:0.7.0'
         …
     }
     
@@ -98,6 +98,21 @@ The plugin is simple to use. In order to use it, there are four basic steps:
 ## Edit the Configuration
 
 The configuration values are pretty self-explanatory, and match with values used by the ReCaptcha service. You must enter your public and private ReCaptcha keys, or errors will be thrown when trying to display a captcha.
+
+### Proxy Server Configuration
+
+If your server needs to connect through a proxy to the ReCaptcha service, add the following to the ReCapctcha configuration. **These properties are not created by the quickstart script. They must be added manually.**
+
+    proxy {
+        server = ""   // IP or hostname of proxy server
+        port = ""     // Proxy server port, defaults to 80
+        username = "" // Optional username if proxy requires authentication
+        password = "" // Optional password if proxy requires authentication
+    }
+
+Only the `server` property is required. The `port` will default to `80` if not specified. The `username` and `password` properties need to be specified only when the proxy requires authentication.
+
+Like other configurations, this can be placed at the top-level `recaptcha` entry, or it can be specified on a per-environment basis.
 
 ## Use the Tag Library
 
@@ -296,6 +311,7 @@ will create:
 
 ### CHANGELOG
 
+* 0.7.0 Add support for connecting through a proxy server when verifying the captcha value. ([GitHub Issue #21](https://github.com/iamthechad/grails-recaptcha/issues/21))
 * 0.6.9 Remove unused import for `org.codehaus.groovy.grails.commons.ConfigurationHolder` that doesn't exist in Grails 2.4 any more. ([GitHub Issue #20](https://github.com/iamthechad/grails-recaptcha/pull/20))
 * 0.6.8 Don't crash when the `enabled` parameter is missing. Log missing config params, but use defaults. ([GitHub Issue #18](https://github.com/iamthechad/grails-recaptcha/issues/18)) Add blurb about externalized config. ([GitHub Issue #19](https://github.com/iamthechad/grails-recaptcha/issues/19))
 * 0.6.7 Fix a stupid bug that would cause a crash when determining if it's enabled. ([GitHub Issue #14](https://github.com/iamthechad/grails-recaptcha/issues/14))
