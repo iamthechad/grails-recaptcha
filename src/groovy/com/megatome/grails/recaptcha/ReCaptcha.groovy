@@ -23,19 +23,20 @@ import com.megatome.grails.recaptcha.net.QueryString
  */
 
 public class ReCaptcha {
-    public static final String HTTP_SERVER = "http://www.google.com/recaptcha/api"
-    public static final String HTTPS_SERVER = "https://www.google.com/recaptcha/api"
-    public static final String VERIFY_URL = "/verify"
+    private static final String BASE_URL = "https://www.google.com/recaptcha/api"
+    public static final String VERIFY_URL = "/siteverify"
     public static final String AJAX_JS = "/js/recaptcha_ajax.js"
+    public static final String JS_URL = BASE_URL + ".js"
 
     String publicKey
     String privateKey
     Boolean includeNoScript = false
-    Boolean useSecureAPI
     // Put the hl parameter into the challenge URL to force language change
     Boolean forceLanguageInURL = false
 
     AuthenticatorProxy proxy = null
+
+    Boolean useSecureAPI = true
 
     /**
      * Creates HTML output with embedded recaptcha. The string response should be output on a HTML page (eg. inside a JSP).
@@ -46,23 +47,24 @@ public class ReCaptcha {
      * @return
      */
     public String createRecaptchaHtml(String errorMessage, Map options) {
-        def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
-        def qs = new QueryString([k: publicKey, error: errorMessage])
-        if (forceLanguageInURL && options?.lang) {
+        def qs = new QueryString()
+        if (options?.lang) {
             qs.add("hl", URLEncoder.encode(options.remove("lang")))
         }
 
         def message = new StringBuffer()
-        if (options) {
-            message << "<script type=\"text/javascript\">\r\nvar RecaptchaOptions = {" +
-                    options.collect { "$it.key:'${it.value}'" }.join(', ') +
-                    "};\r\n</script>\r\n"
+        message << "<script src=\"${JS_URL}?${qs.toString()}\" async defer></script>"
+        message << "<div class=\"g-recaptcha\" data-sitekey=\"${publicKey}\""
+        if (options?.theme) {
+            message << " data-theme=\"${options.theme}\""
         }
-
-        message << "<script type=\"text/javascript\" src=\"$recaptchaServer/challenge?${qs.toString()}\"></script>\r\n"
+        if (options?.type) {
+            message << " data-type=\"${options.type}\""
+        }
+        message << "></div>\r\n"
 
         if (includeNoScript) {
-            message << buildNoScript(recaptchaServer, qs.toString())
+            message << buildNoScript(publicKey)
         }
 
         return message.toString()
@@ -97,31 +99,44 @@ public class ReCaptcha {
         return message.toString()
     }
 
-    private static String buildNoScript(String server, String queryString) {
+    private static String buildNoScript(key) {
         return """<noscript>
-      <iframe src=\"$server/noscript?$queryString\" height=\"300\" width=\"500\" frameborder=\"0\"></iframe><br>
-      <textarea name=\"recaptcha_challenge_field\" rows=\"3\" cols=\"40\"></textarea>
-      <input type=\"hidden\" name=\"recaptcha_response_field\" value=\"manual_challenge\">
-      </noscript>"""
+        <div style=\"width: 302px; height: 352px;\">
+        <div style=\"width: 302px; height: 352px; position: relative;\">
+        <div style=\"width: 302px; height: 352px; position: absolute;\">
+        <iframe src=\"$BASE_URL/fallback?k=$key\"
+        frameborder=\"0\" scrolling=\"no\"
+        style=\"width: 302px; height:352px; border-style: none;\">
+        </iframe>
+        </div>
+        <div style=\"width: 250px; height: 80px; position: absolute; border-style: none;
+        bottom: 21px; left: 25px; margin: 0px; padding: 0px; right: 25px;\">
+        <textarea id=\"g-recaptcha-response\" name=\"g-recaptcha-response\"
+        class=\"g-recaptcha-response\"
+        style=\"width: 250px; height: 80px; border: 1px solid #c1c1c1;
+        margin: 0px; padding: 0px; resize: none;\" value=\"\">
+        </textarea>
+        </div>
+        </div>
+        </div>
+        </noscript>"""
     }
 
     /**
      * Validates a reCaptcha challenge and response.
      *
      * @param remoteAddr The address of the user, eg. request.getRemoteAddr()
-     * @param challenge The challenge from the reCaptcha form, this is usually request.getParameter("recaptcha_challenge_field") in your code.
-     * @param response The response from the reCaptcha form, this is usually request.getParameter("recaptcha_response_field") in your code.
+     * @param response The response from the reCaptcha form, this is usually request.getParameter("g-recaptcha-response") in your code.
      * @return
      */
-    public Map checkAnswer(String remoteAddr, String challenge, String response) {
-        def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
-        def post = new Post(url: recaptchaServer + VERIFY_URL, proxy: proxy)
-        post.queryString.add("privatekey", privateKey)
-        post.queryString.add("remoteip", remoteAddr)
-        post.queryString.add("challenge", challenge)
+    public Map checkAnswer(String remoteAddr, String response) {
+        def post = new Post(url: VERIFY_URL, proxy: proxy)
+        post.queryString.add("secret", privateKey)
         post.queryString.add("response", response)
+        post.queryString.add("remoteip", remoteAddr)
 
         def responseMessage = post.text
+        println "Response Message: ${responseMessage}"
 
         if (!responseMessage) {
             return [valid: false, errorMessage: "Unable to connect to server."]

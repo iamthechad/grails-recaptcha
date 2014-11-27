@@ -125,10 +125,12 @@ class RecaptchaService {
             return true
         }
 
+        println "Form params: ${params}"
+
         if (!recap) {
             return false
         } else {
-            def response = recap.checkAnswer(remoteAddress, params.recaptcha_challenge_field?.trim(), params.recaptcha_response_field?.trim())
+            def response = recap.checkAnswer(remoteAddress, params["g-recaptcha-response"].trim())
             if (!response.valid) {
                 session["recaptcha_error"] = response.errorMessage
             }
