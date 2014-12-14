@@ -58,7 +58,7 @@ class RecaptchaTagLib {
                 props.setProperty(it, attrs[it])
             }
         }
-        out << recaptchaService.createCaptcha(session, props)
+        out << recaptchaService.createCaptcha(props)
     }
 
     /**
@@ -75,7 +75,7 @@ class RecaptchaTagLib {
      * This tag can also be used in support of a custom theme. For more information about
      * custom themes, see: http://recaptcha.net/apidocs/captcha/client.html
      */
-    def recaptchaAjax = { attrs ->
+    /*def recaptchaAjax = { attrs ->
         def props = new Properties()
         attrNames.each {
             if (attrs[it]) {
@@ -83,8 +83,8 @@ class RecaptchaTagLib {
             }
         }
 
-        out << recaptchaService.createCaptchaAjax(session, props)
-    }
+        out << recaptchaService.createCaptchaAjax(props)
+    }*/
 
     /**
      * Evaluates the content of the tag if ReCaptcha validation failed. This will allow
