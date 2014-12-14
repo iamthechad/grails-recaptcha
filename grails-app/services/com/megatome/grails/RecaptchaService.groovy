@@ -67,8 +67,6 @@ class RecaptchaService {
                     publicKey: config.publicKey,
                     privateKey: config.privateKey,
                     includeNoScript: safeGetConfigValue('includeNoScript', true),
-                    useSecureAPI: safeGetConfigValue('useSecureAPI', true),
-                    forceLanguageInURL: safeGetConfigValue('forceLanguageInURL', false),
                     proxy: proxy)
         }
         recap
@@ -87,28 +85,26 @@ class RecaptchaService {
      * Creates HTML containing all necessary markup for displaying a ReCaptcha object. This method is most
      * commonly called by the ReCaptcha tag library and not by other users.
      *
-     * @param session The current session. Used for short term storage of the recaptcha object and any error messages.
      * @param props Properties used to construct the HTML. See http://recaptcha.net/apidocs/captcha/client.html for valid
      * properties.
      *
      * @return HTML code, suitable for embedding into a webpage.
      */
-    def createCaptcha(session, props) {
-        return getRecaptchaInstance().createRecaptchaHtml(session["recaptcha_error"], props)
+    def createCaptcha(props) {
+        return getRecaptchaInstance().createRecaptchaHtml(props)
     }
 
     /**
      * Creates HTML containing all necessary markup for displaying an AJAX ReCaptcha object. This method is most
      * commonly called by the ReCaptcha tag library and not by other users.
      *
-     * @param session The current session. Used for short term storage of the recaptcha object and any error messages.
      * @param props Properties used to construct the HTML. See http://recaptcha.net/apidocs/captcha/client.html for valid
      * properties.
      *
      * @return HTML code, suitable for embedding into a webpage.
      */
-    def createCaptchaAjax(session, props) {
-        return getRecaptchaInstance().createRecaptchaAjaxHtml(session['recaptcha_error'], props)
+    def createCaptchaAjax(props) {
+        return getRecaptchaInstance().createRecaptchaAjaxHtml(props)
     }
 
     /**
@@ -133,6 +129,8 @@ class RecaptchaService {
             def response = recap.checkAnswer(remoteAddress, params["g-recaptcha-response"].trim())
             if (!response.valid) {
                 session["recaptcha_error"] = response.errorMessage
+            } else {
+                session["recaptcha_error"] = null
             }
             return response.valid
         }

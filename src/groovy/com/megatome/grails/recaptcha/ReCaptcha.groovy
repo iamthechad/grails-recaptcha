@@ -25,18 +25,14 @@ import com.megatome.grails.recaptcha.net.QueryString
 public class ReCaptcha {
     private static final String BASE_URL = "https://www.google.com/recaptcha/api"
     public static final String VERIFY_URL = "/siteverify"
-    public static final String AJAX_JS = "/js/recaptcha_ajax.js"
+    //public static final String AJAX_JS = "/js/recaptcha_ajax.js"
     public static final String JS_URL = BASE_URL + ".js"
 
     String publicKey
     String privateKey
     Boolean includeNoScript = false
-    // Put the hl parameter into the challenge URL to force language change
-    Boolean forceLanguageInURL = false
 
     AuthenticatorProxy proxy = null
-
-    Boolean useSecureAPI = true
 
     /**
      * Creates HTML output with embedded recaptcha. The string response should be output on a HTML page (eg. inside a JSP).
@@ -46,7 +42,7 @@ public class ReCaptcha {
      *   put any options here though, and they will be added to the RecaptchaOptions javascript array.
      * @return
      */
-    public String createRecaptchaHtml(String errorMessage, Map options) {
+    public String createRecaptchaHtml(Map options) {
         def qs = new QueryString()
         if (options?.lang) {
             qs.add("hl", URLEncoder.encode(options.remove("lang")))
@@ -78,10 +74,9 @@ public class ReCaptcha {
      *   put any options here though, and they will be added to the RecaptchaOptions javascript array.
      * @return
      */
-    public String createRecaptchaAjaxHtml(String errorMessage, Map options) {
-        def recaptchaServer = useSecureAPI ? HTTPS_SERVER : HTTP_SERVER
-        def qs = new QueryString([k: publicKey, error: errorMessage])
-        if (forceLanguageInURL && options?.lang) {
+    /*public String createRecaptchaAjaxHtml(Map options) {
+        def qs = new QueryString()
+        if (options?.lang) {
             qs.add("hl", URLEncoder.encode(options.remove("lang")))
         }
 
@@ -97,7 +92,7 @@ public class ReCaptcha {
         }
 
         return message.toString()
-    }
+    }*/
 
     private static String buildNoScript(key) {
         return """<noscript>
