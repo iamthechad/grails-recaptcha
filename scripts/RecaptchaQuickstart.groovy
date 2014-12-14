@@ -37,7 +37,7 @@ private parseArgs() {
         if ("standalone" == args[0]) {
             printMessage "Creating standalone ReCaptcha configuration in RecaptchaConfig.groovy"
         } else if ("integrated" == args[0]) {
-            printMessage "Creating ReCapctcha configuration in Config.groovy"
+            printMessage "Creating ReCaptcha configuration in Config.groovy"
         } else {
             errorMessage USAGE
             return null
@@ -64,14 +64,8 @@ recaptcha {
     // Include the noscript tags in the generated captcha
     includeNoScript = true
 
-    // Force language change. See this for more: http://code.google.com/p/recaptcha/issues/detail?id=133
-    forceLanguageInURL = false
-
     // Set to false to disable the display of captcha
     enabled = true
-
-    // Communicate using HTTPS
-    useSecureAPI = true
 }
 
 mailhide {

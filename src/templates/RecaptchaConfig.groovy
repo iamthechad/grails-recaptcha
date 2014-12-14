@@ -5,9 +5,6 @@ recaptcha {
 
 	// Include the noscript tags in the generated captcha
 	includeNoScript = true
-
-    // Force language change. See this for more: http://code.google.com/p/recaptcha/issues/detail?id=133
-    forceLanguageInURL = false
 }
 
 mailhide {
@@ -21,18 +18,12 @@ environments {
     recaptcha {
       // Set to false to disable the display of captcha
       enabled = false
-
-      // Communicate using HTTPS
-      useSecureAPI = false
     }
   }
   production {
     recaptcha {
       // Set to false to disable the display of captcha
       enabled = true
-
-      // Communicate using HTTPS
-      useSecureAPI = true
     }
   }
 }
