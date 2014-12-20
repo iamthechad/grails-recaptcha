@@ -1,5 +1,6 @@
 package com.megatome.grails.recaptcha.net
 
+import groovy.json.JsonSlurper
 import org.apache.commons.logging.LogFactory
 
 /**
@@ -28,7 +29,7 @@ public class Post {
     String text
     AuthenticatorProxy proxy = null
 
-    String getText() {
+    def getResponse() {
         try {
             def thisUrl = new URL(url)
             connection = null
@@ -50,7 +51,7 @@ public class Post {
             writer.flush()
             writer.close()
             connection.connect()
-            return connection.content.text
+            return new JsonSlurper().parseText(connection.content.text)
         } catch (Exception e) {
             def message = "Failed to connect to ${url}."
             if (proxy.isConfigured()) {

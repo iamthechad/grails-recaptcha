@@ -124,29 +124,19 @@ public class ReCaptcha {
      * @param response The response from the reCaptcha form, this is usually request.getParameter("g-recaptcha-response") in your code.
      * @return
      */
-    public Map checkAnswer(String remoteAddr, String response) {
-        def post = new Post(url: VERIFY_URL, proxy: proxy)
+    public boolean checkAnswer(String remoteAddr, String response) {
+        def post = new Post(url: BASE_URL + VERIFY_URL, proxy: proxy)
         post.queryString.add("secret", privateKey)
         post.queryString.add("response", response)
         post.queryString.add("remoteip", remoteAddr)
 
-        def responseMessage = post.text
-        println "Response Message: ${responseMessage}"
+        def responseObject = post.response
+        println "Response Object: ${responseObject}"
 
-        if (!responseMessage) {
-            return [valid: false, errorMessage: "Unable to connect to server."]
+        if (!responseObject) {
+            return false
         }
 
-        def a = responseMessage.split("\r?\n") as List
-        if (a.isEmpty()) {
-            return [valid: false, errorMessage: "No answer returned from recaptcha: $responseMessage"]
-        }
-        def isValid = "true".equals(a[0])
-        def errorMessage = null;
-        if (!isValid) {
-            errorMessage = a[1] ?: "Unknown error"
-        }
-
-        [valid: isValid, errorMessage: errorMessage]
+        responseObject.success
     }
 }
