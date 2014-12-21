@@ -3,8 +3,10 @@
   <authorEmail>cjohnston@megatome.com</authorEmail>
   <title>ReCaptcha and Mailhide support for Grails.</title>
   <description>Protect your website from spam and abuse while letting real people pass through with ease.
-    This version supports the new "checkbox" CAPTCHA. If you want the old style CAPTCHA, use version 0.7.0.
-    This plugin uses the ReCaptcha Java library available from http://code.google.com/p/recaptcha/.
+Version 1.0 of this plugin introduces support for the new "checkbox" ReCaptcha. Please use an older version if you
+require the legacy functionality.
+
+This plugin uses the ReCaptcha Java library available from http://code.google.com/p/recaptcha/.
 </description>
   <documentation>http://iamthechad.github.com/grails-recaptcha/</documentation>
   <type>RecaptchaGrailsPlugin</type>
