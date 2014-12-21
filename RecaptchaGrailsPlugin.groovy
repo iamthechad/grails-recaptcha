@@ -1,6 +1,6 @@
 
 class RecaptchaGrailsPlugin {
-    def version = "0.7.0"
+    def version = "1.0.0"
     def grailsVersion = "2.0 > *"
     def dependsOn = [:]
     def author = "Chad Johnston"
@@ -10,7 +10,10 @@ class RecaptchaGrailsPlugin {
     def issueManagement = [ system: "Github", url: "https://github.com/iamthechad/grails-recaptcha/issues" ]
     def scm = [ url: "https://github.com/iamthechad/grails-recaptcha" ]
     def description = '''\
-ReCaptcha is a CAPTCHA implementation that has a goal of better digitizing books by having users identify words that traditional OCR systems have missed.
+Protect your website from spam and abuse while letting real people pass through with ease.
+Version 1.0 of this plugin introduces support for the new "checkbox" ReCaptcha. Please use an older version if you
+require the legacy functionality.
+
 This plugin uses the ReCaptcha Java library available from http://code.google.com/p/recaptcha/.
 
 Versions 0.5 and below of this plugin will not work. ReCaptcha has changed the URL used for secure connections.
