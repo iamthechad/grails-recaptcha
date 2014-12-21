@@ -29,6 +29,13 @@
       <div class="inner clearfix">
         <section id="main-content">
           <h1>
+<a id="version-10-notice" class="anchor" href="#version-10-notice" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version 1.0 Notice</h1>
+
+<p>Beginning with version 1.0 of this plugin, only the new "checkbox" captcha is supported. Please use version 0.7.0 if you require the legacy functionality.</p>
+
+<p><strong>Note:</strong> This plugin currently only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. (See <a href="https://developers.google.com/recaptcha/docs/display">the ReCaptcha docs</a> for more information about automatic vs. explicit.</p>
+
+<h1>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h1>
 
 <p>This plugin is designed to make using the ReCaptcha and Mailhide services within Grails easy. In order to use this plugin, you must have a ReCaptcha account, available from <a href="http://www.google.com/recaptcha">http://www.google.com/recaptcha</a>.</p>
@@ -41,7 +48,7 @@
 <pre><code>…
 plugins {
     …
-    compile ':recaptcha:0.7.0'
+    compile ':recaptcha:1.0.0'
     …
 }
 </code></pre>
@@ -62,14 +69,8 @@ recaptcha {
     // Include the noscript tags in the generated captcha
     includeNoScript = true
 
-    // Force language change. See this for more: http://code.google.com/p/recaptcha/issues/detail?id=133
-    forceLanguageInURL = false
-
     // Set to false to disable the display of captcha
     enabled = true
-
-    // Communicate using HTTPS
-    useSecureAPI = true
 }
 
 mailhide {
@@ -93,9 +94,6 @@ mailhide {
 
     // Include the noscript tags in the generated captcha
     includeNoScript = true
-
-    // Force language change. See this for more: http://code.google.com/p/recaptcha/issues/detail?id=133
-    forceLanguageInURL = false
 }
 
 mailhide {
@@ -108,18 +106,12 @@ environments {
     recaptcha {
       // Set to false to disable the display of captcha
       enabled = false
-
-      // Communicate using HTTPS
-      useSecureAPI = false
     }
   }
   production {
     recaptcha {
       // Set to false to disable the display of captcha
       enabled = true
-
-      // Communicate using HTTPS
-      useSecureAPI = true
     }
   }
 }
@@ -130,6 +122,18 @@ environments {
 
 <p>See the Grails docs for examples of using externalized configuration files. The ReCaptcha config can be externalized as
 the <code>.groovy</code> file (easiest), or it can be converted into a Java <code>.properties</code> file.</p>
+
+<h3>
+<a id="version-10-differences" class="anchor" href="#version-10-differences" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version 1.0 differences</h3>
+
+<p>The following configuration properties are no longer used and will be ignored if they are present in the config:</p>
+
+<ul>
+<li>
+<code>useSecureAPI</code> - All communications to the ReCaptcha servers are performed over HTTPS. There is no option to use HTTP.</li>
+<li>
+<code>forceLanguageInURL</code> - ReCaptcha now properly displays the captcha in the selected language. We no longer have to force the language.</li>
+</ul>
 
 <h1>
 <a id="usage---recaptcha" class="anchor" href="#usage---recaptcha" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage - ReCaptcha</h1>
@@ -166,20 +170,14 @@ the <code>.groovy</code> file (easiest), or it can be converted into a Java <cod
 <ul>
 <li>The <code>&lt;recaptcha:ifEnabled&gt;</code> tag is a simple utility tag that will render the contents of the tag if the captcha is enabled in  <code>RecaptchaConfig.groovy</code>.</li>
 <li>The <code>&lt;recaptcha:ifDisabled&gt;</code> tag is a simple utility tag that will render the contents of the tag if the captcha is disabled in  <code>RecaptchaConfig.groovy</code>.</li>
-<li>The <code>&lt;recaptcha:recaptcha&gt;</code> tag is responsible for generating the correct HTML output to display the captcha. It supports four attributes: "theme", "lang", "tabindex", and "custom_theme_widget". These attributes map directly to the values that can be set according to the ReCaptcha API. See the <a href="https://developers.google.com/recaptcha/intro">ReCaptcha Client Guide</a> for more details.</li>
-<li>The <code>&lt;recaptcha:recaptchaAjax&gt;</code> tag is responsible for creating the correct HTML output to display the captcha in an AJAX manner. The tag creates a JavaScript method called <code>showRecaptcha</code> that takes an element name as a parameter. This element will contain the generated ReCaptcha widget. This tag supports the same attributes as the <code>&lt;recaptcha:recaptcha&gt;</code> tag.</li>
+<li>The <code>&lt;recaptcha:recaptcha&gt;</code> tag is responsible for generating the correct HTML output to display the captcha. It supports three attributes: "theme", "lang", and "type". These attributes map directly to the values that can be set according to the ReCaptcha API. See the <a href="https://developers.google.com/recaptcha/docs/display#config">ReCaptcha Client Guide</a> for more details.</li>
 <li>The <code>&lt;recaptcha:ifFailed&gt;</code> tag will render its contents if the previous validation failed. Some ReCaptcha themes, like "clean", do not display error messages and require the developer to show an error message. Use this tag if you're using one of these themes.</li>
 </ul>
 
 <h2>
 <a id="verify-the-captcha" class="anchor" href="#verify-the-captcha" aria-hidden="true"><span class="octicon octicon-link"></span></a>Verify the Captcha</h2>
 
-<p>In your controller, call <code>recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)</code> to verify the answer provided by the user. This method will return true or false, but will set the <code>error_message</code> property on the captcha behind the scenes so that the error message will be properly displayed when the ReCaptcha is redisplayed. Also note that <code>verifyAnswer</code> will return <code>true</code> if the plugin has been disabled in the configuration - this means you won't have to change your controller.</p>
-
-<h2>
-<a id="clean-up-after-yourself" class="anchor" href="#clean-up-after-yourself" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clean up After Yourself</h2>
-
-<p>Once the captcha has been verified, call <code>recaptchaService.cleanUp(session)</code>. This is not strictly needed, but it will clean the errors from the session.</p>
+<p>In your controller, call <code>recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)</code> to verify the answer provided by the user. This method will return true or false. Also note that <code>verifyAnswer</code> will return <code>true</code> if the plugin has been disabled in the configuration - this means you won't have to change your controller.</p>
 
 <h2>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
@@ -192,50 +190,18 @@ the <code>.groovy</code> file (easiest), or it can be converted into a Java <cod
 <p>In <code>create.gsp</code>, we add the code to show the captcha:</p>
 
 <pre><code>&lt;recaptcha:ifEnabled&gt;
-    &lt;recaptcha:recaptcha theme="blackglass"/&gt;
+    &lt;recaptcha:recaptcha theme="dark"/&gt;
 &lt;/recaptcha:ifEnabled&gt;
 </code></pre>
 
-<p>In this example, we're using ReCaptcha's "blackglass" theme. Leaving out the "theme" attribute will default the captcha to the "red" theme.</p>
-
-<p>If you are using a theme that does not supply error messages, your code might look like this:</p>
-
-<pre><code>&lt;recaptcha:ifEnabled&gt;
-    &lt;recaptcha:recaptcha theme="clean"/&gt;
-    &lt;recaptcha:ifFailed&gt;CAPTCHA Failed&lt;/recaptcha:ifFailed&gt;
-&lt;/recaptcha:ifEnabled&gt;
-</code></pre>
-
-<h3>
-<a id="ajax-tag-usage" class="anchor" href="#ajax-tag-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>AJAX Tag Usage</h3>
-
-<pre><code>&lt;g:form action="someAction"&gt;
-  &lt;recaptcha:ifEnabled&gt;
-      &lt;recaptcha:recaptchaAjax theme="blackglass"/&gt;
-  &lt;/recaptcha:ifEnabled&gt;
-  &lt;g:submitButton name="show" onclick="showRecaptcha(mydiv); return false;"/&gt;
-  &lt;g:submitButton value="Submit" name="submit"/&gt;&lt;br/&gt;
-  &lt;div id="mydiv"&gt;&lt;/div&gt;
-  &lt;recaptcha:ifFailed&gt;CAPTCHA Failed&lt;/recaptcha:ifFailed&gt;
-&lt;/g:form&gt;
-</code></pre>
-
-<p>When the <code>show</code> button is clicked, the ReCaptcha widget will be created and displayed in the <code>mydiv</code> element. <strong>The div used to display the widget must be enclosed in the <code>&lt;g:form&gt;</code> or the parameters will not be captured correctly.</strong></p>
-
-<p>It is recommended to use the <code>&lt;recaptcha:ifFailed&gt;</code> tag in conjunction with the AJAX tag.</p>
+<p>In this example, we're using ReCaptcha's "dark" theme. Leaving out the "theme" attribute will default the captcha to the "light" theme.</p>
 
 <h3>
 <a id="customizing-the-language" class="anchor" href="#customizing-the-language" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customizing the Language</h3>
 
-<p>If you want to change the language your captcha uses, there are two routes you can follow.</p>
+<p>If you want to change the language your captcha uses, set <code>lang = "someLang"</code> in the <code>&lt;recaptcha/&gt;</code> tag.</p>
 
-<ul>
-<li>Set <code>lang = "someLang"</code> in the <code>&lt;recaptcha/&gt;</code> tag. This will show the desired language if the user has their browser set to display that language.</li>
-<li>Set <code>forceLanguageInURL = true</code> in <code>ReCaptchaConfig.groovy</code> in addition to the above step. This will add another parameter to the generated URL, forcing the captcha to be shown in the desired language.</li>
-</ul>
-
-<p>See <a href="http://code.google.com/p/recaptcha/issues/detail?id=133">this discussion</a> for more information about changing the language.
-See <a href="https://developers.google.com/recaptcha/docs/customization">ReCaptcha Customization Guide</a> for available languages.</p>
+<p>See <a href="https://developers.google.com/recaptcha/docs/language">ReCaptcha Language Codes</a> for available languages.</p>
 
 <h3>
 <a id="verify-user-input" class="anchor" href="#verify-user-input" aria-hidden="true"><span class="octicon octicon-link"></span></a>Verify User Input</h3>
@@ -263,35 +229,6 @@ class UserController {
         }
     }
 }
-</code></pre>
-
-<h3>
-<a id="sample-using-a-custom-theme" class="anchor" href="#sample-using-a-custom-theme" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample Using a Custom Theme</h3>
-
-<pre><code>&lt;g:form action="validateCustom" method="post" &gt;
-    &lt;div id="recaptcha_widget" style="display:none"&gt;
-        &lt;div id="recaptcha_image" style="width:300px;height:57px;"&gt;&lt;/div&gt;
-        &lt;div class="recaptcha_only_if_incorrect_sol" style="color:red;"&gt;
-            Incorrect Answer
-        &lt;/div&gt;
-        Enter the words above:
-        &lt;input id="recaptcha_response_field" name="recaptcha_response_field" type="text" autocomplete="off"/&gt;
-        &lt;div&gt;
-            &lt;a href="javascript:Recaptcha.reload()"&gt;Get another CAPTCHA&lt;/a&gt;
-        &lt;/div&gt;
-        &lt;div class="recaptcha_only_if_image"&gt;
-            &lt;a href="javascript:Recaptcha.switch_type('audio')"&gt;Get an audio CAPTCHA&lt;/a&gt;
-        &lt;/div&gt;
-        &lt;div&gt;
-            &lt;a href="javascript:Recaptcha.showhelp()"&gt;Help&lt;/a&gt;
-        &lt;/div&gt;
-   &lt;/div&gt;
-   &lt;recaptcha:ifEnabled&gt;
-       &lt;recaptcha:recaptcha theme="custom" lang="en" custom_theme_widget="recaptcha_widget"/&gt;
-   &lt;/recaptcha:ifEnabled&gt;
-   &lt;br/&gt;
-   &lt;g:submitButton name="submit"/&gt;
-&lt;/g:form&gt;
 </code></pre>
 
 <h3>
@@ -380,38 +317,135 @@ public void testCheckAnswerFailure() {
 <a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span class="octicon octicon-link"></span></a>CHANGELOG</h3>
 
 <ul>
-<li>0.7.0 Add support for connecting through a proxy server when verifying the captcha value. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/21">GitHub Issue #21</a>)</li>
-<li>0.6.9 Remove unused import for <code>org.codehaus.groovy.grails.commons.ConfigurationHolder</code> that doesn't exist in Grails 2.4 any more. (<a href="https://github.com/iamthechad/grails-recaptcha/pull/20">GitHub Issue #20</a>)</li>
-<li>0.6.8 Don't crash when the <code>enabled</code> parameter is missing. Log missing config params, but use defaults. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/18">GitHub Issue #18</a>) Add blurb about externalized config. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/19">GitHub Issue #19</a>)</li>
-<li>0.6.7 Fix a stupid bug that would cause a crash when determining if it's enabled. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/14">GitHub Issue #14</a>)</li>
-<li>0.6.6 Behave correctly when config options are "false" or missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/13">GitHub Issue #13</a>)</li>
-<li>0.6.5 Don't crash when boolean configuration options are missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/10">GitHub Issue #10</a>) Establish defaults for boolean options in case they go missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/11">GitHub Issue #11</a>) Don't crash when creating an AJAX captcha. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/12">GitHub Issue #12</a>)</li>
-<li>0.6.4 Ensure that true/false settings are loaded correctly from a .properties file. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/9">GitHub Issue #9</a>)</li>
-<li>0.6.3 Ensure that AJAX tags properly use HTTPS when specified. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/7">GitHub Issue #7</a>)</li>
-<li>0.6.2 Remove spurious <code>println</code> left over. Change install behavior to not create <code>RecaptchaConfig.groovy</code> in <code>_Install.groovy</code>. Add new script <code>recaptcha-quickstart</code> to handle creation of required configuration. </li>
-<li>0.6.0 Add the ability to display the widget using AJAX. Change plugin to require Grails 2.0 at a minimum.</li>
-<li>0.5.3 Add the ability to force a different language to be displayed.</li>
-<li>0.5.1 &amp; 0.5.2 Update to use the new ReCaptcha URLs.</li>
-<li>0.5.0 Add Mailhide support. Add support for specifying configuration options elsewhere than <code>RecaptchaConfig.groovy</code> via the <code>grails.config.locations</code> method.</li>
-<li>0.4.5 Add code to perform the ReCaptcha functionality - removed recaptcha4j library. Don't add captcha instance to session to avoid serialization issues. Hopefully make it easier to test against.</li>
-<li>0.4 New version number for Grails 1.1. Same functionality as 0.3.2</li>
-<li>0.3.2 Moved code into packages. Tried to make licensing easier to discern. Updated to Grails 1.0.4</li>
-<li>0.3 Added support for environments and new <code>&lt;recaptcha:ifFailed&gt;</code> tag. Updated to Grails 1.0.3</li>
-<li>0.2 initial release, developed and tested against Grails 1.0.2</li>
-</ul>
-
-<h3>
-<a id="known-issues" class="anchor" href="#known-issues" aria-hidden="true"><span class="octicon octicon-link"></span></a>KNOWN ISSUES</h3>
+<li>1.0.0 Initial support for the new "checkbox" style captcha. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/22">GitHub Issue #22</a>)
 
 <ul>
-<li>If you are testing locally on a Mac, you may need to change <code>recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)</code> to <code>recaptchaService.verifyAnswer(session, "127.0.0.1", params)</code>. This seems to be an issue with the ReCaptcha service not being able to handle the IPV6 localhost identifier.</li>
+<li>This version of the plugin only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. See <a href="https://developers.google.com/recaptcha/docs/display">the ReCaptcha docs</a> for more information about automatic vs. explicit.</li>
+<li>
+<code>useSecureAPI</code> is no longer supported as a configuration option. All communication with ReCaptcha servers is over HTTPS.</li>
+<li>
+<code>forceLanguageInURL</code> is no longer supported as a configuration option. ReCaptcha properly display the selected language no matter what language the browser uses.</li>
 </ul>
-
-<h3>
-<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h3>
+</li>
+<li>0.7.0
 
 <ul>
-<li>Automate session cleanup</li>
+<li>Add support for connecting through a proxy server when verifying the captcha value. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/21">GitHub Issue #21</a>)</li>
+</ul>
+</li>
+<li>0.6.9
+
+<ul>
+<li>Remove unused import for <code>org.codehaus.groovy.grails.commons.ConfigurationHolder</code> that doesn't exist in Grails 2.4 any more. (<a href="https://github.com/iamthechad/grails-recaptcha/pull/20">GitHub Issue #20</a>)</li>
+</ul>
+</li>
+<li>0.6.8
+
+<ul>
+<li>Don't crash when the <code>enabled</code> parameter is missing. Log missing config params, but use defaults. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/18">GitHub Issue #18</a>)</li>
+<li>Add blurb about externalized config. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/19">GitHub Issue #19</a>)</li>
+</ul>
+</li>
+<li>0.6.7
+
+<ul>
+<li>Fix a stupid bug that would cause a crash when determining if it's enabled. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/14">GitHub Issue #14</a>)</li>
+</ul>
+</li>
+<li>0.6.6
+
+<ul>
+<li>Behave correctly when config options are "false" or missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/13">GitHub Issue #13</a>)</li>
+</ul>
+</li>
+<li>0.6.5
+
+<ul>
+<li>Don't crash when boolean configuration options are missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/10">GitHub Issue #10</a>)</li>
+<li>Establish defaults for boolean options in case they go missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/11">GitHub Issue #11</a>)</li>
+<li>Don't crash when creating an AJAX captcha. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/12">GitHub Issue #12</a>)</li>
+</ul>
+</li>
+<li>0.6.4
+
+<ul>
+<li>Ensure that true/false settings are loaded correctly from a .properties file. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/9">GitHub Issue #9</a>)</li>
+</ul>
+</li>
+<li>0.6.3
+
+<ul>
+<li>Ensure that AJAX tags properly use HTTPS when specified. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/7">GitHub Issue #7</a>)</li>
+</ul>
+</li>
+<li>0.6.2
+
+<ul>
+<li>Remove spurious <code>println</code> left over. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/5">GitHub Issue #5</a>)</li>
+<li>Change install behavior to not create <code>RecaptchaConfig.groovy</code> in <code>_Install.groovy</code>. Add new script <code>recaptcha-quickstart</code> to handle creation of required configuration. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/6">GitHub Issue #6</a>)</li>
+</ul>
+</li>
+<li>0.6.0
+
+<ul>
+<li>Add the ability to display the widget using AJAX. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/3">GitHub Issue #3</a>)</li>
+<li>Change plugin to require Grails 2.0 at a minimum.</li>
+</ul>
+</li>
+<li>0.5.3
+
+<ul>
+<li>Add the ability to force a different language to be displayed.</li>
+</ul>
+</li>
+<li>0.5.1 &amp; 0.5.2
+
+<ul>
+<li>Update to use the new ReCaptcha URLs.</li>
+</ul>
+</li>
+<li>0.5.0
+
+<ul>
+<li>Add Mailhide support.</li>
+<li>Add support for specifying configuration options elsewhere than <code>RecaptchaConfig.groovy</code> via the <code>grails.config.locations</code> method.</li>
+</ul>
+</li>
+<li>0.4.5
+
+<ul>
+<li>Add code to perform the ReCaptcha functionality - removed recaptcha4j library.</li>
+<li>Don't add captcha instance to session to avoid serialization issues.</li>
+<li>Hopefully make it easier to test against.</li>
+</ul>
+</li>
+<li>0.4
+
+<ul>
+<li>New version number for Grails 1.1. Same functionality as 0.3.2</li>
+</ul>
+</li>
+<li>0.3.2
+
+<ul>
+<li>Moved code into packages.</li>
+<li>Tried to make licensing easier to discern.</li>
+<li>Updated to Grails 1.0.4</li>
+</ul>
+</li>
+<li>0.3
+
+<ul>
+<li>Added support for environments and new <code>&lt;recaptcha:ifFailed&gt;</code> tag.</li>
+<li>Updated to Grails 1.0.3</li>
+</ul>
+</li>
+<li>0.2
+
+<ul>
+<li>initial release, developed and tested against Grails 1.0.2</li>
+</ul>
+</li>
 </ul>
 
 <h3>
