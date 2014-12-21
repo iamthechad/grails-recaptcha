@@ -1,10 +1,13 @@
 [![Stories in Ready](https://badge.waffle.io/iamthechad/grails-recaptcha.png?label=ready&title=Ready)](https://waffle.io/iamthechad/grails-recaptcha)
+# Version 1.0 Notice
+
+Beginning with version 1.0 of this plugin, only the new "checkbox" captcha is supported. Please use version 0.7.0 if you require the legacy functionality.
+
+**Note:** This plugin currently only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. (See [the ReCaptcha docs](https://developers.google.com/recaptcha/docs/display) for more information about automatic vs. explicit.
+
 # Introduction
 
 This plugin is designed to make using the ReCaptcha and Mailhide services within Grails easy. In order to use this plugin, you must have a ReCaptcha account, available from [http://www.google.com/recaptcha](http://www.google.com/recaptcha).
-
-**Important:** This version of the plugin only supports the "traditional" captcha use case of automatic rendering.
-Explicit rendering will be available soon. (See [the ReCaptcha docs](https://developers.google.com/recaptcha/docs/display) for more information about automatic vs. explicit.
 
 # Installation
 

@@ -15,8 +15,6 @@ Version 1.0 of this plugin introduces support for the new "checkbox" ReCaptcha. 
 require the legacy functionality.
 
 This plugin uses the ReCaptcha Java library available from http://code.google.com/p/recaptcha/.
-
-Versions 0.5 and below of this plugin will not work. ReCaptcha has changed the URL used for secure connections.
 '''
     def documentation = "http://iamthechad.github.com/grails-recaptcha/"
 }
