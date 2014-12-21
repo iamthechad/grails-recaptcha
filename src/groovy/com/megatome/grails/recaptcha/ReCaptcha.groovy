@@ -131,7 +131,6 @@ public class ReCaptcha {
         post.queryString.add("remoteip", remoteAddr)
 
         def responseObject = post.response
-        println "Response Object: ${responseObject}"
 
         if (!responseObject) {
             return false

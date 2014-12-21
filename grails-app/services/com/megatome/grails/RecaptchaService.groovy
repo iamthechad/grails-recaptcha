@@ -121,8 +121,6 @@ class RecaptchaService {
             return true
         }
 
-        println "Form params: ${params}"
-
         if (!recap) {
             return false
         } else {
