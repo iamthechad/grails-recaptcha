@@ -31,6 +31,7 @@ public class ReCaptcha {
     String publicKey
     String privateKey
     Boolean includeNoScript = false
+    Boolean includeScript = true
 
     AuthenticatorProxy proxy = null
 
@@ -38,7 +39,7 @@ public class ReCaptcha {
      * Creates HTML output with embedded recaptcha. The string response should be output on a HTML page (eg. inside a JSP).
      *
      * @param errorMessage An errormessage to display in the captcha, null if none.
-     * @param options Options for rendering, <code>tabindex</code> and <code>theme</code> are currently supported by recaptcha. You can
+     * @param options Options for rendering, <code>theme</code>, <code>lang</code>, and <code>type</code> are currently supported by recaptcha. You can
      *   put any options here though, and they will be added to the RecaptchaOptions javascript array.
      * @return
      */
@@ -49,7 +50,10 @@ public class ReCaptcha {
         }
 
         def message = new StringBuffer()
-        message << "<script src=\"${JS_URL}?${qs.toString()}\" async defer></script>"
+
+        if (includeScript) {
+            message << "<script src=\"${JS_URL}?${qs.toString()}\" async defer></script>"
+        }
         message << "<div class=\"g-recaptcha\" data-sitekey=\"${publicKey}\""
         if (options?.theme) {
             message << " data-theme=\"${options.theme}\""
@@ -82,7 +86,9 @@ public class ReCaptcha {
 
         def message = new StringBuffer()
 
-        message <<  "<script type=\"text/javascript\" src=\"${recaptchaServer + AJAX_JS}\"></script>\r\n"
+        if (includeScript) {
+            message <<  "<script type=\"text/javascript\" src=\"${recaptchaServer + AJAX_JS}\"></script>\r\n"
+        }
 
         message << "<script type=\"text/javascript\">\r\nfunction showRecaptcha(element){Recaptcha.create(\"${publicKey}\", element, {" +
                 options.collect { "$it.key:'${it.value}'" }.join(', ') + "});}\r\n</script>\r\n"
@@ -135,7 +141,6 @@ public class ReCaptcha {
         if (!responseObject) {
             return false
         }
-
-        responseObject.success
+        responseObject.success?.trim()?.toBoolean() == true
     }
 }
