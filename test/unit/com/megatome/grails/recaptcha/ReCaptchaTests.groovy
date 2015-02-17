@@ -3,6 +3,7 @@ package com.megatome.grails.recaptcha
 import com.megatome.grails.recaptcha.net.Post
 import groovy.mock.interceptor.MockFor
 import com.megatome.grails.recaptcha.net.QueryString
+import groovy.json.JsonSlurper
 
 /**
  * Copyright 2010-2012 Megatome Technologies
@@ -24,90 +25,78 @@ public class ReCaptchaTests extends GroovyTestCase {
     private ReCaptcha r;
 
     protected void setUp() throws Exception {
-        r = new ReCaptcha(privateKey: "testing", publicKey: "testing", includeNoScript: false, useSecureAPI: true)
+        r = new ReCaptcha(privateKey: "testing", publicKey: "testing", includeNoScript: false)
     }
 
     public void testCreateCaptchaHtml() {
+        r.includeScript = false
+        assertFalse r.createRecaptchaHtml(null).contains("<script")
 
-        assertTrue r.createRecaptchaHtml(null, null).contains("<script")
+        r.includeScript = true
+        assertTrue r.createRecaptchaHtml(null).contains("<script")
 
         r.includeNoScript = true
 
-        assertTrue r.createRecaptchaHtml(null, null).contains("<noscript>")
-
-
-        assertTrue r.createRecaptchaHtml("The Error", null).contains("&error=The+Error")
+        assertTrue r.createRecaptchaHtml(null).contains("<noscript>")
 
         def options = new Properties()
         options.setProperty("theme", "mytheme")
-        options.setProperty("tabindex", "1")
-        def html = r.createRecaptchaHtml("The Error", options)
-        assertTrue html.contains("theme:'mytheme'")
-        assertTrue html.contains("tabindex:'1'")
-        assertTrue html.contains(",")
-
+        def html = r.createRecaptchaHtml(options)
+        assertTrue html.contains("data-theme=\"mytheme\"")
     }
 
-    public void testCreateCaptchaHtmlWithLangInOptions() {
-        def options = new Properties()
-        options.setProperty("lang", "fr")
-        def html = r.createRecaptchaHtml(null, options)
-        assertTrue html.contains("lang:'fr'")
-    }
 
     public void testCreateCaptchaHtmlWithLangInURL() {
-        def recap = new ReCaptcha(privateKey: "testing", publicKey: "testing", includeNoScript: false, useSecureAPI: true, forceLanguageInURL: true)
+        def recap = new ReCaptcha(privateKey: "testing", publicKey: "testing", includeNoScript: false, includeScript: true)
 
         def options = [:]
         options.lang = "fr"
-        def html = recap.createRecaptchaHtml(null, options)
+        def html = recap.createRecaptchaHtml(options)
         assertTrue html.contains("<script")
         assertTrue html.contains("hl=fr")
 
         options.lang = null
-        html = recap.createRecaptchaHtml(null, options)
+        html = recap.createRecaptchaHtml(options)
         assertTrue html.contains("<script")
         assertFalse html.contains("hl=fr")
     }
 
     public void testCheckAnswer() {
-        buildAndCheckAnswer("true\nnone", true, null)
+        buildAndCheckAnswer("true\nnone", false)
     }
 
     public void testCheckAnswer_02() {
-        buildAndCheckAnswer("true\n", true, null)
+        buildAndCheckAnswer("true\n", true)
     }
 
     public void testCheckAnswer_03() {
-        buildAndCheckAnswer("true", true, null)
+        buildAndCheckAnswer("true", true)
     }
 
     public void testCheckAnswer_04() {
-        buildAndCheckAnswer("false", false, "Unknown error")
+        buildAndCheckAnswer("false", false)
     }
 
     public void testCheckAnswer_05() {
-        buildAndCheckAnswer("nottrue", false, "Unknown error")
+        buildAndCheckAnswer("nottrue", false)
     }
 
     public void testCheckAnswer_06() {
-        buildAndCheckAnswer("false\nblabla", false, "blabla")
+        buildAndCheckAnswer("false\nblabla", false)
     }
 
     public void testCheckAnswer_07() {
-        buildAndCheckAnswer("false\nblabla\n\n", false, "blabla")
+        buildAndCheckAnswer("false\nblabla\n\n", false)
     }
 
-    private void buildAndCheckAnswer(def postText, def expectedValid, def expectedErrorMessage) {
+    private void buildAndCheckAnswer(String postText, boolean expectedValid) {
         def mocker = new MockFor(Post.class)
-        mocker.demand.getQueryString(4..4) { new QueryString() }
-        mocker.demand.getText { postText }
+        mocker.demand.getQueryString(3..3) { new QueryString() }
+        mocker.demand.getResponse { new JsonSlurper().parseText("{\"success\":\"${postText}\"}") }
         mocker.use {
+            def response = r.checkAnswer("123.123.123.123", "response")
 
-            def response = r.checkAnswer("123.123.123.123", "abcdefghijklmnop", "response")
-
-            assertTrue response.valid == expectedValid
-            assertEquals expectedErrorMessage, response.errorMessage
+            assertTrue response == expectedValid
         }
     }
 }

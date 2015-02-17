@@ -64,6 +64,9 @@ recaptcha {
     // Include the noscript tags in the generated captcha
     includeNoScript = true
 
+    //Include the script tags in the generated captcha
+    includeScript = true
+
     // Set to false to disable the display of captcha
     enabled = true
 }
