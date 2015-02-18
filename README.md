@@ -335,9 +335,7 @@ will create:
 
 # Suggestions or Comments
 
-Feel free to submit questions or comments to the Grails users mailing list.
-
-[http://grails.org/Mailing+lists](http://grails.org/Mailing+lists)
+Feel free to submit questions through GitHub or to StackOverflow. (The Grails mailing list appears to be defunct.)
 
 Alternatively you can contact me directly - cjohnston at megatome dot com
 
