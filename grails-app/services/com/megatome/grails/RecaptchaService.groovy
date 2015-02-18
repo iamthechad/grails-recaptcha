@@ -67,6 +67,7 @@ class RecaptchaService {
                     publicKey: config.publicKey,
                     privateKey: config.privateKey,
                     includeNoScript: safeGetConfigValue('includeNoScript', true),
+                    includeScript: safeGetConfigValue('includeScript', true),
                     proxy: proxy)
         }
         recap
