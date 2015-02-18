@@ -34,6 +34,9 @@ Integrated configuration adds the following to the end of your `Config.groovy` f
         // Include the noscript tags in the generated captcha
         includeNoScript = true
 
+        // Include the required script tag with the generated captcha
+        includeScript = true
+
         // Set to false to disable the display of captcha
         enabled = true
     }
@@ -56,6 +59,9 @@ Standalone configuration creates a file called  `RecaptchaConfig.groovy`  in  `g
 
 	    // Include the noscript tags in the generated captcha
 	    includeNoScript = true
+
+	    // Include the required script tag with the generated captcha
+        includeScript = true
 	}
 
 	mailhide {
@@ -119,7 +125,9 @@ The plugin includes four ReCaptcha tags:  `<recaptcha:ifEnabled>`, `<recaptcha:i
 * The `<recaptcha:ifEnabled>` tag is a simple utility tag that will render the contents of the tag if the captcha is enabled in  `RecaptchaConfig.groovy`.
 * The `<recaptcha:ifDisabled>` tag is a simple utility tag that will render the contents of the tag if the captcha is disabled in  `RecaptchaConfig.groovy`.
 * The `<recaptcha:recaptcha>` tag is responsible for generating the correct HTML output to display the captcha. It supports three attributes: "theme", "lang", and "type". These attributes map directly to the values that can be set according to the ReCaptcha API. See the [ReCaptcha Client Guide](https://developers.google.com/recaptcha/docs/display#config) for more details.
+    * The `includeScript` attribute can also be set. If `includeScript` is set to `false` at either the global or tag level, the `<script>` tag required by ReCaptcha will not be included in the generated HTML. The `<recaptcha:script>` tag is also required in this scenario.
 * The `<recaptcha:ifFailed>` tag will render its contents if the previous validation failed. Some ReCaptcha themes, like "clean", do not display error messages and require the developer to show an error message. Use this tag if you're using one of these themes.
+* The `<recaptcha:script>` tag will render the required `<script>` tag. Combine this with the global or tag-level `includeScript=false` setting to allow putting the `<script>` tag elsewhere in your markup. This tag also supports the "lang" attribute. **This does not work in the `<head>` section of the page**
 
 ## Verify the Captcha
 
@@ -138,6 +146,23 @@ In `create.gsp`, we add the code to show the captcha:
     </recaptcha:ifEnabled>
 
 In this example, we're using ReCaptcha's "dark" theme. Leaving out the "theme" attribute will default the captcha to the "light" theme.
+
+### Tag Usage with Separate Script
+
+Set the `includeScript` value to `false` either at the tag level (below), or in the global ReCaptcha settings.
+
+    <body>
+      <g:form action="validateNormal" method="post" >
+        <recaptcha:ifEnabled>
+          <recaptcha:recaptcha includeScript="false"/>
+        </recaptcha:ifEnabled>
+        <br/>
+        <g:submitButton name="submit"/>
+      </g:form>
+      <recaptcha:script/>
+    </body>
+
+This will cause the `<script src="https://www.google.com/recaptcha/api.js?" async="" defer=""></script>` tag to be output separately at the bottom of the document instead of just before the `<div>` containing the captcha.
 
 ### Customizing the Language
 
@@ -249,6 +274,8 @@ will create:
 
 ### CHANGELOG
 
+* 1.1.0
+    * Add support for emitting the `<script>` tag required for captcha in a separate location. ([GitHub Issue #26](https://github.com/iamthechad/grails-recaptcha/issues/26))
 * 1.0.0 Initial support for the new "checkbox" style captcha. ([GitHub Issue #22](https://github.com/iamthechad/grails-recaptcha/issues/22))
     * This version of the plugin only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. See [the ReCaptcha docs](https://developers.google.com/recaptcha/docs/display) for more information about automatic vs. explicit.
     * `useSecureAPI` is no longer supported as a configuration option. All communication with ReCaptcha servers is over HTTPS.
