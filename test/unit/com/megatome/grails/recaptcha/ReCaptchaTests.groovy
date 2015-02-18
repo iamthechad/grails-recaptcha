@@ -6,7 +6,7 @@ import com.megatome.grails.recaptcha.net.QueryString
 import groovy.json.JsonSlurper
 
 /**
- * Copyright 2010-2012 Megatome Technologies
+ * Copyright 2010-2015 Megatome Technologies
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
