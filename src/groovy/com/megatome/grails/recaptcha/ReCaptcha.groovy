@@ -39,20 +39,20 @@ public class ReCaptcha {
      * Creates HTML output with embedded recaptcha. The string response should be output on a HTML page (eg. inside a JSP).
      *
      * @param errorMessage An errormessage to display in the captcha, null if none.
-     * @param options Options for rendering, <code>theme</code>, <code>lang</code>, and <code>type</code> are currently supported by recaptcha. You can
-     *   put any options here though, and they will be added to the RecaptchaOptions javascript array.
+     * @param options Options for rendering, <code>theme</code>, <code>lang</code>, and <code>type</code> are currently supported by recaptcha.
+     *  The <code>includeScript</code> can also be specified and will override the global configuration setting.
      * @return
      */
     public String createRecaptchaHtml(Map options) {
-        def qs = new QueryString()
-        if (options?.lang) {
-            qs.add("hl", URLEncoder.encode(options.remove("lang")))
+        def includeScriptForInstance = includeScript
+        if (options.containsKey('includeScript')) {
+            includeScriptForInstance = Boolean.valueOf(options.includeScript)
         }
 
         def message = new StringBuffer()
 
-        if (includeScript) {
-            message << "<script src=\"${JS_URL}?${qs.toString()}\" async defer></script>"
+        if (includeScriptForInstance) {
+            message << createScriptTag(options)
         }
         message << "<div class=\"g-recaptcha\" data-sitekey=\"${publicKey}\""
         if (options?.theme) {
@@ -99,6 +99,19 @@ public class ReCaptcha {
 
         return message.toString()
     }*/
+
+    /**
+     * Create HTML output containing only the <code>script</code> tag required for ReCaptcha
+     * @param options Options for creating the tag. Only <code>lang</code> is supported.
+     * @return
+     */
+    public String createScriptTag(Map options) {
+        def qs = new QueryString()
+        if (options?.lang) {
+            qs.add("hl", URLEncoder.encode(options.remove("lang")))
+        }
+        return "<script src=\"${JS_URL}?${qs.toString()}\" async defer></script>"
+    }
 
     private static String buildNoScript(key) {
         return """<noscript>

@@ -54,7 +54,7 @@ class RecaptchaService {
 
     private def getRecaptchaInstance() {
         if (!recap) {
-            // Public key, private key, include noscript
+            // Public key, private key, include noscript, include script, proxy config
             def config = getRecaptchaConfig()
             def proxyConfig = config.proxy
             def proxy = new AuthenticatorProxy(
@@ -86,8 +86,8 @@ class RecaptchaService {
      * Creates HTML containing all necessary markup for displaying a ReCaptcha object. This method is most
      * commonly called by the ReCaptcha tag library and not by other users.
      *
-     * @param props Properties used to construct the HTML. See http://recaptcha.net/apidocs/captcha/client.html for valid
-     * properties.
+     * @param props Options for rendering, <code>theme</code>, <code>lang</code>, and <code>type</code> are currently supported by recaptcha.
+     *  The <code>includeScript</code> can also be specified and will override the global configuration setting.
      *
      * @return HTML code, suitable for embedding into a webpage.
      */
@@ -99,13 +99,25 @@ class RecaptchaService {
      * Creates HTML containing all necessary markup for displaying an AJAX ReCaptcha object. This method is most
      * commonly called by the ReCaptcha tag library and not by other users.
      *
-     * @param props Properties used to construct the HTML. See http://recaptcha.net/apidocs/captcha/client.html for valid
-     * properties.
+     * @param props Options for rendering, <code>theme</code>, <code>lang</code>, and <code>type</code> are currently supported by recaptcha.
+     *  The <code>includeScript</code> can also be specified and will override the global configuration setting.
      *
      * @return HTML code, suitable for embedding into a webpage.
      */
     def createCaptchaAjax(props) {
         return getRecaptchaInstance().createRecaptchaAjaxHtml(props)
+    }
+
+    /**
+     * Creates HTML containing the script tag definition necessary for displaying a ReCaptcha object. This method is most
+     * commonly called by the ReCaptcha tag library and not by other users.
+     *
+     * @param props Options for creating the tag. Only <code>lang</code> is supported.
+     *
+     * @return HTML code, suitable for embedding into a webpage.
+     */
+    def createScriptEntry(props) {
+        return getRecaptchaInstance().createScriptTag(props)
     }
 
     /**

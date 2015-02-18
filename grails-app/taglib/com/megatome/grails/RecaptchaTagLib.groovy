@@ -20,7 +20,7 @@ class RecaptchaTagLib {
     static namespace = "recaptcha"
     RecaptchaService recaptchaService
     MailhideService mailhideService
-    private def attrNames = ["theme", "lang", "type", "callback"]
+    private def attrNames = ["theme", "lang", "type", "callback", "includeScript"]
 
     /**
      * Evaluates the content of the tag if ReCaptcha support is enabled. This value is set in config.
@@ -46,10 +46,8 @@ class RecaptchaTagLib {
      * <li>theme - Can be one of 'dark' or 'light'. Defaults to 'light'</li>
      * <li>lang  - Can be one of 'en','nl','fr','de','pt','ru','es','tr'</li>
      * <li>type - Can be one of 'image' or 'audio'. Defaults to 'image'</li>
+     * <li>includeScript - Set to false to exclude the script tag for this captcha. Overrides the global configuration value</li>
      * </ul>
-     *
-     * This tag can also be used in support of a custom theme. For more information about
-     * custom themes, see: http://recaptcha.net/apidocs/captcha/client.html
      */
     def recaptcha = { attrs ->
         def props = new Properties()
@@ -71,9 +69,6 @@ class RecaptchaTagLib {
      * <li>type - Can be one of 'image' or 'audio'. Defaults to 'image'</li>
      * <li>callback - Callback.</li>
      * </ul>
-     *
-     * This tag can also be used in support of a custom theme. For more information about
-     * custom themes, see: http://recaptcha.net/apidocs/captcha/client.html
      */
     /*def recaptchaAjax = { attrs ->
         def props = new Properties()
@@ -85,6 +80,22 @@ class RecaptchaTagLib {
 
         out << recaptchaService.createCaptchaAjax(props)
     }*/
+
+    /**
+     * Create the script tag required for a ReCaptcha. Supports the following attribute:
+     * <ul>
+     * <li>lang  - Can be one of 'en','nl','fr','de','pt','ru','es','tr'</li>
+     * </ul>
+     */
+    def script = { attrs ->
+        def props = new Properties()
+        attrNames.each {
+            if (attrs[it]) {
+                props.setProperty(it, attrs[it])
+            }
+        }
+        out << recaptchaService.createScriptEntry(props)
+    }
 
     /**
      * Evaluates the content of the tag if ReCaptcha validation failed. This will allow

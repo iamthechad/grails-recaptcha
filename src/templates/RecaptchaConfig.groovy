@@ -5,6 +5,9 @@ recaptcha {
 
 	// Include the noscript tags in the generated captcha
 	includeNoScript = true
+
+    // Include the required script tag with the generated captcha
+    includeScript = true
 }
 
 mailhide {
