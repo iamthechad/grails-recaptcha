@@ -45,7 +45,7 @@ public class ReCaptcha {
      */
     public String createRecaptchaHtml(Map options) {
         def includeScriptForInstance = includeScript
-        if (options.containsKey('includeScript')) {
+        if (options?.containsKey('includeScript')) {
             includeScriptForInstance = Boolean.valueOf(options.includeScript)
         }
 
@@ -105,7 +105,7 @@ public class ReCaptcha {
      * @param options Options for creating the tag. Only <code>lang</code> is supported.
      * @return
      */
-    public String createScriptTag(Map options) {
+    public static String createScriptTag(Map options) {
         def qs = new QueryString()
         if (options?.lang) {
             qs.add("hl", URLEncoder.encode(options.remove("lang")))
@@ -154,6 +154,6 @@ public class ReCaptcha {
         if (!responseObject) {
             return false
         }
-        responseObject.success?.trim()?.toBoolean() == true
+        return responseObject.success
     }
 }

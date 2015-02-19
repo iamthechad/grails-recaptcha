@@ -36,7 +36,6 @@ public class ReCaptchaTests extends GroovyTestCase {
         assertTrue r.createRecaptchaHtml(null).contains("<script")
 
         r.includeNoScript = true
-
         assertTrue r.createRecaptchaHtml(null).contains("<noscript>")
 
         def options = new Properties()
@@ -45,54 +44,46 @@ public class ReCaptchaTests extends GroovyTestCase {
         assertTrue html.contains("data-theme=\"mytheme\"")
     }
 
-
-    public void testCreateCaptchaHtmlWithLangInURL() {
-        def recap = new ReCaptcha(privateKey: "testing", publicKey: "testing", includeNoScript: false, includeScript: true)
-
+    public void testCreateCaptchaHtmlWithLangInOptions() {
         def options = [:]
         options.lang = "fr"
-        def html = recap.createRecaptchaHtml(options)
+        def html = r.createRecaptchaHtml(options)
         assertTrue html.contains("<script")
         assertTrue html.contains("hl=fr")
 
         options.lang = null
-        html = recap.createRecaptchaHtml(options)
+        html = r.createRecaptchaHtml(options)
         assertTrue html.contains("<script")
         assertFalse html.contains("hl=fr")
     }
 
-    public void testCheckAnswer() {
-        buildAndCheckAnswer("true\nnone", false)
+    public void testCheckAnswerSuccess() {
+        def answer = """{ "success": true }"""
+        buildAndCheckAnswer(answer, true)
     }
 
-    public void testCheckAnswer_02() {
-        buildAndCheckAnswer("true\n", true)
+    public void testCheckAnswerFail() {
+        def answer = """{ "success": false }"""
+        buildAndCheckAnswer(answer, false)
     }
 
-    public void testCheckAnswer_03() {
-        buildAndCheckAnswer("true", true)
+    public void testCheckAnswerInvalidResponse() {
+        def answer = """{ "foo": "bar" }"""
+        buildAndCheckAnswer(answer, false)
     }
 
-    public void testCheckAnswer_04() {
-        buildAndCheckAnswer("false", false)
-    }
-
-    public void testCheckAnswer_05() {
-        buildAndCheckAnswer("nottrue", false)
-    }
-
-    public void testCheckAnswer_06() {
-        buildAndCheckAnswer("false\nblabla", false)
-    }
-
-    public void testCheckAnswer_07() {
-        buildAndCheckAnswer("false\nblabla\n\n", false)
+    public void testCheckAnswerWithErrors() {
+        def answer = """{
+            "success": false,
+            "error-codes": ["missing-input-response"]
+            }"""
+        buildAndCheckAnswer(answer, false)
     }
 
     private void buildAndCheckAnswer(String postText, boolean expectedValid) {
         def mocker = new MockFor(Post.class)
         mocker.demand.getQueryString(3..3) { new QueryString() }
-        mocker.demand.getResponse { new JsonSlurper().parseText("{\"success\":\"${postText}\"}") }
+        mocker.demand.getResponse { new JsonSlurper().parseText(postText) }
         mocker.use {
             def response = r.checkAnswer("123.123.123.123", "response")
 
