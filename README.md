@@ -275,6 +275,7 @@ will create:
 ### CHANGELOG
 
 * 1.1.0
+    * Update feedback mechanisms. ([GitHub Issue #25](https://github.com/iamthechad/grails-recaptcha/issues/25))
     * Add support for emitting the `<script>` tag required for captcha in a separate location. ([GitHub Issue #26](https://github.com/iamthechad/grails-recaptcha/issues/26))
 * 1.0.0 Initial support for the new "checkbox" style captcha. ([GitHub Issue #22](https://github.com/iamthechad/grails-recaptcha/issues/22))
     * This version of the plugin only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. See [the ReCaptcha docs](https://developers.google.com/recaptcha/docs/display) for more information about automatic vs. explicit.
