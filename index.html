@@ -48,7 +48,7 @@
 <pre><code>…
 plugins {
     …
-    compile ':recaptcha:1.0.0'
+    compile ':recaptcha:1.1.0'
     …
 }
 </code></pre>
@@ -68,6 +68,9 @@ recaptcha {
 
     // Include the noscript tags in the generated captcha
     includeNoScript = true
+
+    // Include the required script tag with the generated captcha
+    includeScript = true
 
     // Set to false to disable the display of captcha
     enabled = true
@@ -94,6 +97,9 @@ mailhide {
 
     // Include the noscript tags in the generated captcha
     includeNoScript = true
+
+    // Include the required script tag with the generated captcha
+    includeScript = true
 }
 
 mailhide {
@@ -170,8 +176,15 @@ the <code>.groovy</code> file (easiest), or it can be converted into a Java <cod
 <ul>
 <li>The <code>&lt;recaptcha:ifEnabled&gt;</code> tag is a simple utility tag that will render the contents of the tag if the captcha is enabled in  <code>RecaptchaConfig.groovy</code>.</li>
 <li>The <code>&lt;recaptcha:ifDisabled&gt;</code> tag is a simple utility tag that will render the contents of the tag if the captcha is disabled in  <code>RecaptchaConfig.groovy</code>.</li>
-<li>The <code>&lt;recaptcha:recaptcha&gt;</code> tag is responsible for generating the correct HTML output to display the captcha. It supports three attributes: "theme", "lang", and "type". These attributes map directly to the values that can be set according to the ReCaptcha API. See the <a href="https://developers.google.com/recaptcha/docs/display#config">ReCaptcha Client Guide</a> for more details.</li>
+<li>The <code>&lt;recaptcha:recaptcha&gt;</code> tag is responsible for generating the correct HTML output to display the captcha. It supports three attributes: "theme", "lang", and "type". These attributes map directly to the values that can be set according to the ReCaptcha API. See the <a href="https://developers.google.com/recaptcha/docs/display#config">ReCaptcha Client Guide</a> for more details.
+
+<ul>
+<li>The <code>includeScript</code> attribute can also be set. If <code>includeScript</code> is set to <code>false</code> at either the global or tag level, the <code>&lt;script&gt;</code> tag required by ReCaptcha will not be included in the generated HTML. The <code>&lt;recaptcha:script&gt;</code> tag is also required in this scenario.</li>
+</ul>
+</li>
 <li>The <code>&lt;recaptcha:ifFailed&gt;</code> tag will render its contents if the previous validation failed. Some ReCaptcha themes, like "clean", do not display error messages and require the developer to show an error message. Use this tag if you're using one of these themes.</li>
+<li>The <code>&lt;recaptcha:script&gt;</code> tag will render the required <code>&lt;script&gt;</code> tag. Combine this with the global or tag-level <code>includeScript=false</code> setting to allow putting the <code>&lt;script&gt;</code> tag elsewhere in your markup. This tag also supports the "lang" attribute. <strong>This does not work in the <code>&lt;head&gt;</code> section of the page</strong>
+</li>
 </ul>
 
 <h2>
@@ -195,6 +208,25 @@ the <code>.groovy</code> file (easiest), or it can be converted into a Java <cod
 </code></pre>
 
 <p>In this example, we're using ReCaptcha's "dark" theme. Leaving out the "theme" attribute will default the captcha to the "light" theme.</p>
+
+<h3>
+<a id="tag-usage-with-separate-script" class="anchor" href="#tag-usage-with-separate-script" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tag Usage with Separate Script</h3>
+
+<p>Set the <code>includeScript</code> value to <code>false</code> either at the tag level (below), or in the global ReCaptcha settings.</p>
+
+<pre><code>&lt;body&gt;
+  &lt;g:form action="validateNormal" method="post" &gt;
+    &lt;recaptcha:ifEnabled&gt;
+      &lt;recaptcha:recaptcha includeScript="false"/&gt;
+    &lt;/recaptcha:ifEnabled&gt;
+    &lt;br/&gt;
+    &lt;g:submitButton name="submit"/&gt;
+  &lt;/g:form&gt;
+  &lt;recaptcha:script/&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>This will cause the <code>&lt;script src="https://www.google.com/recaptcha/api.js?" async="" defer=""&gt;&lt;/script&gt;</code> tag to be output separately at the bottom of the document instead of just before the <code>&lt;div&gt;</code> containing the captcha.</p>
 
 <h3>
 <a id="customizing-the-language" class="anchor" href="#customizing-the-language" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customizing the Language</h3>
@@ -317,6 +349,13 @@ public void testCheckAnswerFailure() {
 <a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span class="octicon octicon-link"></span></a>CHANGELOG</h3>
 
 <ul>
+<li>1.1.0
+
+<ul>
+<li>Update feedback mechanisms. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/25">GitHub Issue #25</a>)</li>
+<li>Add support for emitting the <code>&lt;script&gt;</code> tag required for captcha in a separate location. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/26">GitHub Issue #26</a>)</li>
+</ul>
+</li>
 <li>1.0.0 Initial support for the new "checkbox" style captcha. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/22">GitHub Issue #22</a>)
 
 <ul>
@@ -458,9 +497,7 @@ public void testCheckAnswerFailure() {
 <h1>
 <a id="suggestions-or-comments" class="anchor" href="#suggestions-or-comments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Suggestions or Comments</h1>
 
-<p>Feel free to submit questions or comments to the Grails users mailing list.</p>
-
-<p><a href="http://grails.org/Mailing+lists">http://grails.org/Mailing+lists</a></p>
+<p>Feel free to submit questions through GitHub or to StackOverflow. (The Grails mailing list appears to be defunct.)</p>
 
 <p>Alternatively you can contact me directly - cjohnston at megatome dot com</p>
         </section>
