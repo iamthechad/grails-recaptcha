@@ -272,40 +272,8 @@ will create:
 # Misc.
 
 
-### CHANGELOG
+### CHANGELOG (PRE 0.6.0)
 
-* 1.1.0
-    * Update feedback mechanisms. ([GitHub Issue #25](https://github.com/iamthechad/grails-recaptcha/issues/25))
-    * Add support for emitting the `<script>` tag required for captcha in a separate location. ([GitHub Issue #26](https://github.com/iamthechad/grails-recaptcha/issues/26))
-* 1.0.0 Initial support for the new "checkbox" style captcha. ([GitHub Issue #22](https://github.com/iamthechad/grails-recaptcha/issues/22))
-    * This version of the plugin only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. See [the ReCaptcha docs](https://developers.google.com/recaptcha/docs/display) for more information about automatic vs. explicit.
-    * `useSecureAPI` is no longer supported as a configuration option. All communication with ReCaptcha servers is over HTTPS.
-    * `forceLanguageInURL` is no longer supported as a configuration option. ReCaptcha properly display the selected language no matter what language the browser uses.
-* 0.7.0
-    * Add support for connecting through a proxy server when verifying the captcha value. ([GitHub Issue #21](https://github.com/iamthechad/grails-recaptcha/issues/21))
-* 0.6.9
-    * Remove unused import for `org.codehaus.groovy.grails.commons.ConfigurationHolder` that doesn't exist in Grails 2.4 any more. ([GitHub Issue #20](https://github.com/iamthechad/grails-recaptcha/pull/20))
-* 0.6.8
-    * Don't crash when the `enabled` parameter is missing. Log missing config params, but use defaults. ([GitHub Issue #18](https://github.com/iamthechad/grails-recaptcha/issues/18))
-    * Add blurb about externalized config. ([GitHub Issue #19](https://github.com/iamthechad/grails-recaptcha/issues/19))
-* 0.6.7
-    * Fix a stupid bug that would cause a crash when determining if it's enabled. ([GitHub Issue #14](https://github.com/iamthechad/grails-recaptcha/issues/14))
-* 0.6.6
-    * Behave correctly when config options are "false" or missing. ([GitHub Issue #13](https://github.com/iamthechad/grails-recaptcha/issues/13))
-* 0.6.5
-    * Don't crash when boolean configuration options are missing. ([GitHub Issue #10](https://github.com/iamthechad/grails-recaptcha/issues/10))
-    * Establish defaults for boolean options in case they go missing. ([GitHub Issue #11](https://github.com/iamthechad/grails-recaptcha/issues/11))
-    * Don't crash when creating an AJAX captcha. ([GitHub Issue #12](https://github.com/iamthechad/grails-recaptcha/issues/12))
-* 0.6.4
-    * Ensure that true/false settings are loaded correctly from a .properties file. ([GitHub Issue #9](https://github.com/iamthechad/grails-recaptcha/issues/9))
-* 0.6.3
-    * Ensure that AJAX tags properly use HTTPS when specified. ([GitHub Issue #7](https://github.com/iamthechad/grails-recaptcha/issues/7))
-* 0.6.2
-    * Remove spurious `println` left over. ([GitHub Issue #5](https://github.com/iamthechad/grails-recaptcha/issues/5))
-    * Change install behavior to not create `RecaptchaConfig.groovy` in `_Install.groovy`. Add new script `recaptcha-quickstart` to handle creation of required configuration. ([GitHub Issue #6](https://github.com/iamthechad/grails-recaptcha/issues/6))
-* 0.6.0
-    * Add the ability to display the widget using AJAX. ([GitHub Issue #3](https://github.com/iamthechad/grails-recaptcha/issues/3))
-    * Change plugin to require Grails 2.0 at a minimum.
 * 0.5.3
     * Add the ability to force a different language to be displayed.
 * 0.5.1 & 0.5.2
