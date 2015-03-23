@@ -20,7 +20,7 @@ class RecaptchaTagLib {
     static namespace = "recaptcha"
     RecaptchaService recaptchaService
     MailhideService mailhideService
-    private def attrNames = ["theme", "lang", "type", "callback", "includeScript"]
+    private def attrNames = ["theme", "lang", "type", "tabindex", "callback", "includeScript"]
 
     /**
      * Evaluates the content of the tag if ReCaptcha support is enabled. This value is set in config.

@@ -61,6 +61,9 @@ public class ReCaptcha {
         if (options?.type) {
             message << " data-type=\"${options.type}\""
         }
+        if (options?.tabindex) {
+            message << " data-tabindex=\"${options.tabindex}\""
+        }
         message << "></div>\r\n"
 
         if (includeNoScript) {

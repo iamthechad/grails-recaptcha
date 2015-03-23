@@ -28,7 +28,7 @@ public class ReCaptchaTests extends GroovyTestCase {
         r = new ReCaptcha(privateKey: "testing", publicKey: "testing", includeNoScript: false)
     }
 
-    public void testCreateCaptchaHtml() {
+    public void testCreateCaptchaHtmlScriptOptions() {
         r.includeScript = false
         assertFalse r.createRecaptchaHtml(null).contains("<script")
 
@@ -37,22 +37,29 @@ public class ReCaptchaTests extends GroovyTestCase {
 
         r.includeNoScript = true
         assertTrue r.createRecaptchaHtml(null).contains("<noscript>")
+    }
 
-        def options = new Properties()
-        options.setProperty("theme", "mytheme")
-        def html = r.createRecaptchaHtml(options)
-        assertTrue html.contains("data-theme=\"mytheme\"")
+    public void testCreateCaptchaHtmlOptions() {
+        def html = r.createRecaptchaHtml(null)
+        assertTrue html.contains("g-recaptcha")
+        assertTrue html.contains("data-sitekey")
+        assertFalse html.contains("data-theme")
+        assertFalse html.contains("data-tabindex")
+        assertFalse html.contains("data-type")
+
+        assertTrue r.createRecaptchaHtml(["theme": "mytheme"]).contains("data-theme=\"mytheme\"")
+
+        assertTrue r.createRecaptchaHtml(["tabindex": "0"]).contains("data-tabindex=\"0\"")
+
+        assertTrue r.createRecaptchaHtml(["type": "image"]).contains("data-type=\"image\"")
     }
 
     public void testCreateCaptchaHtmlWithLangInOptions() {
-        def options = [:]
-        options.lang = "fr"
-        def html = r.createRecaptchaHtml(options)
+        def html = r.createRecaptchaHtml(["lang": "fr"])
         assertTrue html.contains("<script")
         assertTrue html.contains("hl=fr")
 
-        options.lang = null
-        html = r.createRecaptchaHtml(options)
+        html = r.createRecaptchaHtml([:])
         assertTrue html.contains("<script")
         assertFalse html.contains("hl=fr")
     }
