@@ -95,17 +95,12 @@ class RecaptchaService {
         return getRecaptchaInstance().createRecaptchaHtml(props)
     }
 
-    /**
-     * Creates HTML containing all necessary markup for displaying an AJAX ReCaptcha object. This method is most
-     * commonly called by the ReCaptcha tag library and not by other users.
-     *
-     * @param props Options for rendering, <code>theme</code>, <code>lang</code>, and <code>type</code> are currently supported by recaptcha.
-     *  The <code>includeScript</code> can also be specified and will override the global configuration setting.
-     *
-     * @return HTML code, suitable for embedding into a webpage.
-     */
-    def createCaptchaAjax(props) {
-        return getRecaptchaInstance().createRecaptchaAjaxHtml(props)
+    def createCaptchaExplicit(props) {
+        return getRecaptchaInstance().createRecaptchaExplicitHtml(props)
+    }
+
+    def createRenderParameters(props) {
+        return getRecaptchaInstance().createRenderParameters(props)
     }
 
     /**

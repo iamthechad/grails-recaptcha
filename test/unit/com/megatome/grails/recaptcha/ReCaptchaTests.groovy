@@ -64,6 +64,23 @@ public class ReCaptchaTests extends GroovyTestCase {
         assertFalse html.contains("hl=fr")
     }
 
+    public void testCreateCaptchaExplicitNoCallback() {
+        try {
+            r.createRecaptchaExplicitHtml(null)
+            fail("Did not catch expected exception")
+        } catch (IllegalArgumentException expected) {
+            assertTrue expected.message.contains("loadCallback")
+        }
+    }
+
+    public void testCreateCaptchaExplicit() {
+        buildAndCheckExplicitHTML(["loadCallback": "foo"])
+    }
+
+    public void testCreateCaptchaExplicitWithLang() {
+        buildAndCheckExplicitHTML(["loadCallback": "foo", "lang": "fr"])
+    }
+
     public void testCheckAnswerSuccess() {
         def answer = """{ "success": true }"""
         buildAndCheckAnswer(answer, true)
@@ -95,6 +112,21 @@ public class ReCaptchaTests extends GroovyTestCase {
             def response = r.checkAnswer("123.123.123.123", "response")
 
             assertTrue response == expectedValid
+        }
+    }
+
+    private void buildAndCheckExplicitHTML(Map options) {
+        def expectedLang = null
+        if (options.lang) {
+            expectedLang = options.lang
+        }
+        def html = r.createRecaptchaExplicitHtml(options)
+        assertTrue html.contains("render=explicit")
+        assertTrue html.contains("onload=" + options.loadCallback)
+        if (expectedLang) {
+            assertTrue html.contains("hl=" + expectedLang)
+        } else {
+            assertFalse html.contains("hl=")
         }
     }
 }

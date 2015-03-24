@@ -20,7 +20,9 @@ class RecaptchaTagLib {
     static namespace = "recaptcha"
     RecaptchaService recaptchaService
     MailhideService mailhideService
-    private def attrNames = ["theme", "lang", "type", "tabindex", "callback", "includeScript"]
+    private def commonAttrNames = ["theme", "lang", "type", "tabindex"]
+    private def normalAttrNames = commonAttrNames + "includeScript"
+    private def explicitAttrNames = ["loadCallback"]
 
     /**
      * Evaluates the content of the tag if ReCaptcha support is enabled. This value is set in config.
@@ -50,10 +52,10 @@ class RecaptchaTagLib {
      * </ul>
      */
     def recaptcha = { attrs ->
-        def props = new Properties()
-        attrNames.each {
+        def props = [:]
+        normalAttrNames.each {
             if (attrs[it]) {
-                props.setProperty(it, attrs[it])
+                props[it] = attrs[it]
             }
         }
         out << recaptchaService.createCaptcha(props)
@@ -70,16 +72,26 @@ class RecaptchaTagLib {
      * <li>callback - Callback.</li>
      * </ul>
      */
-    /*def recaptchaAjax = { attrs ->
-        def props = new Properties()
-        attrNames.each {
+    def recaptchaExplicit = { attrs ->
+        def props = [:]
+        explicitAttrNames.each {
             if (attrs[it]) {
-                props.setProperty(it, attrs[it])
+                props[it] = attrs[it]
             }
         }
 
-        out << recaptchaService.createCaptchaAjax(props)
-    }*/
+        out << recaptchaService.createCaptchaExplicit(props)
+    }
+
+    def renderParameters = { attrs ->
+        def props = [:]
+        commonAttrNames.each {
+            if (attrs[it]) {
+                props[it] = attrs[it]
+            }
+        }
+        out << recaptchaService.createRenderParameters(props)
+    }
 
     /**
      * Create the script tag required for a ReCaptcha. Supports the following attribute:
@@ -88,11 +100,9 @@ class RecaptchaTagLib {
      * </ul>
      */
     def script = { attrs ->
-        def props = new Properties()
-        attrNames.each {
-            if (attrs[it]) {
-                props.setProperty(it, attrs[it])
-            }
+        def props = [:]
+        if (attrs?.lang) {
+            props.lang = attrs.lang
         }
         out << recaptchaService.createScriptEntry(props)
     }

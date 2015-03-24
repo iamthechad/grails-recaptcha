@@ -25,7 +25,6 @@ import com.megatome.grails.recaptcha.net.QueryString
 public class ReCaptcha {
     private static final String BASE_URL = "https://www.google.com/recaptcha/api"
     public static final String VERIFY_URL = "/siteverify"
-    //public static final String AJAX_JS = "/js/recaptcha_ajax.js"
     public static final String JS_URL = BASE_URL + ".js"
 
     String publicKey
@@ -73,35 +72,35 @@ public class ReCaptcha {
         return message.toString()
     }
 
-    /**
-     * Creates HTML output with embedded recaptcha AJAX. The string response should be output on a HTML page (eg. inside a JSP).
-     *
-     * @param errorMessage An errormessage to display in the captcha, null if none.
-     * @param options Options for rendering, <code>tabindex</code> and <code>theme</code> are currently supported by recaptcha. You can
-     *   put any options here though, and they will be added to the RecaptchaOptions javascript array.
-     * @return
-     */
-    /*public String createRecaptchaAjaxHtml(Map options) {
-        def qs = new QueryString()
-        if (options?.lang) {
-            qs.add("hl", URLEncoder.encode(options.remove("lang")))
-        }
-
+    public String createRecaptchaExplicitHtml(Map options) {
         def message = new StringBuffer()
 
-        if (includeScript) {
-            message <<  "<script type=\"text/javascript\" src=\"${recaptchaServer + AJAX_JS}\"></script>\r\n"
-        }
-
-        message << "<script type=\"text/javascript\">\r\nfunction showRecaptcha(element){Recaptcha.create(\"${publicKey}\", element, {" +
-                options.collect { "$it.key:'${it.value}'" }.join(', ') + "});}\r\n</script>\r\n"
+        message << createScriptTagExplicit(options)
 
         if (includeNoScript) {
-            message << buildNoScript(recaptchaServer, qs.toString())
+            message << buildNoScript(publicKey)
         }
 
         return message.toString()
-    }*/
+    }
+
+    public String createRenderParameters(Map options) {
+        def params = new StringBuffer()
+
+        params << "{ 'sitekey': '${publicKey}'"
+        if (options?.theme) {
+            params << ", 'theme': '${options.theme}'"
+        }
+        if (options?.type) {
+            params << ", 'type': '${options.type}'"
+        }
+        if (options?.tabindex) {
+            params << ", 'tabindex': '${options.tabindex}'"
+        }
+        params << "}"
+
+        return params.toString()
+    }
 
     /**
      * Create HTML output containing only the <code>script</code> tag required for ReCaptcha
@@ -113,6 +112,19 @@ public class ReCaptcha {
         if (options?.lang) {
             qs.add("hl", URLEncoder.encode(options.remove("lang")))
         }
+        return "<script src=\"${JS_URL}?${qs.toString()}\" async defer></script>"
+    }
+
+    private static String createScriptTagExplicit(Map options) {
+        def qs = new QueryString()
+        if (options?.lang) {
+            qs.add("hl", URLEncoder.encode(options.remove("lang")))
+        }
+        qs.add("render", "explicit")
+        if (!options?.loadCallback) {
+            throw new IllegalArgumentException("loadCallback parameter must be specified")
+        }
+        qs.add("onload", options?.loadCallback)
         return "<script src=\"${JS_URL}?${qs.toString()}\" async defer></script>"
     }
 
