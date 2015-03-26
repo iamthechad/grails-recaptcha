@@ -86,7 +86,7 @@ class RecaptchaService {
      * Creates HTML containing all necessary markup for displaying a ReCaptcha object. This method is most
      * commonly called by the ReCaptcha tag library and not by other users.
      *
-     * @param props Options for rendering, <code>theme</code>, <code>lang</code>, and <code>type</code> are currently supported by recaptcha.
+     * @param props Options for rendering, <code>theme</code>, <code>lang</code>, <code>type</code>, and <code>tabindex</code> are currently supported by recaptcha.
      *  The <code>includeScript</code> can also be specified and will override the global configuration setting.
      *
      * @return HTML code, suitable for embedding into a webpage.
@@ -95,10 +95,22 @@ class RecaptchaService {
         return getRecaptchaInstance().createRecaptchaHtml(props)
     }
 
+    /**
+     * Creates HTML containing all necessary markup for displaying a ReCaptcha object using explicit mode. This method is most
+     * commonly called by the ReCaptcha tag library and not by other users.
+     *
+     * @param props Options for rendering; <code>lang</code>, and <code>loadCallback</code> are currently supported by recaptcha.
+     * @return HTML code, suitable for embedding into a webpage.
+     */
     def createCaptchaExplicit(props) {
         return getRecaptchaInstance().createRecaptchaExplicitHtml(props)
     }
 
+    /**
+     * Create a JSON-like string containing parameters to be passed to the ReCaptcha JavScript object when using explicit mode.
+     * @param props Options for rendering; <code>theme</code>, <code>type</code>, <code>tabindex</code> are currently supported
+     * @return
+     */
     def createRenderParameters(props) {
         return getRecaptchaInstance().createRenderParameters(props)
     }

@@ -48,6 +48,7 @@ class RecaptchaTagLib {
      * <li>theme - Can be one of 'dark' or 'light'. Defaults to 'light'</li>
      * <li>lang  - Can be one of 'en','nl','fr','de','pt','ru','es','tr'</li>
      * <li>type - Can be one of 'image' or 'audio'. Defaults to 'image'</li>
+     * <li>tabindex - Tabindex of the captcha, if required.</li>
      * <li>includeScript - Set to false to exclude the script tag for this captcha. Overrides the global configuration value</li>
      * </ul>
      */
@@ -62,14 +63,11 @@ class RecaptchaTagLib {
     }
 
     /**
-     * Create and AJAX ReCaptcha instance. The instance is not visible by default, and can be shown
-     * by calling the showRecaptcha method with the name of the div that the widget should be displayed in.
+     * Create the script tag for an explicit ReCaptcha instance. Use with the <code>renderParameters</code> tag.
      * Supports the following attributes:
      * <ul>
-     * <li>theme - Can be one of 'dark' or 'light'. Defaults to 'light'</li>
      * <li>lang  - Can be one of 'en','nl','fr','de','pt','ru','es','tr'</li>
-     * <li>type - Can be one of 'image' or 'audio'. Defaults to 'image'</li>
-     * <li>callback - Callback.</li>
+     * <li>loadCallback - The JavaScript callback that will be executed when all dependencies have been loaded and the captcha can be shown.</li>
      * </ul>
      */
     def recaptchaExplicit = { attrs ->
@@ -83,6 +81,16 @@ class RecaptchaTagLib {
         out << recaptchaService.createCaptchaExplicit(props)
     }
 
+    /**
+     * Create the JSON-like parameters to be passed into the <code>grecaptcha.render()</code> method when using explicit mode.
+     * Supports the following attributes:
+     * <ul>
+     * <li>theme - Can be one of 'dark' or 'light'. Defaults to 'light'</li>
+     * <li>lang  - Can be one of 'en','nl','fr','de','pt','ru','es','tr'</li>
+     * <li>type - Can be one of 'image' or 'audio'. Defaults to 'image'</li>
+     * <li>tabindex - Tabindex of the captcha, if required.</li>
+     * </ul>
+     */
     def renderParameters = { attrs ->
         def props = [:]
         commonAttrNames.each {

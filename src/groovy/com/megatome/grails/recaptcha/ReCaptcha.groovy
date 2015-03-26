@@ -35,10 +35,9 @@ public class ReCaptcha {
     AuthenticatorProxy proxy = null
 
     /**
-     * Creates HTML output with embedded recaptcha. The string response should be output on a HTML page (eg. inside a JSP).
+     * Creates HTML output with embedded recaptcha. The string response should be output on a HTML page (eg. inside a GSP).
      *
-     * @param errorMessage An errormessage to display in the captcha, null if none.
-     * @param options Options for rendering, <code>theme</code>, <code>lang</code>, and <code>type</code> are currently supported by recaptcha.
+     * @param options Options for rendering, <code>theme</code>, <code>lang</code>, <code>type</code>, and <code>tabindex</code> are currently supported by recaptcha.
      *  The <code>includeScript</code> can also be specified and will override the global configuration setting.
      * @return
      */
@@ -72,6 +71,12 @@ public class ReCaptcha {
         return message.toString()
     }
 
+    /**
+     * Creates HTML output for creating an explicit recaptcha. The string response should be output on a HTML page (eg. inside a GSP).
+     *
+     * @param options Options for rendering. Only <code>lang</code> and <code>loadCallback</code> are supported here.
+     * @return
+     */
     public String createRecaptchaExplicitHtml(Map options) {
         def message = new StringBuffer()
 
@@ -84,6 +89,11 @@ public class ReCaptcha {
         return message.toString()
     }
 
+    /**
+     * Create a JSON-like string that can be used to populate the recaptcha options when using explicit mode.
+     * @param options Options for rendering. Supports <code>theme</code>, <code>type</code>, and <code>tabindex</code>.
+     * @return
+     */
     public String createRenderParameters(Map options) {
         def params = new StringBuffer()
 
@@ -115,6 +125,11 @@ public class ReCaptcha {
         return "<script src=\"${JS_URL}?${qs.toString()}\" async defer></script>"
     }
 
+    /**
+     * Create the script tag used for defining an explicit recaptcha instance.
+     * @param options Options for creating the tag. Supports <code>lang</code> and <code>loadCallback</code>
+     * @return
+     */
     private static String createScriptTagExplicit(Map options) {
         def qs = new QueryString()
         if (options?.lang) {
