@@ -33,8 +33,6 @@
 
 <p>Beginning with version 1.0 of this plugin, only the new "checkbox" captcha is supported. Please use version 0.7.0 if you require the legacy functionality.</p>
 
-<p><strong>Note:</strong> This plugin currently only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. (See <a href="https://developers.google.com/recaptcha/docs/display">the ReCaptcha docs</a> for more information about automatic vs. explicit.</p>
-
 <h1>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h1>
 
@@ -48,7 +46,7 @@
 <pre><code>…
 plugins {
     …
-    compile ':recaptcha:1.1.0'
+    compile ':recaptcha:1.2.0'
     …
 }
 </code></pre>
@@ -171,21 +169,90 @@ the <code>.groovy</code> file (easiest), or it can be converted into a Java <cod
 <h2>
 <a id="use-the-tag-library" class="anchor" href="#use-the-tag-library" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use the Tag Library</h2>
 
-<p>The plugin includes four ReCaptcha tags:  <code>&lt;recaptcha:ifEnabled&gt;</code>, <code>&lt;recaptcha:ifDisabled&gt;</code>, <code>&lt;recaptcha:recaptcha&gt;</code>, and  <code>&lt;recaptcha:ifFailed&gt;</code>.</p>
+<h3>
+<a id="recaptchaifenabled" class="anchor" href="#recaptchaifenabled" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>&lt;recaptcha:ifEnabled&gt;</code>
+</h3>
+
+<p>This tag is a simple utility that will render its contents if the captcha is enabled in the configuration.</p>
+
+<h3>
+<a id="recaptchaifdisabled" class="anchor" href="#recaptchaifdisabled" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>&lt;recaptcha:ifDisabled&gt;</code>
+</h3>
+
+<p>This tag is a simple utility that will render its contents if the captcha is disabled in the configuration.</p>
+
+<h3>
+<a id="recaptcharecaptcha" class="anchor" href="#recaptcharecaptcha" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>&lt;recaptcha:recaptcha&gt;</code>
+</h3>
+
+<p>This tag is responsible for generating the correct HTML output to display the captcha. It supports the following attributes: </p>
 
 <ul>
-<li>The <code>&lt;recaptcha:ifEnabled&gt;</code> tag is a simple utility tag that will render the contents of the tag if the captcha is enabled in  <code>RecaptchaConfig.groovy</code>.</li>
-<li>The <code>&lt;recaptcha:ifDisabled&gt;</code> tag is a simple utility tag that will render the contents of the tag if the captcha is disabled in  <code>RecaptchaConfig.groovy</code>.</li>
-<li>The <code>&lt;recaptcha:recaptcha&gt;</code> tag is responsible for generating the correct HTML output to display the captcha. It supports three attributes: "theme", "lang", and "type". These attributes map directly to the values that can be set according to the ReCaptcha API. See the <a href="https://developers.google.com/recaptcha/docs/display#config">ReCaptcha Client Guide</a> for more details.
+<li>
+<code>theme</code> - Can be one of <code>dark</code> or <code>light</code>. Defaults to <code>light</code>.</li>
+<li>
+<code>lang</code> - Can be any one of the supported ReCaptcha language codes. See the <a href="https://developers.google.com/recaptcha/docs/language">list of supported language codes</a>.</li>
+<li>
+<code>tabindex</code> - Optional tabindex of the widget. </li>
+<li>
+<code>type</code> - Type of captcha to display if the checkbox is not sufficient. Can be one of <code>image</code> or <code>audio</code>. Defaults to <code>image</code>.</li>
+<li>
+<code>successCallback</code> - Optional function to be called when the user submits a successful response.</li>
+<li>
+<code>expiredCallback</code> - Optional function to be called when the successful response has expired.</li>
+<li>
+<code>includeScript</code> - If <code>includeScript</code> is set to <code>false</code> at either the global or tag level, the <code>&lt;script&gt;</code> tag required by ReCaptcha will not be included in the generated HTML. The <code>&lt;recaptcha:script&gt;</code> tag is also required in this scenario.</li>
+</ul>
+
+<p>See the <a href="https://developers.google.com/recaptcha/docs/display#config">ReCaptcha Client Guide</a> for more details.</p>
+
+<h3>
+<a id="recaptchascript" class="anchor" href="#recaptchascript" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>&lt;recaptcha:script&gt;</code>
+</h3>
+
+<p>This tag will render the required <code>&lt;script&gt;</code> tag. Combine this with the global or tag-level <code>includeScript=false</code> setting to allow putting the <code>&lt;script&gt;</code> tag elsewhere in your markup. This tag also supports the "lang" attribute. <strong>This does not work in the <code>&lt;head&gt;</code> section of the page</strong></p>
+
+<h3>
+<a id="recaptcharecaptchaexplicit" class="anchor" href="#recaptcharecaptchaexplicit" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>&lt;recaptcha:recaptchaExplicit&gt;</code>
+</h3>
+
+<p>This tag is responsible for generating the correct HTML output to support explicit display and usage of the captcha. It supports the following attributes: </p>
 
 <ul>
-<li>The <code>includeScript</code> attribute can also be set. If <code>includeScript</code> is set to <code>false</code> at either the global or tag level, the <code>&lt;script&gt;</code> tag required by ReCaptcha will not be included in the generated HTML. The <code>&lt;recaptcha:script&gt;</code> tag is also required in this scenario.</li>
+<li>
+<code>lang</code> - Can be any one of the supported ReCaptcha language codes. See the <a href="https://developers.google.com/recaptcha/docs/language">list of supported language codes</a>.</li>
+<li>
+<code>loadCallback</code> - The JavaScript function to be called when all dependencies have loaded. This function is usually responsible for rendering the captcha.</li>
 </ul>
-</li>
-<li>The <code>&lt;recaptcha:ifFailed&gt;</code> tag will render its contents if the previous validation failed. Some ReCaptcha themes, like "clean", do not display error messages and require the developer to show an error message. Use this tag if you're using one of these themes.</li>
-<li>The <code>&lt;recaptcha:script&gt;</code> tag will render the required <code>&lt;script&gt;</code> tag. Combine this with the global or tag-level <code>includeScript=false</code> setting to allow putting the <code>&lt;script&gt;</code> tag elsewhere in your markup. This tag also supports the "lang" attribute. <strong>This does not work in the <code>&lt;head&gt;</code> section of the page</strong>
-</li>
+
+<p>For more information about explicit mode captchas, see <a href="https://developers.google.com/recaptcha/docs/display#explicit_render">the ReCaptcha documentation</a>.</p>
+
+<h3>
+<a id="recaptcharenderparameters" class="anchor" href="#recaptcharenderparameters" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>&lt;recaptcha:renderParameters&gt;</code>
+</h3>
+
+<p>This utility tag will generate the JSON string used as a parameter to the <code>grecaptcha.render()</code> function. It supports the following attributes:</p>
+
+<ul>
+<li>
+<code>theme</code> - Can be one of <code>dark</code> or <code>light</code>. Defaults to <code>light</code>.</li>
+<li>
+<code>tabindex</code> - Optional tabindex of the widget. </li>
+<li>
+<code>type</code> - Type of captcha to display if the checkbox is not sufficient. Can be one of <code>image</code> or <code>audio</code>. Defaults to <code>image</code>.</li>
+<li>
+<code>successCallback</code> - Optional function to be called when the user submits a successful response.</li>
+<li>
+<code>expiredCallback</code> - Optional function to be called when the successful response has expired.</li>
 </ul>
+
+<p>See the <a href="https://developers.google.com/recaptcha/docs/display#config">ReCaptcha Client Guide</a> for more details.</p>
+
+<h3>
+<a id="recaptchaiffailed" class="anchor" href="#recaptchaiffailed" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>&lt;recaptcha:ifFailed&gt;</code>
+</h3>
+
+<p>This tag will render its contents if the previous validation failed.</p>
 
 <h2>
 <a id="verify-the-captcha" class="anchor" href="#verify-the-captcha" aria-hidden="true"><span class="octicon octicon-link"></span></a>Verify the Captcha</h2>
@@ -198,16 +265,42 @@ the <code>.groovy</code> file (easiest), or it can be converted into a Java <cod
 <p>Here's a simple example pulled from an account creation application.</p>
 
 <h3>
-<a id="tag-usage" class="anchor" href="#tag-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tag Usage</h3>
+<a id="tag-usage-for-automatic-rendering" class="anchor" href="#tag-usage-for-automatic-rendering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tag Usage for Automatic Rendering</h3>
 
-<p>In <code>create.gsp</code>, we add the code to show the captcha:</p>
+<p>This is the most common usage scenario.</p>
+
+<p>In our GSP, we add the code to show the captcha:</p>
 
 <pre><code>&lt;recaptcha:ifEnabled&gt;
     &lt;recaptcha:recaptcha theme="dark"/&gt;
 &lt;/recaptcha:ifEnabled&gt;
 </code></pre>
 
-<p>In this example, we're using ReCaptcha's "dark" theme. Leaving out the "theme" attribute will default the captcha to the "light" theme.</p>
+<p>In this example, we're using ReCaptcha's <code>dark</code> theme. Leaving out the <code>theme</code> attribute will default the captcha to the <code>light</code> theme.</p>
+
+<h3>
+<a id="tag-usage-for-explicit-rendering" class="anchor" href="#tag-usage-for-explicit-rendering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tag Usage for Explicit Rendering</h3>
+
+<p>In our GSP, we add code like the following:</p>
+
+<pre><code>&lt;script type="text/javascript"&gt;
+  var onloadCallback = function() {
+    grecaptcha.render('html_element', &lt;recaptcha:renderParameters theme="dark" type="audio" tabindex="2"/&gt;);
+  };
+&lt;/script&gt;
+&lt;g:form action="myAction" method="post"&gt;
+  &lt;recaptcha:ifEnabled&gt;
+    &lt;recaptcha:recaptchaExplicit loadCallback="onloadCallback"/&gt;
+    &lt;div id="html_element"&gt;&lt;/div&gt;
+  &lt;/recaptcha:ifEnabled&gt;
+  &lt;br/&gt;
+  &lt;g:submitButton name="submit"/&gt;
+&lt;/g:form&gt;
+</code></pre>
+
+<p>In this example, we're using ReCaptcha's <code>dark</code> theme, with an <code>audio</code> captcha and a <code>tabindex</code> of 2.</p>
+
+<p>For more information about explicit mode captchas, see <a href="https://developers.google.com/recaptcha/docs/display#explicit_render">the ReCaptcha documentation</a>.</p>
 
 <h3>
 <a id="tag-usage-with-separate-script" class="anchor" href="#tag-usage-with-separate-script" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tag Usage with Separate Script</h3>
@@ -231,7 +324,7 @@ the <code>.groovy</code> file (easiest), or it can be converted into a Java <cod
 <h3>
 <a id="customizing-the-language" class="anchor" href="#customizing-the-language" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customizing the Language</h3>
 
-<p>If you want to change the language your captcha uses, set <code>lang = "someLang"</code> in the <code>&lt;recaptcha/&gt;</code> tag.</p>
+<p>If you want to change the language your captcha uses, set <code>lang = "someLang"</code> in the <code>&lt;recaptcha:recaptcha&gt;</code> or <code>&lt;recaptcha:recaptchaExplcit&gt;</code> tags.</p>
 
 <p>See <a href="https://developers.google.com/recaptcha/docs/language">ReCaptcha Language Codes</a> for available languages.</p>
 
@@ -270,13 +363,12 @@ class UserController {
 
 <pre><code>private void buildAndCheckAnswer(def postText, def expectedValid, def expectedErrorMessage) {
     def mocker = new MockFor(Post.class)
-    mocker.demand.getQueryString(4..4) { new QueryString() }
-    mocker.demand.getText { postText }
+    mocker.demand.getQueryString(3..3) { new QueryString() }
+    mocker.demand.getResponse { new JsonSlurper().parseText(postText) }
     mocker.use {
-      def response = recaptchaService.checkAnswer("123.123.123.123", "abcdefghijklmnop", "response")
+        def response = r.checkAnswer("123.123.123.123", "response")
 
-      assertTrue response.valid == expectedValid
-      assertEquals expectedErrorMessage, response.errorMessage
+        assertTrue response == expectedValid
     }
 }
 </code></pre>
@@ -284,13 +376,13 @@ class UserController {
 <p>The <code>postText</code> parameter represents the response from the ReCaptcha server. Here are examples of simulating success and failure results:</p>
 
 <pre><code>public void testCheckAnswerSuccess() {
-    // ReCaptcha server will return true to indicate success
-    buildAndCheckAnswer("true", true, null)
+    def answer = """{ "success": true }"""
+    buildAndCheckAnswer(answer, true)
 }
 
-public void testCheckAnswerFailure() {
-    // ReCaptcha server will return false, followed by the error message on a new line for failure
-    buildAndCheckAnswer("false\\nError Message", false, "Error Message")
+public void testCheckAnswerFail() {
+    def answer = """{ "success": false }"""
+    buildAndCheckAnswer(answer, false)
 }
 </code></pre>
 
@@ -346,91 +438,9 @@ public void testCheckAnswerFailure() {
 <a id="misc" class="anchor" href="#misc" aria-hidden="true"><span class="octicon octicon-link"></span></a>Misc.</h1>
 
 <h3>
-<a id="changelog" class="anchor" href="#changelog" aria-hidden="true"><span class="octicon octicon-link"></span></a>CHANGELOG</h3>
+<a id="changelog-pre-060" class="anchor" href="#changelog-pre-060" aria-hidden="true"><span class="octicon octicon-link"></span></a>CHANGELOG (PRE 0.6.0)</h3>
 
 <ul>
-<li>1.1.0
-
-<ul>
-<li>Update feedback mechanisms. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/25">GitHub Issue #25</a>)</li>
-<li>Add support for emitting the <code>&lt;script&gt;</code> tag required for captcha in a separate location. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/26">GitHub Issue #26</a>)</li>
-</ul>
-</li>
-<li>1.0.0 Initial support for the new "checkbox" style captcha. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/22">GitHub Issue #22</a>)
-
-<ul>
-<li>This version of the plugin only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. See <a href="https://developers.google.com/recaptcha/docs/display">the ReCaptcha docs</a> for more information about automatic vs. explicit.</li>
-<li>
-<code>useSecureAPI</code> is no longer supported as a configuration option. All communication with ReCaptcha servers is over HTTPS.</li>
-<li>
-<code>forceLanguageInURL</code> is no longer supported as a configuration option. ReCaptcha properly display the selected language no matter what language the browser uses.</li>
-</ul>
-</li>
-<li>0.7.0
-
-<ul>
-<li>Add support for connecting through a proxy server when verifying the captcha value. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/21">GitHub Issue #21</a>)</li>
-</ul>
-</li>
-<li>0.6.9
-
-<ul>
-<li>Remove unused import for <code>org.codehaus.groovy.grails.commons.ConfigurationHolder</code> that doesn't exist in Grails 2.4 any more. (<a href="https://github.com/iamthechad/grails-recaptcha/pull/20">GitHub Issue #20</a>)</li>
-</ul>
-</li>
-<li>0.6.8
-
-<ul>
-<li>Don't crash when the <code>enabled</code> parameter is missing. Log missing config params, but use defaults. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/18">GitHub Issue #18</a>)</li>
-<li>Add blurb about externalized config. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/19">GitHub Issue #19</a>)</li>
-</ul>
-</li>
-<li>0.6.7
-
-<ul>
-<li>Fix a stupid bug that would cause a crash when determining if it's enabled. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/14">GitHub Issue #14</a>)</li>
-</ul>
-</li>
-<li>0.6.6
-
-<ul>
-<li>Behave correctly when config options are "false" or missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/13">GitHub Issue #13</a>)</li>
-</ul>
-</li>
-<li>0.6.5
-
-<ul>
-<li>Don't crash when boolean configuration options are missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/10">GitHub Issue #10</a>)</li>
-<li>Establish defaults for boolean options in case they go missing. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/11">GitHub Issue #11</a>)</li>
-<li>Don't crash when creating an AJAX captcha. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/12">GitHub Issue #12</a>)</li>
-</ul>
-</li>
-<li>0.6.4
-
-<ul>
-<li>Ensure that true/false settings are loaded correctly from a .properties file. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/9">GitHub Issue #9</a>)</li>
-</ul>
-</li>
-<li>0.6.3
-
-<ul>
-<li>Ensure that AJAX tags properly use HTTPS when specified. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/7">GitHub Issue #7</a>)</li>
-</ul>
-</li>
-<li>0.6.2
-
-<ul>
-<li>Remove spurious <code>println</code> left over. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/5">GitHub Issue #5</a>)</li>
-<li>Change install behavior to not create <code>RecaptchaConfig.groovy</code> in <code>_Install.groovy</code>. Add new script <code>recaptcha-quickstart</code> to handle creation of required configuration. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/6">GitHub Issue #6</a>)</li>
-</ul>
-</li>
-<li>0.6.0
-
-<ul>
-<li>Add the ability to display the widget using AJAX. (<a href="https://github.com/iamthechad/grails-recaptcha/issues/3">GitHub Issue #3</a>)</li>
-<li>Change plugin to require Grails 2.0 at a minimum.</li>
-</ul>
-</li>
 <li>0.5.3
 
 <ul>
@@ -500,6 +510,8 @@ public void testCheckAnswerFailure() {
 <p>Feel free to submit questions through GitHub or to StackOverflow. (The Grails mailing list appears to be defunct.)</p>
 
 <p>Alternatively you can contact me directly - cjohnston at megatome dot com</p>
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/iamthechad/grails-recaptcha/trend.png" alt="Bitdeli Badge"></a></p>
         </section>
 
         <aside id="sidebar">
