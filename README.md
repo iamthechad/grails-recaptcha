@@ -178,6 +178,8 @@ This tag is responsible for generating the correct HTML output to display the ca
 * `lang` - Can be any one of the supported ReCaptcha language codes. See the [list of supported language codes](https://developers.google.com/recaptcha/docs/language).
 * `tabindex` - Optional tabindex of the widget. 
 * `type` - Type of captcha to display if the checkbox is not sufficient. Can be one of `image` or `audio`. Defaults to `image`.
+* `successCallback` - Optional function to be called when the user submits a successful response.
+* `expiredCallback` - Optional function to be called when the successful response has expired.
 * `includeScript` - If `includeScript` is set to `false` at either the global or tag level, the `<script>` tag required by ReCaptcha will not be included in the generated HTML. The `<recaptcha:script>` tag is also required in this scenario.
 
 See the [ReCaptcha Client Guide](https://developers.google.com/recaptcha/docs/display#config) for more details.
@@ -202,6 +204,8 @@ This utility tag will generate the JSON string used as a parameter to the `greca
 * `theme` - Can be one of `dark` or `light`. Defaults to `light`.
 * `tabindex` - Optional tabindex of the widget. 
 * `type` - Type of captcha to display if the checkbox is not sufficient. Can be one of `image` or `audio`. Defaults to `image`.
+* `successCallback` - Optional function to be called when the user submits a successful response.
+* `expiredCallback` - Optional function to be called when the successful response has expired.
  
 See the [ReCaptcha Client Guide](https://developers.google.com/recaptcha/docs/display#config) for more details.
 

@@ -26,6 +26,8 @@ public class ReCaptcha {
     private static final String BASE_URL = "https://www.google.com/recaptcha/api"
     public static final String VERIFY_URL = "/siteverify"
     public static final String JS_URL = BASE_URL + ".js"
+    private static final Map<String, String> PARAMETER_MAPPING = ['theme': 'theme', 'type': 'type', 'successCallback': 'callback', 'expiredCallback': 'expired-callback', 'tabindex': 'tabindex']
+    private static final String AUTOMATIC_PREFIX = "data-"
 
     String publicKey
     String privateKey
@@ -53,14 +55,10 @@ public class ReCaptcha {
             message << createScriptTag(options)
         }
         message << "<div class=\"g-recaptcha\" data-sitekey=\"${publicKey}\""
-        if (options?.theme) {
-            message << " data-theme=\"${options.theme}\""
-        }
-        if (options?.type) {
-            message << " data-type=\"${options.type}\""
-        }
-        if (options?.tabindex) {
-            message << " data-tabindex=\"${options.tabindex}\""
+        PARAMETER_MAPPING.each { key, value ->
+            if (null != options && options[key]) {
+                message << " ${AUTOMATIC_PREFIX}${value}=\"${options[key]}\""
+            }
         }
         message << "></div>\r\n"
 
@@ -98,14 +96,10 @@ public class ReCaptcha {
         def params = new StringBuffer()
 
         params << "{ 'sitekey': '${publicKey}'"
-        if (options?.theme) {
-            params << ", 'theme': '${options.theme}'"
-        }
-        if (options?.type) {
-            params << ", 'type': '${options.type}'"
-        }
-        if (options?.tabindex) {
-            params << ", 'tabindex': '${options.tabindex}'"
+        PARAMETER_MAPPING.each { key, value ->
+            if (null != options && options[key]) {
+                params << ", '${value}': '${options[key]}'"
+            }
         }
         params << "}"
 

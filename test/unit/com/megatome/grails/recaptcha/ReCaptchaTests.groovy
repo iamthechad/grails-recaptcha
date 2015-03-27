@@ -46,12 +46,18 @@ public class ReCaptchaTests extends GroovyTestCase {
         assertFalse html.contains("data-theme")
         assertFalse html.contains("data-tabindex")
         assertFalse html.contains("data-type")
+        assertFalse html.contains("data-callback")
+        assertFalse html.contains("data-expired-callback")
 
         assertTrue r.createRecaptchaHtml(["theme": "mytheme"]).contains("data-theme=\"mytheme\"")
 
         assertTrue r.createRecaptchaHtml(["tabindex": "0"]).contains("data-tabindex=\"0\"")
 
         assertTrue r.createRecaptchaHtml(["type": "image"]).contains("data-type=\"image\"")
+
+        assertTrue r.createRecaptchaHtml(["successCallback": "foo"]).contains("data-callback=\"foo\"")
+
+        assertTrue r.createRecaptchaHtml(["expiredCallback": "foo"]).contains("data-expired-callback=\"foo\"")
     }
 
     public void testCreateCaptchaHtmlWithLangInOptions() {
@@ -79,6 +85,26 @@ public class ReCaptchaTests extends GroovyTestCase {
 
     public void testCreateCaptchaExplicitWithLang() {
         buildAndCheckExplicitHTML(["loadCallback": "foo", "lang": "fr"])
+    }
+
+    public void testCreateRenderParameters() {
+        def json = r.createRenderParameters(null)
+        assertTrue json.contains("sitekey")
+        assertFalse json.contains("theme")
+        assertFalse json.contains("tabindex")
+        assertFalse json.contains("type")
+        assertFalse json.contains("callback")
+        assertFalse json.contains("expired-callback")
+
+        assertTrue r.createRenderParameters(["theme": "mytheme"]).contains("'theme': 'mytheme'")
+
+        assertTrue r.createRenderParameters(["tabindex": "0"]).contains("'tabindex': '0'")
+
+        assertTrue r.createRenderParameters(["type": "image"]).contains("'type': 'image'")
+
+        assertTrue r.createRenderParameters(["successCallback": "foo"]).contains("'callback': 'foo'")
+
+        assertTrue r.createRenderParameters(["expiredCallback": "foo"]).contains("'expired-callback': 'foo'")
     }
 
     public void testCheckAnswerSuccess() {
@@ -122,11 +148,11 @@ public class ReCaptchaTests extends GroovyTestCase {
         }
         def html = r.createRecaptchaExplicitHtml(options)
         assertTrue html.contains("render=explicit")
-        assertTrue html.contains("onload=" + options.loadCallback)
         if (expectedLang) {
-            assertTrue html.contains("hl=" + expectedLang)
+            assertTrue html.contains("hl=${expectedLang}")
         } else {
             assertFalse html.contains("hl=")
         }
+        assertTrue html.contains("onload=" + options.loadCallback)
     }
 }
