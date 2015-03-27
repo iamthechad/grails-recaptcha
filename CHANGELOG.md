@@ -1,18 +1,12 @@
 # Change Log
 
-## [Unreleased](https://github.com/iamthechad/grails-recaptcha/tree/HEAD)
+## [v1.2.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.2.0) (2015-03-27)
 
-[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/V1.2.0...HEAD)
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.1.0...v1.2.0)
 
 **Closed issues:**
 
 - Support data callback parameters [\#32](https://github.com/iamthechad/grails-recaptcha/issues/32)
-
-## [V1.2.0](https://github.com/iamthechad/grails-recaptcha/tree/V1.2.0) (2015-03-27)
-
-[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.1.0...V1.2.0)
-
-**Closed issues:**
 
 - Add tab index back [\#31](https://github.com/iamthechad/grails-recaptcha/issues/31)
 
@@ -84,15 +78,15 @@
 
 ## [v0.6.6](https://github.com/iamthechad/grails-recaptcha/tree/v0.6.6) (2013-11-07)
 
-[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/help...v0.6.6)
-
-## [help](https://github.com/iamthechad/grails-recaptcha/tree/help) (2013-05-13)
-
-[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v0.6.5...help)
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v0.6.5...v0.6.6)
 
 ## [v0.6.5](https://github.com/iamthechad/grails-recaptcha/tree/v0.6.5) (2013-05-13)
 
-[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v0.6.4...v0.6.5)
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/help...v0.6.5)
+
+## [help](https://github.com/iamthechad/grails-recaptcha/tree/help) (2013-05-13)
+
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v0.6.4...help)
 
 **Closed issues:**
 
