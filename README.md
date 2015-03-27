@@ -1,4 +1,48 @@
 [![Stories in Ready](https://badge.waffle.io/iamthechad/grails-recaptcha.png?label=ready&title=Ready)](https://waffle.io/iamthechad/grails-recaptcha)
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Version 1.0 Notice](#version-10-notice)
+- [Introduction](#introduction)
+- [Installation](#installation)
+  - [Integrated Configuration](#integrated-configuration)
+  - [Standalone Configuration](#standalone-configuration)
+  - [Externalized Configuration](#externalized-configuration)
+    - [Version 1.0 differences](#version-10-differences)
+- [Usage - ReCaptcha](#usage---recaptcha)
+  - [Edit the Configuration](#edit-the-configuration)
+    - [Proxy Server Configuration](#proxy-server-configuration)
+  - [Use the Tag Library](#use-the-tag-library)
+    - [`<recaptcha:ifEnabled>`](#recaptchaifenabled)
+    - [`<recaptcha:ifDisabled>`](#recaptchaifdisabled)
+    - [`<recaptcha:recaptcha>`](#recaptcharecaptcha)
+    - [`<recaptcha:script>`](#recaptchascript)
+    - [`<recaptcha:recaptchaExplicit>`](#recaptcharecaptchaexplicit)
+    - [`<recaptcha:renderParameters>`](#recaptcharenderparameters)
+    - [`<recaptcha:ifFailed>`](#recaptchaiffailed)
+  - [Verify the Captcha](#verify-the-captcha)
+  - [Examples](#examples)
+    - [Tag Usage for Automatic Rendering](#tag-usage-for-automatic-rendering)
+    - [Tag Usage for Explicit Rendering](#tag-usage-for-explicit-rendering)
+    - [Tag Usage with Separate Script](#tag-usage-with-separate-script)
+    - [Customizing the Language](#customizing-the-language)
+    - [Verify User Input](#verify-user-input)
+    - [Testing](#testing)
+- [Usage - Mailhide](#usage---mailhide)
+  - [Edit the Configuration](#edit-the-configuration-1)
+  - [Use the Tag Library](#use-the-tag-library-1)
+  - [Examples](#examples-1)
+    - [mailhide tag](#mailhide-tag)
+    - [mailhideURL tag](#mailhideurl-tag)
+- [Misc.](#misc)
+    - [CHANGELOG (PRE 0.6.0)](#changelog-pre-060)
+    - [Thanks](#thanks)
+- [Suggestions or Comments](#suggestions-or-comments)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Version 1.0 Notice
 
 Beginning with version 1.0 of this plugin, only the new "checkbox" captcha is supported. Please use version 0.7.0 if you require the legacy functionality.
