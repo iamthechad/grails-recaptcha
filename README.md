@@ -3,8 +3,6 @@
 
 Beginning with version 1.0 of this plugin, only the new "checkbox" captcha is supported. Please use version 0.7.0 if you require the legacy functionality.
 
-**Note:** This plugin currently only supports the "traditional" captcha use case of automatic rendering. Explicit rendering will be available soon. (See [the ReCaptcha docs](https://developers.google.com/recaptcha/docs/display) for more information about automatic vs. explicit.
-
 # Introduction
 
 This plugin is designed to make using the ReCaptcha and Mailhide services within Grails easy. In order to use this plugin, you must have a ReCaptcha account, available from [http://www.google.com/recaptcha](http://www.google.com/recaptcha).
@@ -120,14 +118,52 @@ Like other configurations, this can be placed at the top-level `recaptcha` entry
 
 ## Use the Tag Library
 
-The plugin includes four ReCaptcha tags:  `<recaptcha:ifEnabled>`, `<recaptcha:ifDisabled>`, `<recaptcha:recaptcha>`, and  `<recaptcha:ifFailed>`.
+### `<recaptcha:ifEnabled>`
 
-* The `<recaptcha:ifEnabled>` tag is a simple utility tag that will render the contents of the tag if the captcha is enabled in  `RecaptchaConfig.groovy`.
-* The `<recaptcha:ifDisabled>` tag is a simple utility tag that will render the contents of the tag if the captcha is disabled in  `RecaptchaConfig.groovy`.
-* The `<recaptcha:recaptcha>` tag is responsible for generating the correct HTML output to display the captcha. It supports four attributes: "theme", "lang", "tabindex", and "type". These attributes map directly to the values that can be set according to the ReCaptcha API. See the [ReCaptcha Client Guide](https://developers.google.com/recaptcha/docs/display#config) for more details.
-    * The `includeScript` attribute can also be set. If `includeScript` is set to `false` at either the global or tag level, the `<script>` tag required by ReCaptcha will not be included in the generated HTML. The `<recaptcha:script>` tag is also required in this scenario.
-* The `<recaptcha:ifFailed>` tag will render its contents if the previous validation failed. Some ReCaptcha themes, like "clean", do not display error messages and require the developer to show an error message. Use this tag if you're using one of these themes.
-* The `<recaptcha:script>` tag will render the required `<script>` tag. Combine this with the global or tag-level `includeScript=false` setting to allow putting the `<script>` tag elsewhere in your markup. This tag also supports the "lang" attribute. **This does not work in the `<head>` section of the page**
+This tag is a simple utility that will render its contents if the captcha is enabled in the configuration.
+
+### `<recaptcha:ifDisabled>`
+
+This tag is a simple utility that will render its contents if the captcha is disabled in the configuration.
+
+### `<recaptcha:recaptcha>`
+
+This tag is responsible for generating the correct HTML output to display the captcha. It supports the following attributes: 
+
+* `theme` - Can be one of `dark` or `light`. Defaults to `light`.
+* `lang` - Can be any one of the supported ReCaptcha language codes. See the [list of supported language codes](https://developers.google.com/recaptcha/docs/language).
+* `tabindex` - Optional tabindex of the widget. 
+* `type` - Type of captcha to display if the checkbox is not sufficient. Can be one of `image` or `audio`. Defaults to `image`.
+* `includeScript` - If `includeScript` is set to `false` at either the global or tag level, the `<script>` tag required by ReCaptcha will not be included in the generated HTML. The `<recaptcha:script>` tag is also required in this scenario.
+
+See the [ReCaptcha Client Guide](https://developers.google.com/recaptcha/docs/display#config) for more details.
+
+### `<recaptcha:script>`
+
+This tag will render the required `<script>` tag. Combine this with the global or tag-level `includeScript=false` setting to allow putting the `<script>` tag elsewhere in your markup. This tag also supports the "lang" attribute. **This does not work in the `<head>` section of the page**
+
+### `<recaptcha:recaptchaExplicit>`
+
+This tag is responsible for generating the correct HTML output to support explicit display and usage of the captcha. It supports the following attributes: 
+
+* `lang` - Can be any one of the supported ReCaptcha language codes. See the [list of supported language codes](https://developers.google.com/recaptcha/docs/language).
+* `loadCallback` - The JavaScript function to be called when all dependencies have loaded. This function is usually responsible for rendering the captcha.
+
+For more information about explicit mode captchas, see [the ReCaptcha documentation](https://developers.google.com/recaptcha/docs/display#explicit_render).
+
+### `<recaptcha:renderParameters>`
+
+This utility tag will generate the JSON string used as a parameter to the `grecaptcha.render()` function. It supports the following attributes:
+
+* `theme` - Can be one of `dark` or `light`. Defaults to `light`.
+* `tabindex` - Optional tabindex of the widget. 
+* `type` - Type of captcha to display if the checkbox is not sufficient. Can be one of `image` or `audio`. Defaults to `image`.
+ 
+See the [ReCaptcha Client Guide](https://developers.google.com/recaptcha/docs/display#config) for more details.
+
+### `<recaptcha:ifFailed>`
+
+This tag will render its contents if the previous validation failed.
 
 ## Verify the Captcha
 
@@ -137,15 +173,39 @@ In your controller, call `recaptchaService.verifyAnswer(session, request.getRemo
 
 Here's a simple example pulled from an account creation application.
 
-### Tag Usage
+### Tag Usage for Automatic Rendering
 
-In `create.gsp`, we add the code to show the captcha:
+This is the most common usage scenario.
+
+In our GSP, we add the code to show the captcha:
 
     <recaptcha:ifEnabled>
         <recaptcha:recaptcha theme="dark"/>
     </recaptcha:ifEnabled>
 
-In this example, we're using ReCaptcha's "dark" theme. Leaving out the "theme" attribute will default the captcha to the "light" theme.
+In this example, we're using ReCaptcha's `dark` theme. Leaving out the `theme` attribute will default the captcha to the `light` theme.
+
+### Tag Usage for Explicit Rendering
+ 
+In our GSP, we add code like the following:
+
+    <script type="text/javascript">
+      var onloadCallback = function() {
+        grecaptcha.render('html_element', <recaptcha:renderParameters theme="dark" type="audio" tabindex="2"/>);
+      };
+    </script>
+    <g:form action="myAction" method="post">
+      <recaptcha:ifEnabled>
+        <recaptcha:recaptchaExplicit loadCallback="onloadCallback"/>
+        <div id="html_element"></div>
+      </recaptcha:ifEnabled>
+      <br/>
+      <g:submitButton name="submit"/>
+    </g:form>
+    
+In this example, we're using ReCaptcha's `dark` theme, with an `audio` captcha and a `tabindex` of 2.
+
+For more information about explicit mode captchas, see [the ReCaptcha documentation](https://developers.google.com/recaptcha/docs/display#explicit_render).
 
 ### Tag Usage with Separate Script
 
@@ -166,7 +226,7 @@ This will cause the `<script src="https://www.google.com/recaptcha/api.js?" asyn
 
 ### Customizing the Language
 
-If you want to change the language your captcha uses, set `lang = "someLang"` in the `<recaptcha/>` tag.
+If you want to change the language your captcha uses, set `lang = "someLang"` in the `<recaptcha:recaptcha>` or `<recaptcha:recaptchaExplcit>` tags.
 
 See [ReCaptcha Language Codes](https://developers.google.com/recaptcha/docs/language) for available languages.
 
@@ -203,27 +263,26 @@ Starting with version 0.4.5, the plugin should be easier to integrate into test 
 
 	private void buildAndCheckAnswer(def postText, def expectedValid, def expectedErrorMessage) {
 	    def mocker = new MockFor(Post.class)
-	    mocker.demand.getQueryString(4..4) { new QueryString() }
-	    mocker.demand.getText { postText }
-	    mocker.use {
-	      def response = recaptchaService.checkAnswer("123.123.123.123", "abcdefghijklmnop", "response")
-
-	      assertTrue response.valid == expectedValid
-	      assertEquals expectedErrorMessage, response.errorMessage
-	    }
+		mocker.demand.getQueryString(3..3) { new QueryString() }
+		mocker.demand.getResponse { new JsonSlurper().parseText(postText) }
+		mocker.use {
+			def response = r.checkAnswer("123.123.123.123", "response")
+        
+			assertTrue response == expectedValid
+		}
 	}
 
 
 The `postText` parameter represents the response from the ReCaptcha server. Here are examples of simulating success and failure results:
 
 	public void testCheckAnswerSuccess() {
-	    // ReCaptcha server will return true to indicate success
-	    buildAndCheckAnswer("true", true, null)
+		def answer = """{ "success": true }"""
+		buildAndCheckAnswer(answer, true)
 	}
-
-	public void testCheckAnswerFailure() {
-	    // ReCaptcha server will return false, followed by the error message on a new line for failure
-	    buildAndCheckAnswer("false\\nError Message", false, "Error Message")
+    
+	public void testCheckAnswerFail() {
+		def answer = """{ "success": false }"""
+		buildAndCheckAnswer(answer, false)
 	}
 
 
