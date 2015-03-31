@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/iamthechad/grails-recaptcha.svg?branch=master)](https://travis-ci.org/iamthechad/grails-recaptcha) 
 [![Stories in Ready](https://badge.waffle.io/iamthechad/grails-recaptcha.png?label=ready&title=Ready)](https://waffle.io/iamthechad/grails-recaptcha)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
