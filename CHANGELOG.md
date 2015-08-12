@@ -1,5 +1,17 @@
 # Change Log
 
+## [Unreleased](https://github.com/iamthechad/grails-recaptcha/tree/HEAD)
+
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.2.0...HEAD)
+
+**Closed issues:**
+
+- Upgrade to Grails 3.0 [\#36](https://github.com/iamthechad/grails-recaptcha/issues/36)
+
+- ReCaptcha on Ajax Forms [\#35](https://github.com/iamthechad/grails-recaptcha/issues/35)
+
+- Update plugin for Grails 3 [\#34](https://github.com/iamthechad/grails-recaptcha/issues/34)
+
 ## [v1.2.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.2.0) (2015-03-27)
 
 [Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.1.0...v1.2.0)
