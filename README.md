@@ -1,7 +1,8 @@
 [![Build Status](https://travis-ci.org/iamthechad/grails-recaptcha.svg?branch=version1_3_0)](https://travis-ci.org/iamthechad/grails-recaptcha) 
+[![Coverage Status](https://coveralls.io/repos/iamthechad/grails-recaptcha/badge.svg?branch=version1_3_0&service=github)](https://coveralls.io/github/iamthechad/grails-recaptcha?branch=version1_3_0)
 [![Stories in Ready](https://badge.waffle.io/iamthechad/grails-recaptcha.png?label=ready&title=Ready)](https://waffle.io/iamthechad/grails-recaptcha)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![Badges](http://img.shields.io/:badges-4/4-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
+[![Badges](http://img.shields.io/:badges-5/5-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
