@@ -2,7 +2,9 @@ language: groovy
 jdk:
 - oraclejdk8
 - oraclejdk7
-script: ./grailsw refresh-dependencies && ./grailsw "test-app unit:"
+script: ./grailsw refresh-dependencies && ./grailsw "test-app unit: -coverage -xml"
+after_success:
+- ./grailsw coveralls
 notifications:
   slack:
     secure: ag9X/xRYA/21GxI7XYORZ85nRmHJ4ZLhdX2FKHh35aYVXOHhnE+6XGxiC4frKJVhrcox71rnoLKV0KzvlN4zjNB4jsEsVaT/NJTWQoK/CySxthYxJAFPW9JDhr6oOw+XF46FmX6Ufit746/17bQykly8zq9c1mbEOg4QB5q5FMM=
