@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/iamthechad/grails-recaptcha.svg?branch=version1_3_0)](https://travis-ci.org/iamthechad/grails-recaptcha) 
 [![Stories in Ready](https://badge.waffle.io/iamthechad/grails-recaptcha.png?label=ready&title=Ready)](https://waffle.io/iamthechad/grails-recaptcha)
+[![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![Badges](http://img.shields.io/:badges-4/4-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -37,12 +39,17 @@
   - [Examples](#examples-1)
     - [mailhide tag](#mailhide-tag)
     - [mailhideURL tag](#mailhideurl-tag)
+- [Contributing](#contributing)
+  - [Before Submission](#before-submission)
+  - [When Submitting](#when-submitting)
 - [Misc.](#misc)
-    - [CHANGELOG (PRE 0.6.0)](#changelog-pre-060)
-    - [Thanks](#thanks)
+  - [CHANGELOG (PRE 0.6.0)](#changelog-pre-060)
+  - [Thanks](#thanks)
 - [Suggestions or Comments](#suggestions-or-comments)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+![Target Branch](https://img.shields.io/badge/target%20branch-version1__3__0-green.svg?style=flat-square)
 
 # Version 1.0 Notice
 
@@ -376,11 +383,26 @@ will create:
 
     Created Mailhide URL: http://www.google.com/recaptcha/mailhide/d?k=...publicKey...&c=...encryptedEmail...
 
+# Contributing
+
+![Target Branch](https://img.shields.io/badge/target%20branch-version1__3__0-green.svg?style=flat-square)
+
+Contributions are welcome, but there a couple of guidelines that will make everything easier.
+
+## Before Submission
+
+* Make sure that all unit tests before submitting a pull request.
+
+## When Submitting
+
+* Be sure to submit pull requests against the current "target branch". This will ensure that changes are applied to the correct version.
+* Make sure that commits have descriptive text that clearly explains the change. (See http://chris.beams.io/posts/git-commit/ for tips on writing good commit messages.)
+* Reference appropriate issues or pull requests if needed. (Use `refs XXX` instead of `fixes XXX` or `closes XXX`)
 
 # Misc.
 
 
-### CHANGELOG (PRE 0.6.0)
+## CHANGELOG (PRE 0.6.0)
 
 * 0.5.3
     * Add the ability to force a different language to be displayed.
@@ -405,7 +427,7 @@ will create:
 * 0.2
     * initial release, developed and tested against Grails 1.0.2
 
-### Thanks
+## Thanks
 
 * The `recaptcha-quickstart` script was borrowed heavily from the [Spring Security Core plugin](http://grails.org/plugin/spring-security-core).
 
@@ -415,7 +437,3 @@ will create:
 Feel free to submit questions through GitHub or to StackOverflow. (The Grails mailing list appears to be defunct.)
 
 Alternatively you can contact me directly - cjohnston at megatome dot com
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/iamthechad/grails-recaptcha/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
