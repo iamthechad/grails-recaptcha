@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
     <!--[if lt IE 9]>
@@ -28,7 +28,103 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h1>
+          <p><strong>Table of Contents</strong>  <em>generated with <a href="https://github.com/thlorenz/doctoc">DocToc</a></em></p>
+
+<ul>
+<li><a href="#version-10-notice">Version 1.0 Notice</a></li>
+<li><a href="#introduction">Introduction</a></li>
+<li>
+<a href="#installation">Installation</a>
+
+<ul>
+<li><a href="#integrated-configuration">Integrated Configuration</a></li>
+<li><a href="#standalone-configuration">Standalone Configuration</a></li>
+<li>
+<a href="#externalized-configuration">Externalized Configuration</a>
+
+<ul>
+<li><a href="#version-10-differences">Version 1.0 differences</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#usage---recaptcha">Usage - ReCaptcha</a>
+
+<ul>
+<li>
+<a href="#edit-the-configuration">Edit the Configuration</a>
+
+<ul>
+<li><a href="#proxy-server-configuration">Proxy Server Configuration</a></li>
+</ul>
+</li>
+<li>
+<a href="#use-the-tag-library">Use the Tag Library</a>
+
+<ul>
+<li><a href="#recaptchaifenabled"><code>&lt;recaptcha:ifEnabled&gt;</code></a></li>
+<li><a href="#recaptchaifdisabled"><code>&lt;recaptcha:ifDisabled&gt;</code></a></li>
+<li><a href="#recaptcharecaptcha"><code>&lt;recaptcha:recaptcha&gt;</code></a></li>
+<li><a href="#recaptchascript"><code>&lt;recaptcha:script&gt;</code></a></li>
+<li><a href="#recaptcharecaptchaexplicit"><code>&lt;recaptcha:recaptchaExplicit&gt;</code></a></li>
+<li><a href="#recaptcharenderparameters"><code>&lt;recaptcha:renderParameters&gt;</code></a></li>
+<li><a href="#recaptchaiffailed"><code>&lt;recaptcha:ifFailed&gt;</code></a></li>
+</ul>
+</li>
+<li><a href="#verify-the-captcha">Verify the Captcha</a></li>
+<li>
+<a href="#examples">Examples</a>
+
+<ul>
+<li><a href="#tag-usage-for-automatic-rendering">Tag Usage for Automatic Rendering</a></li>
+<li><a href="#tag-usage-for-explicit-rendering">Tag Usage for Explicit Rendering</a></li>
+<li><a href="#tag-usage-with-separate-script">Tag Usage with Separate Script</a></li>
+<li><a href="#customizing-the-language">Customizing the Language</a></li>
+<li><a href="#verify-user-input">Verify User Input</a></li>
+<li><a href="#testing">Testing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#usage---mailhide">Usage - Mailhide</a>
+
+<ul>
+<li><a href="#edit-the-configuration-1">Edit the Configuration</a></li>
+<li><a href="#use-the-tag-library-1">Use the Tag Library</a></li>
+<li>
+<a href="#examples-1">Examples</a>
+
+<ul>
+<li><a href="#mailhide-tag">mailhide tag</a></li>
+<li><a href="#mailhideurl-tag">mailhideURL tag</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<a href="#contributing">Contributing</a>
+
+<ul>
+<li><a href="#before-submission">Before Submission</a></li>
+<li><a href="#when-submitting">When Submitting</a></li>
+</ul>
+</li>
+<li>
+<a href="#misc">Misc.</a>
+
+<ul>
+<li><a href="#changelog-pre-060">CHANGELOG (PRE 0.6.0)</a></li>
+<li><a href="#thanks">Thanks</a></li>
+</ul>
+</li>
+<li><a href="#suggestions-or-comments">Suggestions or Comments</a></li>
+</ul>
+
+<p><img src="https://img.shields.io/badge/target%20branch-version1__4__0-green.svg?style=flat-square" alt="Target Branch"></p>
+
+<h1>
 <a id="version-10-notice" class="anchor" href="#version-10-notice" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version 1.0 Notice</h1>
 
 <p>Beginning with version 1.0 of this plugin, only the new "checkbox" captcha is supported. Please use version 0.7.0 if you require the legacy functionality.</p>
@@ -46,7 +142,7 @@
 <pre><code>…
 plugins {
     …
-    compile ':recaptcha:1.2.0'
+    compile ':recaptcha:1.3.0'
     …
 }
 </code></pre>
@@ -435,10 +531,33 @@ public void testCheckAnswerFail() {
 </code></pre>
 
 <h1>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h1>
+
+<p><img src="https://img.shields.io/badge/target%20branch-version1__4__0-green.svg?style=flat-square" alt="Target Branch"></p>
+
+<p>Contributions are welcome, but there a couple of guidelines that will make everything easier.</p>
+
+<h2>
+<a id="before-submission" class="anchor" href="#before-submission" aria-hidden="true"><span class="octicon octicon-link"></span></a>Before Submission</h2>
+
+<ul>
+<li>Make sure that all unit tests before submitting a pull request.</li>
+</ul>
+
+<h2>
+<a id="when-submitting" class="anchor" href="#when-submitting" aria-hidden="true"><span class="octicon octicon-link"></span></a>When Submitting</h2>
+
+<ul>
+<li>Be sure to submit pull requests against the current "target branch". This will ensure that changes are applied to the correct version.</li>
+<li>Make sure that commits have descriptive text that clearly explains the change. (See <a href="http://chris.beams.io/posts/git-commit/">http://chris.beams.io/posts/git-commit/</a> for tips on writing good commit messages.)</li>
+<li>Reference appropriate issues or pull requests if needed. (Use <code>refs XXX</code> instead of <code>fixes XXX</code> or <code>closes XXX</code>)</li>
+</ul>
+
+<h1>
 <a id="misc" class="anchor" href="#misc" aria-hidden="true"><span class="octicon octicon-link"></span></a>Misc.</h1>
 
-<h3>
-<a id="changelog-pre-060" class="anchor" href="#changelog-pre-060" aria-hidden="true"><span class="octicon octicon-link"></span></a>CHANGELOG (PRE 0.6.0)</h3>
+<h2>
+<a id="changelog-pre-060" class="anchor" href="#changelog-pre-060" aria-hidden="true"><span class="octicon octicon-link"></span></a>CHANGELOG (PRE 0.6.0)</h2>
 
 <ul>
 <li>0.5.3
@@ -497,8 +616,8 @@ public void testCheckAnswerFail() {
 </li>
 </ul>
 
-<h3>
-<a id="thanks" class="anchor" href="#thanks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thanks</h3>
+<h2>
+<a id="thanks" class="anchor" href="#thanks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thanks</h2>
 
 <ul>
 <li>The <code>recaptcha-quickstart</code> script was borrowed heavily from the <a href="http://grails.org/plugin/spring-security-core">Spring Security Core plugin</a>.</li>
@@ -510,8 +629,6 @@ public void testCheckAnswerFail() {
 <p>Feel free to submit questions through GitHub or to StackOverflow. (The Grails mailing list appears to be defunct.)</p>
 
 <p>Alternatively you can contact me directly - cjohnston at megatome dot com</p>
-
-<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/iamthechad/grails-recaptcha/trend.png" alt="Bitdeli Badge"></a></p>
         </section>
 
         <aside id="sidebar">
