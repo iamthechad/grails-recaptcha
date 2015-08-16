@@ -22,7 +22,7 @@ class RecaptchaTagLib {
     MailhideService mailhideService
     private def commonAttrNames = ["theme", "lang", "type", "tabindex", "successCallback", "expiredCallback"]
     private def normalAttrNames = commonAttrNames + "includeScript"
-    private def explicitAttrNames = ["loadCallback"]
+    private def explicitAttrNames = ["lang", "loadCallback"]
 
     /**
      * Evaluates the content of the tag if ReCaptcha support is enabled. This value is set in config.
