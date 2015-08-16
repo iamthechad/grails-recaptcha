@@ -2,15 +2,27 @@
 
 ## [Unreleased](https://github.com/iamthechad/grails-recaptcha/tree/HEAD)
 
-[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.2.0...HEAD)
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.3.0...HEAD)
+
+## [v1.3.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.3.0) (2015-08-16)
+
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.2.0...v1.3.0)
 
 **Closed issues:**
+
+- Language attribute not working for explicit captcha [\#39](https://github.com/iamthechad/grails-recaptcha/issues/39)
+
+- Create contribution documentation [\#38](https://github.com/iamthechad/grails-recaptcha/issues/38)
 
 - Upgrade to Grails 3.0 [\#36](https://github.com/iamthechad/grails-recaptcha/issues/36)
 
 - ReCaptcha on Ajax Forms [\#35](https://github.com/iamthechad/grails-recaptcha/issues/35)
 
 - Update plugin for Grails 3 [\#34](https://github.com/iamthechad/grails-recaptcha/issues/34)
+
+**Merged pull requests:**
+
+- Update RecaptchaTagLib.groovy [\#37](https://github.com/iamthechad/grails-recaptcha/pull/37) ([pnizer](https://github.com/pnizer))
 
 ## [v1.2.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.2.0) (2015-03-27)
 
