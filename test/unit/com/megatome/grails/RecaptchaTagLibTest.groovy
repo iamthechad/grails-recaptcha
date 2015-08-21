@@ -5,31 +5,12 @@ import spock.lang.Specification
 
 @TestFor(RecaptchaTagLib)
 class RecaptchaTagLibTest extends Specification {
-    def recapMock
-    def params
-
-    /*def setup() {
-        recapMock = mockFor(RecaptchaService)
-        params = [:]
-        recapMock.demand.createCaptcha { Map props -> params = props; return "" }
-        recapMock.demand.createCaptchaExplicit { Map props -> params = props; return "" }
-        tagLib.recaptchaService = recapMock.createMock()
-    }*/
-
-    def setupMock(explicit) {
-        recapMock = mockFor(RecaptchaService)
-        params = [:]
-        if (!explicit) {
-            recapMock.demand.createCaptcha { Map props -> params = props; return "" }
-        } else {
-            recapMock.demand.createCaptchaExplicit { Map props -> params = props; return "" }
-        }
-        tagLib.recaptchaService = recapMock.createMock()
-    }
-
     void "test recaptcha tag with no attributes"() {
         setup:
-        setupMock(false)
+        def recapMock = mockFor(RecaptchaService)
+        def params = [:]
+        recapMock.demand.createCaptcha(3..3) { Map props -> params = props; return "" }
+        tagLib.recaptchaService = recapMock.createMock()
 
         when:
         tagLib.recaptcha()
@@ -37,28 +18,19 @@ class RecaptchaTagLibTest extends Specification {
         then:
         params != null
         params == [:]
-    }
-
-    void "test recaptcha tag with all attributes"() {
-        setup:
-        setupMock(false)
 
         when:
-        tagLib.recaptcha(theme:"dark", lang:"fr", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1, includeScript: true)
+        tagLib.recaptcha(theme:"dark", lang:"fr", type:"audio", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1, includeScript: true)
 
         then:
         params != null
         params.theme == "dark"
         params.lang == "fr"
+        params.type == "audio"
         params.successCallback == "successCB"
         params.expiredCallback == "expiredCB"
         params.tabindex == 1
         params.includeScript == true
-    }
-
-    void "test recaptcha tag with illegal attributes"() {
-        setup:
-        setupMock(false)
 
         when:
         tagLib.recaptcha(theme:"dark", foo:"bar")
@@ -71,7 +43,10 @@ class RecaptchaTagLibTest extends Specification {
 
     void "test recaptchaExplicit tag with no attributes"() {
         setup:
-        setupMock(true)
+        def recapMock = mockFor(RecaptchaService)
+        def params = [:]
+        recapMock.demand.createCaptchaExplicit(3..3) { Map props -> params = props; return "" }
+        tagLib.recaptchaService = recapMock.createMock()
 
         when:
         tagLib.recaptchaExplicit()
@@ -79,11 +54,6 @@ class RecaptchaTagLibTest extends Specification {
         then:
         params != null
         params == [:]
-    }
-
-    void "test recaptchaExplicit tag with all attributes"() {
-        setup:
-        setupMock(true)
 
         when:
         tagLib.recaptchaExplicit(lang:"fr", loadCallback: "loadCB")
@@ -92,11 +62,6 @@ class RecaptchaTagLibTest extends Specification {
         params != null
         params.lang == "fr"
         params.loadCallback == "loadCB"
-    }
-
-    void "test recaptchaExplicit tag with illegal attributes"() {
-        setup:
-        setupMock(true)
 
         when:
         tagLib.recaptchaExplicit(lang:"fr", foo:"bar")
@@ -104,6 +69,40 @@ class RecaptchaTagLibTest extends Specification {
         then:
         params != null
         params.lang == "fr"
+        !params.containsKey('foo')
+    }
+
+    void "test renderParametrs tag"() {
+        setup:
+        def recapMock = mockFor(RecaptchaService)
+        def params = [:]
+        recapMock.demand.createRenderParameters(3..3) { Map props -> params = props; return "" }
+        tagLib.recaptchaService = recapMock.createMock()
+
+        when:
+        tagLib.renderParameters()
+
+        then:
+        params != null
+        params == [:]
+
+        when:
+        tagLib.renderParameters(theme:"dark", lang:"fr", type:"audio", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1)
+
+        then:
+        params != null
+        params.theme == "dark"
+        params.lang == "fr"
+        params.successCallback == "successCB"
+        params.expiredCallback == "expiredCB"
+        params.tabindex == 1
+
+        when:
+        tagLib.renderParameters(theme:"dark", foo:"bar")
+
+        then:
+        params != null
+        params.theme == "dark"
         !params.containsKey('foo')
     }
 }
