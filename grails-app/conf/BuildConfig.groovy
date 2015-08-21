@@ -17,6 +17,8 @@ grails.project.dependency.resolution = {
         build 'org.apache.httpcomponents:httpcore:4.3.2'
         build 'org.apache.httpcomponents:httpclient:4.3.2'
         build 'org.apache.httpcomponents:httpmime:4.3.3'
+        test 'org.springframework:spring-expression:4.0.9.RELEASE'
+        test 'org.springframework:spring-aop:4.0.9.RELEASE'
     }
 
     plugins {
