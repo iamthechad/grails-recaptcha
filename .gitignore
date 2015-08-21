@@ -1,3 +1,7 @@
+/out
+/web-app
+/*.iml
+/.idea
 
 .DS_Store
 target
