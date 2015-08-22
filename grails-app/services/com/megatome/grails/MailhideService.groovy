@@ -37,9 +37,13 @@ class MailhideService {
             } else {
                 ClassLoader parent = getClass().getClassLoader()
                 GroovyClassLoader loader = new GroovyClassLoader(parent)
-                def rc = loader.loadClass("RecaptchaConfig")
-                def cfg = new ConfigSlurper(Environment.current.name).parse(rc)
-                this.mailhideConfig = cfg.mailhide
+                try {
+                    def rc = loader.loadClass("RecaptchaConfig")
+                    def cfg = new ConfigSlurper(Environment.current.name).parse(rc)
+                    this.mailhideConfig = cfg.mailhide
+                } catch (ClassNotFoundException e) {
+                    throw new IllegalArgumentException("ReCaptcha configuration not specified. Run the quickstart script.")
+                }
             }
             if (!this.mailhideConfig.publicKey || this.mailhideConfig.publicKey.length() == 0) {
                 throw new IllegalArgumentException("Mailhide Public Key must be specified in RecaptchaConfig")

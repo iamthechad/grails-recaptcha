@@ -44,4 +44,8 @@ class URLSafeBase64CodecTests extends GroovyTestCase {
       assert v == safeBase64Data
     }
   }
+
+  void testEncodeNull() {
+    assert null == URLSafeBase64Codec.encode(null)
+  }
 }
