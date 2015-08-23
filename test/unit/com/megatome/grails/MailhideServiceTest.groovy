@@ -61,5 +61,13 @@ class MailhideServiceTest extends Specification {
         response.contains("http://www.google.com/recaptcha/mailhide")
         response.contains("k=ABC")
         response.contains("c=")
+
+        when: "next invocation should access cache"
+        response = service.createMailhideURL("a@b.com").toString()
+
+        then:
+        response.contains("http://www.google.com/recaptcha/mailhide")
+        response.contains("k=ABC")
+        response.contains("c=")
     }
 }

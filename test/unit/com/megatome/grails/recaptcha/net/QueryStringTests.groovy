@@ -36,6 +36,11 @@ public class QueryStringTests extends GroovyTestCase {
     assertEquals "param1=value&param2=value", qs.toString()
   }
 
+  public void testCreateMultipleParameters() {
+    def qs = new QueryString(param1: "value", param2: "value")
+    assertEquals "param1=value&param2=value", qs.toString()
+  }
+
   public void testMultipleParametersWithNull() {
     def qs = new QueryString()
     qs.add("param1","value")
