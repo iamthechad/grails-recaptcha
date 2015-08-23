@@ -32,6 +32,8 @@ public class ReCaptchaTests extends GroovyTestCase {
         r.includeScript = false
         assertFalse r.createRecaptchaHtml(null).contains("<script")
 
+        assertTrue r.createRecaptchaHtml(includeScript: true).contains("<script")
+
         r.includeScript = true
         assertTrue r.createRecaptchaHtml(null).contains("<script")
 
@@ -81,6 +83,9 @@ public class ReCaptchaTests extends GroovyTestCase {
 
     public void testCreateCaptchaExplicit() {
         buildAndCheckExplicitHTML(["loadCallback": "foo"])
+
+        r.includeNoScript = true
+        buildAndCheckExplicitHTML(["loadCallback": "foo"], true)
     }
 
     public void testCreateCaptchaExplicitWithLang() {
@@ -141,7 +146,7 @@ public class ReCaptchaTests extends GroovyTestCase {
         }
     }
 
-    private void buildAndCheckExplicitHTML(Map options) {
+    private void buildAndCheckExplicitHTML(Map options, includeNoScript = false) {
         def expectedLang = null
         if (options.lang) {
             expectedLang = options.lang
@@ -154,5 +159,8 @@ public class ReCaptchaTests extends GroovyTestCase {
             assertFalse html.contains("hl=")
         }
         assertTrue html.contains("onload=" + options.loadCallback)
+        if (includeNoScript) {
+            assertTrue html.contains("<noscript>")
+        }
     }
 }
