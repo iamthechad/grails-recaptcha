@@ -25,7 +25,7 @@ class ConfigHelperTest extends Specification {
         !value
     }
 
-    def "test non-Boolean value value"() {
+    def "test non-Boolean value"() {
         when:
         def value = ConfigHelper.booleanValue("true")
 
