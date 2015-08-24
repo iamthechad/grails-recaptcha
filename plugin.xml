@@ -1,4 +1,4 @@
-<plugin name='recaptcha' version='1.3.0' grailsVersion='2.0 &gt; *'>
+<plugin name='recaptcha' version='1.4.0' grailsVersion='2.3 &gt; *'>
   <author>Chad Johnston</author>
   <authorEmail>cjohnston@megatome.com</authorEmail>
   <title>ReCaptcha and Mailhide support for Grails.</title>
