@@ -1,6 +1,6 @@
 package com.megatome.grails.recaptcha.net
 
-import groovy.json.JsonSlurper
+import grails.plugins.rest.client.RestBuilder
 import org.apache.commons.logging.LogFactory
 
 /**
@@ -17,41 +17,31 @@ import org.apache.commons.logging.LogFactory
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * Based on Groovy Recipes
  */
 
 public class Post {
     private static final log = LogFactory.getLog(this)
     String url
-    QueryString queryString = new QueryString()
-    URLConnection connection
-    String text
+    QueryParams queryParams = new QueryParams(null)
     AuthenticatorProxy proxy = null
+    RestBuilder rest = null
+
+    public Post(Map options) {
+        options.each { k,v -> if (this.hasProperty(k)) { this."$k" = v} }
+        if (null == rest) {
+            if (proxy?.isConfigured()) {
+                rest = new RestBuilder(connectTimeout: 10000, readTimeout: 1000, proxy: proxy.proxy)
+            } else {
+                rest = new RestBuilder(connectTimeout: 10000, readTimeout: 1000)
+            }
+        }
+    }
 
     def getResponse() {
         try {
-            def thisUrl = new URL(url)
-            connection = null
-            if (proxy.isConfigured()) {
-                connection = thisUrl.openConnection(proxy.getProxy())
-            } else {
-                connection = thisUrl.openConnection()
-            }
-            if (connection.metaClass.respondsTo(connection, "setReadTimeout", int)) {
-                connection.readTimeout = 10000
-            }
-            if (connection.metaClass.respondsTo(connection, "setConnectTimeout", int)) {
-                connection.connectTimeout = 10000
-            }
-            connection.setRequestMethod("POST")
-            connection.doOutput = true
-            Writer writer = new OutputStreamWriter(connection.outputStream)
-            writer.write(queryString.toString())
-            writer.flush()
-            writer.close()
-            connection.connect()
-            return new JsonSlurper().parseText(connection.content.text)
+            def queryUrl = url + "?" + queryParams.toRestClientString()
+            def resp = rest.post(queryUrl, queryParams.params)
+            return resp.json
         } catch (Exception e) {
             def message = "Failed to connect to ${url}."
             if (proxy.isConfigured()) {
@@ -63,11 +53,5 @@ public class Post {
             log.error(message, e)
         }
         return null
-    }
-
-    String toString() {
-        return "POST:\n" +
-                url + "\n" +
-                queryString.toString()
     }
 }

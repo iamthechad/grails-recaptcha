@@ -2,8 +2,9 @@ package com.megatome.grails.recaptcha
 
 import com.megatome.grails.recaptcha.net.Post
 import groovy.mock.interceptor.MockFor
-import com.megatome.grails.recaptcha.net.QueryString
+import com.megatome.grails.recaptcha.net.QueryParams
 import groovy.json.JsonSlurper
+import groovy.mock.interceptor.StubFor
 
 /**
  * Copyright 2010-2015 Megatome Technologies
@@ -136,10 +137,14 @@ public class ReCaptchaTests extends GroovyTestCase {
     }
 
     private void buildAndCheckAnswer(String postText, boolean expectedValid) {
-        def mocker = new MockFor(Post.class)
-        mocker.demand.getQueryString(3..3) { new QueryString() }
-        mocker.demand.getResponse { new JsonSlurper().parseText(postText) }
-        mocker.use {
+        def stub = new StubFor(Post.class)
+        stub.demand.hasProperty(3..3) { true }
+        stub.demand.setUrl() {}
+        stub.demand.setProxy() {}
+        stub.demand.getQueryParams(3..3) { new QueryParams() }
+        stub.demand.getResponse() { new JsonSlurper().parseText(postText) }
+
+        stub.use {
             def response = r.checkAnswer("123.123.123.123", "response")
 
             assertTrue response == expectedValid
