@@ -3,6 +3,10 @@ package com.megatome.grails.recaptcha.net
 import spock.lang.Specification
 
 class AuthenticatorProxyTest extends Specification {
+    def setup() {
+        Authenticator.default = null
+    }
+
     def "test proxy with no params"() {
         when:
         def authProxy = new AuthenticatorProxy(null)
