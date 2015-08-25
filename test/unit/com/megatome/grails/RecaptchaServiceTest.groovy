@@ -45,6 +45,25 @@ class RecaptchaServiceTest extends Specification {
         setup:
         config.recaptcha.publicKey = "ABC"
         config.recaptcha.privateKey = "123"
+        config.recaptcha.includeNoScript = true
+
+        when:
+        def response = service.createCaptcha([:])
+
+        then:
+        response.contains("\"g-recaptcha\"")
+        response.contains("data-sitekey=\"ABC\"")
+        response.contains("<noscript>")
+    }
+
+    void "test create regular captcha with proxy"() {
+        setup:
+        config.recaptcha.publicKey = "ABC"
+        config.recaptcha.privateKey = "123"
+        config.recaptcha.proxy.server = "localhost"
+        config.recaptcha.proxy.port = "8080"
+        config.recaptcha.proxy.username = "foo"
+        config.recaptcha.proxy.password = "bar"
 
         when:
         def response = service.createCaptcha([:])

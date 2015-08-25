@@ -1,5 +1,7 @@
 package com.megatome.grails.mailhide.util
 
+import spock.lang.Specification
+
 /**
  * Copyright 2010-2015 Megatome Technologies
  *
@@ -16,10 +18,15 @@ package com.megatome.grails.mailhide.util
  * limitations under the License.
  */
 
-class StringUtilsTests extends GroovyTestCase {
-  void testPadString() {
-    def testStr = ["x@example.com", "johndoe@example.com"]
-    testStr.each { nextStr ->
+class StringUtilsTest extends Specification {
+  def "Test padding strings for the mailhide encryption"() {
+    expect:
+    verifyPadding(["x@example.com", "johndoe@example.com"])
+  }
+
+
+  private static void verifyPadding(testStrings) {
+    testStrings.each { nextStr ->
       def padded = StringUtils.padString(nextStr)
       assert null != padded
       assert padded.size() % 16 == 0

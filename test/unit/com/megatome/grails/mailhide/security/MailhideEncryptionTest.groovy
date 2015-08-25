@@ -20,7 +20,7 @@ import grails.test.GrailsUnitTestCase
  * limitations under the License.
  */
 
-class MailhideEncryptionTests extends GrailsUnitTestCase {
+class MailhideEncryptionTest extends GrailsUnitTestCase {
   // Test data as supplied by Mailhide web site
   static final String PRIVATE_KEY = "deadbeefdeadbeefdeadbeefdeadbeef"
 
