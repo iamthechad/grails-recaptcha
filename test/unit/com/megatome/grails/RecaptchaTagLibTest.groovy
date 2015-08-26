@@ -92,7 +92,7 @@ class RecaptchaTagLibTest extends Specification {
         then:
         params != null
         params.theme == "dark"
-        params.lang == "fr"
+        !params.containsKey("lang")
         params.successCallback == "successCB"
         params.expiredCallback == "expiredCB"
         params.tabindex == 1

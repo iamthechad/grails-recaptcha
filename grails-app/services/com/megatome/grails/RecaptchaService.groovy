@@ -112,7 +112,7 @@ class RecaptchaService {
 
     /**
      * Create a JSON-like string containing parameters to be passed to the ReCaptcha JavScript object when using explicit mode.
-     * @param props Options for rendering; <code>theme</code>, <code>type</code>, <code>tabindex</code> are currently supported
+     * @param props Options for rendering; <code>theme</code>, <code>type</code>, <code>tabindex</code>, <code>callback</code>, <code>expired-callback</code> are currently supported
      * @return
      */
     def createRenderParameters(props) {

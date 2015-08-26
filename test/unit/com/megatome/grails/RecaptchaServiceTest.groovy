@@ -1,6 +1,8 @@
 package com.megatome.grails
 
 import grails.test.mixin.TestFor
+import groovy.json.JsonParserType
+import groovy.json.JsonSlurper
 import spock.lang.Specification
 
 @TestFor(RecaptchaService)
@@ -87,5 +89,39 @@ class RecaptchaServiceTest extends Specification {
         !response.contains("\"g-recaptcha\"")
         !response.contains("data-sitekey=\"ABC\"")
         response.contains("<noscript>")
+    }
+
+    void "test create render parameters"() {
+        setup:
+        def slurper = new JsonSlurper()
+        slurper.type = JsonParserType.LAX
+        config.recaptcha.publicKey = "ABC"
+        config.recaptcha.privateKey = "123"
+
+        when:
+        def response = service.createRenderParameters(null)
+        def json = slurper.parseText(response)
+
+        then:
+        json.sitekey == "ABC"
+
+        when:
+        response = service.createRenderParameters(theme:"dark", lang:"fr", type:"audio", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1)
+        json = slurper.parseText(response)
+
+        then:
+        json.theme == "dark"
+        !json.containsKey("lang")
+        json.callback == "successCB"
+        json["expired-callback"] == "expiredCB"
+        json.tabindex == "1"
+
+        when:
+        response = service.createRenderParameters(theme:"dark", foo:"bar")
+        json = slurper.parseText(response)
+
+        then:
+        json.theme == "dark"
+        !json.containsKey('foo')
     }
 }
