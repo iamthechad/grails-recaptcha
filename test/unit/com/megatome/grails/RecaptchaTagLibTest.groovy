@@ -20,13 +20,14 @@ class RecaptchaTagLibTest extends Specification {
         params == [:]
 
         when:
-        tagLib.recaptcha(theme:"dark", lang:"fr", type:"audio", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1, includeScript: true)
+        tagLib.recaptcha(theme:"dark", lang:"fr", type:"audio", size: "normal", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1, includeScript: true)
 
         then:
         params != null
         params.theme == "dark"
         params.lang == "fr"
         params.type == "audio"
+        params.size == "normal"
         params.successCallback == "successCB"
         params.expiredCallback == "expiredCB"
         params.tabindex == 1
@@ -87,22 +88,23 @@ class RecaptchaTagLibTest extends Specification {
         params == [:]
 
         when:
-        tagLib.renderParameters(theme:"dark", lang:"fr", type:"audio", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1)
+        tagLib.renderParameters(theme:"dark", type:"audio", size: "normal", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1)
 
         then:
         params != null
         params.theme == "dark"
-        !params.containsKey("lang")
+        params.size == "normal"
         params.successCallback == "successCB"
         params.expiredCallback == "expiredCB"
         params.tabindex == 1
 
         when:
-        tagLib.renderParameters(theme:"dark", foo:"bar")
+        tagLib.renderParameters(theme:"dark", lang:"fr", foo:"bar")
 
         then:
         params != null
         params.theme == "dark"
+        !params.containsKey("lang")
         !params.containsKey('foo')
     }
 

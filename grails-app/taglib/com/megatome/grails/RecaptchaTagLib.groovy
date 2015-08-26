@@ -20,7 +20,7 @@ class RecaptchaTagLib {
     static namespace = "recaptcha"
     RecaptchaService recaptchaService
     MailhideService mailhideService
-    private def commonAttrNames = ["theme", "type", "tabindex", "successCallback", "expiredCallback"]
+    private def commonAttrNames = ["theme", "type", "size", "tabindex", "successCallback", "expiredCallback"]
     private def normalAttrNames = commonAttrNames + "includeScript" + "lang"
     private def explicitAttrNames = ["lang", "loadCallback"]
 

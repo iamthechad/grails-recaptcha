@@ -26,7 +26,7 @@ public class ReCaptcha {
     private static final String BASE_URL = "https://www.google.com/recaptcha/api"
     public static final String VERIFY_URL = "/siteverify"
     public static final String JS_URL = BASE_URL + ".js"
-    private static final Map<String, String> PARAMETER_MAPPING = ['theme': 'theme', 'type': 'type', 'successCallback': 'callback', 'expiredCallback': 'expired-callback', 'tabindex': 'tabindex']
+    private static final Map<String, String> PARAMETER_MAPPING = ['theme': 'theme', 'type': 'type', 'size': 'size', 'successCallback': 'callback', 'expiredCallback': 'expired-callback', 'tabindex': 'tabindex']
     private static final String AUTOMATIC_PREFIX = "data-"
 
     String publicKey

@@ -56,6 +56,21 @@ class RecaptchaServiceTest extends Specification {
         response.contains("\"g-recaptcha\"")
         response.contains("data-sitekey=\"ABC\"")
         response.contains("<noscript>")
+
+        when:
+        response = service.createCaptcha(theme:"dark", lang:"fr", type:"audio", size: "normal", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1, includeScript: true)
+
+        then:
+        response.contains("\"g-recaptcha\"")
+        response.contains("data-sitekey=\"ABC\"")
+        response.contains("<noscript>")
+        response.contains("data-theme=\"dark\"")
+        response.contains("data-type=\"audio\"")
+        response.contains("data-size=\"normal\"")
+        response.contains("data-callback=\"successCB\"")
+        response.contains("data-expired-callback=\"expiredCB\"")
+        response.contains("data-tabindex=\"1\"")
+        response.contains("<script")
     }
 
     void "test create regular captcha with proxy"() {
@@ -106,22 +121,24 @@ class RecaptchaServiceTest extends Specification {
         json.sitekey == "ABC"
 
         when:
-        response = service.createRenderParameters(theme:"dark", lang:"fr", type:"audio", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1)
+        response = service.createRenderParameters(theme:"dark", type:"audio", size: "normal", successCallback: "successCB", expiredCallback: "expiredCB", tabindex: 1)
         json = slurper.parseText(response)
 
         then:
         json.theme == "dark"
-        !json.containsKey("lang")
+        json.type == "audio"
+        json.size == "normal"
         json.callback == "successCB"
         json["expired-callback"] == "expiredCB"
         json.tabindex == "1"
 
         when:
-        response = service.createRenderParameters(theme:"dark", foo:"bar")
+        response = service.createRenderParameters(theme:"dark", lang:"fr", foo:"bar")
         json = slurper.parseText(response)
 
         then:
         json.theme == "dark"
+        !json.containsKey("lang")
         !json.containsKey('foo')
     }
 }
