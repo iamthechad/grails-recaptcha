@@ -184,6 +184,7 @@ This tag is a simple utility that will render its contents if the captcha is dis
 This tag is responsible for generating the correct HTML output to display the captcha. It supports the following attributes: 
 
 * `theme` - Can be one of `dark` or `light`. Defaults to `light`.
+* `size` - Can be one of 'compact' or 'normal'. Defaults to 'normal'.
 * `lang` - Can be any one of the supported ReCaptcha language codes. See the [list of supported language codes](https://developers.google.com/recaptcha/docs/language).
 * `tabindex` - Optional tabindex of the widget. 
 * `type` - Type of captcha to display if the checkbox is not sufficient. Can be one of `image` or `audio`. Defaults to `image`.
@@ -211,6 +212,7 @@ For more information about explicit mode captchas, see [the ReCaptcha documentat
 This utility tag will generate the JSON string used as a parameter to the `grecaptcha.render()` function. It supports the following attributes:
 
 * `theme` - Can be one of `dark` or `light`. Defaults to `light`.
+* `size` - Can be one of 'compact' or 'normal'. Defaults to 'normal'.
 * `tabindex` - Optional tabindex of the widget. 
 * `type` - Type of captcha to display if the checkbox is not sufficient. Can be one of `image` or `audio`. Defaults to `image`.
 * `successCallback` - Optional function to be called when the user submits a successful response.
