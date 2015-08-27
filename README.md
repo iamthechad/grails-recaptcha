@@ -50,7 +50,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-![Target Branch](https://img.shields.io/badge/target%20branch-version1__4__0-green.svg?style=flat-square)
+![Target Branch](https://img.shields.io/badge/target%20branch-version1__5__0-green.svg?style=flat-square)
 
 # Version 1.0 Notice
 
@@ -394,7 +394,7 @@ will create:
 
 # Contributing
 
-![Target Branch](https://img.shields.io/badge/target%20branch-version1__4__0-green.svg?style=flat-square)
+![Target Branch](https://img.shields.io/badge/target%20branch-version1__5__0-green.svg?style=flat-square)
 
 Contributions are welcome, but there a couple of guidelines that will make everything easier.
 
