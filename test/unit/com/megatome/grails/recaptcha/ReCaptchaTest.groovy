@@ -169,7 +169,7 @@ class ReCaptchaTest extends Specification {
     }
 
     def "Verify answer validation"() {
-        when:"A sucessful response message"
+        when:"A successful response message"
         def answer = """{ "success": true }"""
 
         then:
