@@ -26,7 +26,6 @@ class RecaptchaService {
     def grailsApplication
     private def recaptchaConfig = null
     private def recap = null
-    private def proxy = null
 
     /**
      * Gets the ReCaptcha config.

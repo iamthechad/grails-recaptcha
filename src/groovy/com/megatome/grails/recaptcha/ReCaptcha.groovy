@@ -168,7 +168,6 @@ public class ReCaptcha {
      * @return
      */
     public boolean checkAnswer(String remoteAddr, String response) {
-        println "CHECKING ANSWER"
         def post = new Post(url: BASE_URL + VERIFY_URL, proxy: proxy)
         post.queryParams.add("secret", privateKey)
         post.queryParams.add("response", response)
