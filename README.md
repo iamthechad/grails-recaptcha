@@ -320,29 +320,35 @@ Here's an abbreviated controller class that verifies the captcha value when a ne
 
 Starting with version 0.4.5, the plugin should be easier to integrate into test scenarios. You can look at the test cases in the plugin itself, or you can implement something similar to:
 
-	private void buildAndCheckAnswer(def postText, def expectedValid, def expectedErrorMessage) {
-	    def mocker = new MockFor(Post.class)
-		mocker.demand.getQueryString(3..3) { new QueryString() }
-		mocker.demand.getResponse { new JsonSlurper().parseText(postText) }
-		mocker.use {
-			def response = r.checkAnswer("123.123.123.123", "response")
-        
-			assertTrue response == expectedValid
-		}
-	}
+	private void buildAndCheckAnswer(String postText, boolean expectedValid) {
+        def stub = new StubFor(Post.class)
+        stub.demand.hasProperty(3..3) { true }
+        stub.demand.setUrl() {}
+        stub.demand.setProxy() {}
+        stub.demand.getQueryParams(3..3) { new QueryParams(null) }
+        stub.demand.getResponse() { postText == null ? null : new JsonSlurper().parseText(postText) }
+    
+        stub.use {
+            def response = r.checkAnswer("123.123.123.123", "response")
+
+            assertTrue response == expectedValid
+        }
+    }
 
 
 The `postText` parameter represents the response from the ReCaptcha server. Here are examples of simulating success and failure results:
 
-	public void testCheckAnswerSuccess() {
-		def answer = """{ "success": true }"""
-		buildAndCheckAnswer(answer, true)
-	}
-    
-	public void testCheckAnswerFail() {
-		def answer = """{ "success": false }"""
-		buildAndCheckAnswer(answer, false)
-	}
+	when:"A successful response message"
+    def answer = """{ "success": true }"""
+
+    then:
+    buildAndCheckAnswer(answer, true)
+
+    when:"A failure response message"
+    answer = """{ "success": false }"""
+
+    then:
+    buildAndCheckAnswer(answer, false)
 
 
 # Usage - Mailhide
