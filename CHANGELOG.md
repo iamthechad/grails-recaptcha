@@ -16,15 +16,13 @@
 
 - ClassNotFoundException thrown if no config exists [\#40](https://github.com/iamthechad/grails-recaptcha/issues/40)
 
-**Closed issues:**
-
-- Language attribute not working for explicit captcha [\#39](https://github.com/iamthechad/grails-recaptcha/issues/39)
-
 ## [v1.3.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.3.0) (2015-08-16)
 
 [Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.2.0...v1.3.0)
 
 **Closed issues:**
+
+- Language attribute not working for explicit captcha [\#39](https://github.com/iamthechad/grails-recaptcha/issues/39)
 
 - Create contribution documentation [\#38](https://github.com/iamthechad/grails-recaptcha/issues/38)
 
