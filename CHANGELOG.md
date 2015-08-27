@@ -1,16 +1,30 @@
 # Change Log
 
-## [Unreleased](https://github.com/iamthechad/grails-recaptcha/tree/HEAD)
+## [v1.4.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.4.0) (2015-08-27)
 
-[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.3.0...HEAD)
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.3.0...v1.4.0)
+
+**Implemented enhancements:**
+
+- Support size attribute in render parameters [\#43](https://github.com/iamthechad/grails-recaptcha/issues/43)
+
+- Use REST Client [\#41](https://github.com/iamthechad/grails-recaptcha/issues/41)
+
+**Fixed bugs:**
+
+- Language is not supported in render parameters [\#42](https://github.com/iamthechad/grails-recaptcha/issues/42)
+
+- ClassNotFoundException thrown if no config exists [\#40](https://github.com/iamthechad/grails-recaptcha/issues/40)
+
+**Closed issues:**
+
+- Language attribute not working for explicit captcha [\#39](https://github.com/iamthechad/grails-recaptcha/issues/39)
 
 ## [v1.3.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.3.0) (2015-08-16)
 
 [Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.2.0...v1.3.0)
 
 **Closed issues:**
-
-- Language attribute not working for explicit captcha [\#39](https://github.com/iamthechad/grails-recaptcha/issues/39)
 
 - Create contribution documentation [\#38](https://github.com/iamthechad/grails-recaptcha/issues/38)
 
