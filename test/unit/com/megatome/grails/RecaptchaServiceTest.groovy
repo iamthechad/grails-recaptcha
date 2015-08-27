@@ -1,10 +1,14 @@
 package com.megatome.grails
 
+import com.megatome.grails.recaptcha.ReCaptcha
 import grails.test.mixin.TestFor
+import grails.test.runtime.FreshRuntime
 import groovy.json.JsonParserType
 import groovy.json.JsonSlurper
+import groovy.mock.interceptor.StubFor
 import spock.lang.Specification
 
+@FreshRuntime
 @TestFor(RecaptchaService)
 class RecaptchaServiceTest extends Specification {
 
@@ -140,5 +144,102 @@ class RecaptchaServiceTest extends Specification {
         json.theme == "dark"
         !json.containsKey("lang")
         !json.containsKey('foo')
+    }
+
+    void "test script entry"() {
+        setup:
+        config.recaptcha.publicKey = "ABC"
+        config.recaptcha.privateKey = "123"
+
+        when:
+        def response = service.createScriptEntry(null)
+
+        then:
+        response.contains("<script")
+        response.contains("async defer")
+        !response.contains("hl=")
+
+        when:
+        response = service.createScriptEntry(lang:"fr")
+
+        then:
+        response.contains("hl=fr")
+
+        when:
+        response = service.createScriptEntry(lang:"fr", foo:"bar")
+
+        then:
+        response.contains("hl=fr")
+        !response.contains('foo')
+    }
+
+    void "test verify answer when captcha is not enabled"() {
+        setup:
+        config.recaptcha.publicKey = "ABC"
+        config.recaptcha.privateKey = "123"
+        config.recaptcha.enabled = false
+
+        expect:
+        service.verifyAnswer([:], "127.0.0.1", [:])
+    }
+
+    void "test verify answer true"() {
+        setup:
+        config.recaptcha.publicKey = "ABC"
+        config.recaptcha.privateKey = "123"
+
+        when:
+        def recapStub = new StubFor(ReCaptcha.class)
+        recapStub.demand.checkAnswer { remoteAddr, response -> true }
+        def session = [:]
+
+        then:
+        recapStub.use {
+            service.verifyAnswer(session, "127.0.0.1", ["g-recaptcha-response": "foo"])
+            session["recaptcha_error"] == true
+        }
+    }
+
+    void "test verify answer false"() {
+        setup:
+        config.recaptcha.publicKey = "ABC"
+        config.recaptcha.privateKey = "123"
+        def session = [:]
+
+        when:
+        def recapStub = new StubFor(ReCaptcha.class)
+        recapStub.demand.checkAnswer { remoteAddr, response -> false }
+
+        then:
+        recapStub.use {
+            !service.verifyAnswer(session, "127.0.0.1", ["g-recaptcha-response": "foo"])
+            !session.containsKey("recaptcha_error")
+        }
+    }
+
+    void "test verify check validation failed in session"() {
+        setup:
+        def session = [:]
+
+        expect:
+        !service.validationFailed(session)
+
+        when:
+        session["recaptcha_error"] = "true"
+
+        then:
+        service.validationFailed(session)
+    }
+
+    void "test verify clean up session"() {
+        setup:
+        def session = [recaptcha_error: "true", other_data: "foo"]
+
+        when:
+        service.cleanUp(session)
+
+        then:
+        session["recaptcha_error"] == null
+        session["other_data"] == "foo"
     }
 }

@@ -145,13 +145,9 @@ class RecaptchaService {
             return true
         }
 
-        if (!recap) {
-            return false
-        } else {
-            def success = recap.checkAnswer(remoteAddress, params["g-recaptcha-response"].trim())
-            session["recaptcha_error"] = success ? null : true
-            return success
-        }
+        def success = getRecaptchaInstance().checkAnswer(remoteAddress, params["g-recaptcha-response"].trim())
+        session["recaptcha_error"] = success ? null : true
+        return success
     }
 
     /**
