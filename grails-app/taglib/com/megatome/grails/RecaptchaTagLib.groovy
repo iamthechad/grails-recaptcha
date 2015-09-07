@@ -19,7 +19,6 @@ package com.megatome.grails
 class RecaptchaTagLib {
     static namespace = "recaptcha"
     RecaptchaService recaptchaService
-    MailhideService mailhideService
     private def commonAttrNames = ["theme", "type", "size", "tabindex", "successCallback", "expiredCallback"]
     private def normalAttrNames = commonAttrNames + "includeScript" + "lang"
     private def explicitAttrNames = ["lang", "loadCallback"]
@@ -129,34 +128,5 @@ class RecaptchaTagLib {
         if (recaptchaService.validationFailed(session)) {
             out << body()
         }
-    }
-
-    /**
-     * Creates a link that conforms to the recommended Mailhide usage. The created link will pop up a new window.
-     */
-    def mailhide = { attrs, body ->
-        if (!attrs.emailAddress) {
-            throw new IllegalArgumentException("Email address must be specified in mailhide tag")
-        }
-
-        def url = mailhideService.createMailhideURL(attrs.emailAddress)
-        def popupCmd = "onclick=\"window.open('${url}', '', 'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,width=500,height=300'); return false;\""
-        def link = "<a href=\"${url}\" ${popupCmd} title=\"Reveal this e-mail address\">${body()}</a>"
-        out << link
-    }
-
-    /**
-     * Creates a raw Mailhide URL in case the default behavior is not desired. The created URL will be placed into the
-     * variable named by the "var" attribute. If this attribute is left out, the URL will be placed into a variable
-     * named "mailhideURL". 
-     */
-    def mailhideURL = {attrs, body ->
-        if (!attrs.emailAddress) {
-            throw new IllegalArgumentException("Email address must be specified in mailhideURL tag")
-        }
-
-        def url = mailhideService.createMailhideURL(attrs.emailAddress)
-        def var = attrs.var ? attrs.var : "mailhideURL"
-        out << body((var): url)
     }
 }

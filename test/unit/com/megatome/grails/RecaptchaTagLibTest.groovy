@@ -201,49 +201,4 @@ class RecaptchaTagLibTest extends Specification {
         then:
         response.toString() == ""
     }
-
-    void "test mailhide tag"() {
-        setup:
-        def mailhideMock = mockFor(MailhideService)
-        mailhideMock.demand.createMailhideURL(2..2) { -> "http://fake.url.com" }
-        tagLib.mailhideService = mailhideMock.createMock()
-
-        when:
-        tagLib.mailhide()
-
-        then:
-        thrown(IllegalArgumentException)
-
-        when:
-        def response = tagLib.mailhide(emailAddress: 'a@b.com', { "Link wrap text" }).toString()
-
-        then:
-        response.contains("http://fake.url.com")
-        response.contains("Link wrap text")
-    }
-
-    void "test mailhideURL tag"() {
-        setup:
-        def mailhideMock = mockFor(MailhideService)
-        mailhideMock.demand.createMailhideURL(3..3) { -> "http://fake.url.com" }
-        tagLib.mailhideService = mailhideMock.createMock()
-
-        when:
-        tagLib.mailhideURL()
-
-        then:
-        thrown(IllegalArgumentException)
-
-        when:
-        def response = tagLib.mailhideURL(emailAddress: 'a@b.com', { var -> var })
-
-        then:
-        response.contains("mailhideURL:")
-
-        when:
-        response = tagLib.mailhideURL([emailAddress: 'a@b.com', var: 'foo'], { var -> var })
-
-        then:
-        response.contains("foo:")
-    }
 }

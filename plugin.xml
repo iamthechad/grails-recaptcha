@@ -1,19 +1,15 @@
 <plugin name='recaptcha' version='1.5.0' grailsVersion='2.3 &gt; *'>
   <author>Chad Johnston</author>
   <authorEmail>cjohnston@megatome.com</authorEmail>
-  <title>ReCaptcha and Mailhide support for Grails.</title>
+  <title>ReCaptcha support for Grails.</title>
   <description>Protect your website from spam and abuse while letting real people pass through with ease.
 Version 1.0 of this plugin introduces support for the new "checkbox" ReCaptcha. Please use an older version if you
 require the legacy functionality.
-
-This plugin uses the ReCaptcha Java library available from http://code.google.com/p/recaptcha/.
 </description>
   <documentation>http://iamthechad.github.com/grails-recaptcha/</documentation>
   <type>RecaptchaGrailsPlugin</type>
   <resources>
-    <resource>com.megatome.grails.MailhideService</resource>
     <resource>com.megatome.grails.RecaptchaService</resource>
     <resource>com.megatome.grails.RecaptchaTagLib</resource>
-    <resource>com.megatome.grails.util.URLSafeBase64Codec</resource>
   </resources>
 </plugin>
