@@ -18,7 +18,7 @@ import spock.lang.Specification
  * limitations under the License.
  */
 
-class QueryParamsTest extends Specification {
+class QueryParamsTests extends Specification {
 
   def "test empty constructor"() {
     setup:

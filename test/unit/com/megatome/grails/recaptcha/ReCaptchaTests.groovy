@@ -22,7 +22,7 @@ import spock.lang.Specification
  * limitations under the License.
  */
 
-class ReCaptchaTest extends Specification {
+class ReCaptchaTests extends Specification {
     private ReCaptcha r;
 
     def setup() {
@@ -214,7 +214,7 @@ class ReCaptchaTest extends Specification {
         stub.use {
             def response = r.checkAnswer("123.123.123.123", "response")
 
-            assertTrue response == expectedValid
+            assert response == expectedValid
         }
     }
 
