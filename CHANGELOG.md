@@ -1,5 +1,14 @@
 # Change Log
 
+## [v1.5.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.5.0) (2015-09-07)
+
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.4.0...v1.5.0)
+
+**Implemented enhancements:**
+
+- Remove Mailhide support [\#44](https://github.com/iamthechad/grails-recaptcha/issues/44)
+
+
 ## [v1.4.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.4.0) (2015-08-27)
 
 [Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.3.0...v1.4.0)
