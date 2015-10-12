@@ -2,6 +2,8 @@ package com.megatome.grails.recaptcha.net
 
 import grails.plugins.rest.client.RestBuilder
 import org.apache.commons.logging.LogFactory
+import org.codehaus.groovy.grails.web.json.JSONObject
+
 
 /**
  * Copyright 2010-2015 Megatome Technologies
@@ -40,7 +42,9 @@ public class Post {
     def getResponse() {
         try {
             def queryUrl = url + "?" + queryParams.toRestClientString()
-            def resp = rest.post(queryUrl, queryParams.params)
+            def resp = rest.post(queryUrl, queryParams.params) {
+                accept JSONObject, 'application/json'
+            }
             return resp.json
         } catch (Exception e) {
             def message = "Failed to connect to ${url}."
