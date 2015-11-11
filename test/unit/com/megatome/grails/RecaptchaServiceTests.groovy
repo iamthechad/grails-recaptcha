@@ -199,6 +199,16 @@ class RecaptchaServiceTests extends Specification {
         service.verifyAnswer([:], "127.0.0.1", [:])
     }
 
+    // Address issue #48
+    void "Avoid NPE when g-recaptcha-response parameter is missing"() {
+        setup:
+        config.recaptcha.publicKey = "ABC"
+        config.recaptcha.privateKey = "123"
+
+        expect:
+        !service.verifyAnswer([:], "127.0.0.1", [:])
+    }
+
     void "test verify answer true"() {
         setup:
         config.recaptcha.publicKey = "ABC"

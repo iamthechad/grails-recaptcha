@@ -144,7 +144,7 @@ class RecaptchaService {
             return true
         }
 
-        def success = getRecaptchaInstance().checkAnswer(remoteAddress, params["g-recaptcha-response"].trim())
+        def success = getRecaptchaInstance().checkAnswer(remoteAddress, params["g-recaptcha-response"]?.trim())
         session["recaptcha_error"] = success ? null : true
         return success
     }
