@@ -342,13 +342,32 @@ Contributions are welcome, but there a couple of guidelines that will make every
 
 ## Before Submission
 
-* Make sure that all unit tests pass before submitting a pull request.
+* If you are fixing a defect, write a unit test that demonstrates the issue.
+* If you are adding functionality, add appropriate unit tests. 
+* Make sure that all unit tests pass.
+* Ideally, make sure that the plugin still works as expected in a "real" application.
 
 ## When Submitting
 
 * Be sure to submit pull requests against the current "target branch". This will ensure that changes are applied to the correct version.
 * Make sure that commits have descriptive text that clearly explains the change. (See http://chris.beams.io/posts/git-commit/ for tips on writing good commit messages.)
 * Reference appropriate issues or pull requests if needed. (Use `refs XXX` instead of `fixes XXX` or `closes XXX`)
+
+## Why I might reject your changes
+
+There are several reasons I might reject a code submission:
+
+* Code does not compile, or tests do not pass
+* No new unit tests (where applicable)
+* Code coverage decreases
+* The plugin does not behave correctly
+
+I will probably argue with you if:
+
+* I see no benefit in the proposed change
+* The commit or PR text is not descriptive
+* I disagree with the coding style
+
 
 # Misc.
 
