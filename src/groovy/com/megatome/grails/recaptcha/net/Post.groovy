@@ -32,9 +32,9 @@ public class Post {
         options.each { k,v -> if (this.hasProperty(k)) { this."$k" = v} }
         if (null == rest) {
             if (proxy?.isConfigured()) {
-                rest = new RestBuilder(connectTimeout: 10000, readTimeout: 1000, proxy: proxy.proxy)
+                rest = new RestBuilder(connectTimeout: 10000, readTimeout: 5000, proxy: proxy.proxy)
             } else {
-                rest = new RestBuilder(connectTimeout: 10000, readTimeout: 1000)
+                rest = new RestBuilder(connectTimeout: 10000, readTimeout: 5000)
             }
         }
     }
