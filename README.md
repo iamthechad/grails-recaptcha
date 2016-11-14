@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.org/iamthechad/grails-recaptcha.svg?branch=version1_7_0)](https://travis-ci.org/iamthechad/grails-recaptcha)
-[![Coverage Status](https://coveralls.io/repos/iamthechad/grails-recaptcha/badge.svg?branch=version1_7_0&service=github)](https://coveralls.io/github/iamthechad/grails-recaptcha?branch=version1_7_0)
+[![Build Status](https://travis-ci.org/iamthechad/grails-recaptcha.svg?branch=version1_8_0)](https://travis-ci.org/iamthechad/grails-recaptcha)
+[![Coverage Status](https://coveralls.io/repos/iamthechad/grails-recaptcha/badge.svg?branch=version1_8_0&service=github)](https://coveralls.io/github/iamthechad/grails-recaptcha?branch=version1_8_0)
 [![Stories in Ready](https://badge.waffle.io/iamthechad/grails-recaptcha.png?label=ready&title=Ready)](https://waffle.io/iamthechad/grails-recaptcha)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Badges](http://img.shields.io/:badges-5/5-ff6799.svg)](https://github.com/badges/badgerbadgerbadger)
@@ -44,7 +44,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-![Target Branch](https://img.shields.io/badge/target%20branch-version1__7__0-green.svg?style=flat-square)
+![Target Branch](https://img.shields.io/badge/target%20branch-version1__8__0-green.svg?style=flat-square)
 
 # Version 1.0 Notice
 
@@ -61,7 +61,7 @@ Add the following to your `grails-app/conf/BuildConfig.groovy`
     …
     plugins {
         …
-        compile ':recaptcha:1.7.0'
+        compile ':recaptcha:1.8.0'
         …
     }
     
@@ -336,7 +336,7 @@ The `postText` parameter represents the response from the ReCaptcha server. Here
 
 # Contributing
 
-![Target Branch](https://img.shields.io/badge/target%20branch-version1__7__0-green.svg?style=flat-square)
+![Target Branch](https://img.shields.io/badge/target%20branch-version1__8__0-green.svg?style=flat-square)
 
 Contributions are welcome, but there a couple of guidelines that will make everything easier.
 

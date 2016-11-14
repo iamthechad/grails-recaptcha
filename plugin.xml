@@ -1,4 +1,4 @@
-<plugin name='recaptcha' version='1.7.0' grailsVersion='2.3 &gt; *'>
+<plugin name='recaptcha' version='1.8.0' grailsVersion='2.3 &gt; *'>
   <author>Chad Johnston</author>
   <authorEmail>cjohnston@megatome.com</authorEmail>
   <title>ReCaptcha support for Grails.</title>
