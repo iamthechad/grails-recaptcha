@@ -1,5 +1,20 @@
 # Change Log
 
+## [v1.7.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.7.0) (2016-11-14)
+[Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.6.0...v1.7.0)
+
+**Fixed bugs:**
+
+- Possible NPE if parameter is missing [\#48](https://github.com/iamthechad/grails-recaptcha/issues/48)
+
+**Closed issues:**
+
+- Examine 508 compliance [\#33](https://github.com/iamthechad/grails-recaptcha/issues/33)
+
+**Merged pull requests:**
+
+- update read timeout value from 1000 millis to 5000 millis [\#52](https://github.com/iamthechad/grails-recaptcha/pull/52) ([asoftwareguy](https://github.com/asoftwareguy))
+
 ## [v1.6.0](https://github.com/iamthechad/grails-recaptcha/tree/v1.6.0) (2015-10-12)
 [Full Changelog](https://github.com/iamthechad/grails-recaptcha/compare/v1.5.0...v1.6.0)
 
